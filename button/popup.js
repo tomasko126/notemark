@@ -3,7 +3,7 @@ var BG = chrome.extension.getBackgroundPage();
 var Sites = {
     _items: 0,
     _createSiteUI: function(title, faviconUrl, url) {
-        $(".more").before(
+        $(".options").after(
             "<div class='site' data-id='" + this._items + "'>" +
                 "<div class='add'>" +
                     "<img class='favicon' src='" + faviconUrl + "'>" +
@@ -11,14 +11,15 @@ var Sites = {
                 "<div class='sitetitle'>" + title + "</div>" +
             "</div>"
         );
+        $(".site[data-id='" + this._items + "']").click(function() {
+            
+        });
     },
     init: function() {
         var self = this;
         chrome.storage.local.get("sites", function(storage) {
             var sites = storage["sites"];
-            if (!sites) {
-                return;
-            }
+
             for (var site in sites) {
                 self._items++;
                 var details = sites[site];
@@ -45,7 +46,6 @@ var Sites = {
         var self = this;
         this.checkSite(url, function(allowed) {
             if (!allowed) {
-                alert("You have already saved this page!");
                 return;
             }
             self._items++;

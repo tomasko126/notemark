@@ -1,5 +1,5 @@
 body {
-    width: 230px;
+    width: 250px;
     margin: 0px;
     background-color: whitesmoke;
 }
@@ -50,6 +50,7 @@ body {
     overflow: hidden;
     white-space: nowrap;
     margin-top: 13px;
+    cursor: pointer;
 }
 
 .favicon {
