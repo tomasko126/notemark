@@ -1,5 +1,5 @@
 body {
-    width: 200px;
+    width: 230px;
     margin: 0px;
     background-color: whitesmoke;
 }
@@ -18,7 +18,8 @@ body {
     text-align: center;
     vertical-align: middle;
     display: table-cell;
-    width: 200px;
+    width: 230px;
+    display: none;
 }
 
 .add {
@@ -29,14 +30,14 @@ body {
 
 .img {
     display: block;
-    margin: 5px auto;
+    margin: 5px 9px;
 }
 
 .optionsbtn {
     vertical-align: middle;
     display: table-cell;
     height: inherit;
-    padding-left: 100px;
+    padding-left: 130px;
 }
 
 .sitetitle {
