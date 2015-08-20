@@ -24,6 +24,21 @@ var Sites = {
                 var details = sites[site];
                 self._createSiteUI(details.title, details.faviconUrl, details.url);
             }
+            BG.getCurrentTabInfo(function(info) {
+                var tab = info[0];
+                var url = tab.url;
+                self.checkSite(url, function(allowed) {
+                    if (allowed) {
+                        $("#addbtn").addClass("icon-gray");
+                        $("#addbtn").mouseover(function() {
+                            $(this).removeClass("icon-gray");
+                        });
+                        $("#addbtn").mouseleave(function() {
+                            $(this).addClass("icon-gray");
+                        });
+                    }
+                });
+            });
         });
     },
     addSite: function(title, faviconUrl, url) {
