@@ -5,14 +5,15 @@ var Sites = {
     _createSiteUI: function(title, faviconUrl, url) {
         $(".options").after(
             "<div class='site' data-id='" + this._items + "'>" +
-                "<div class='add'>" +
-                    "<img class='favicon' src='" + faviconUrl + "'>" +
-                "</div>" +
-                "<div class='sitetitle'>" + title + "</div>" +
+            "<div class='add'>" +
+            "<img class='favicon' src='" + faviconUrl + "'>" +
+            "</div>" +
+            "<div class='sitetitle' data-href='" + url + "'>" + title + "</div>" +
             "</div>"
         );
-        $(".site[data-id='" + this._items + "']").click(function() {
-            
+        $(".sitetitle").click(function(event) {
+            var url = event.target.dataset.href;
+            chrome.tabs.create({url});
         });
     },
     init: function() {
@@ -25,6 +26,7 @@ var Sites = {
                 var details = sites[site];
                 self._createSiteUI(details.title, details.faviconUrl, details.url);
             }
+
             BG.getCurrentTabInfo(function(info) {
                 var tab = info[0];
                 var url = tab.url;
