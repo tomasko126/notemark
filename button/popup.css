@@ -46,7 +46,7 @@ body {
     vertical-align: middle;
     display: table-cell;
     height: inherit;
-    padding-right: 130px;
+    padding-right: 30px;
 }
 
 .more {
@@ -64,8 +64,7 @@ body {
   background: url(../img/heart.svg) no-repeat 50% 50%; 
   background-size: cover;
   margin: 12px 0px 0px 10px;
-  position: absolute;
-  right: 130px;
+  left: 50px;
   transition-duration: 0.3s;
 }
 
