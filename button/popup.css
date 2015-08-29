@@ -4,21 +4,9 @@ body {
     background-color: whitesmoke;
 }
 
-.options, .more {
-    height: 50px;
-}
-
 .site {
     height: 40px;
-    border-top: 1px solid #76A8F1;
-}
-
-.more {
-    border-top: 1px solid #76A8F1;
-    text-align: center;
-    vertical-align: middle;
-    width: 250px;
-    display: none;
+    border-top: 1px solid #e3e3e3;
 }
 
 .add {
@@ -33,18 +21,11 @@ body {
     width: 25px;
 }
 
-.optionsbtn {
-    vertical-align: middle;
-    display: table-cell;
-    height: inherit;
-    padding-left: 130px;
-}
-
 .sitetitle {
     vertical-align: middle;
     display: block;
-    width: 160px;
-    text-align: center;
+    width: 190px;
+    text-align: left;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
@@ -52,23 +33,54 @@ body {
     cursor: pointer;
 }
 
+.sitetitle { transition: all .1s ease-in; }
+.sitetitle:hover { color: #0087f0; }
+.sitetitle:active { color: #ccc; }
+
 .favicon {
     width: 20px;
     margin: 10px;
 }
 
-.icon { 
-  width: 30px;
-  height: 30px;
-  display: inline-block;
-  background: url(../img/heart.svg) no-repeat 50% 50%; 
-  background-size: cover;
-  margin: 3px 0px 0px 5px;
-  transition-duration: 0.3s;
+.options, .more {
+    height: 50px;
 }
 
-.icon-gray { 
-  -webkit-filter: grayscale(100%) brightness(500%) brightness(70%);
-  filter: grayscale(100%) brightness(500%) brightness(70%);
+.optionsbtn {
+    vertical-align: middle;
+    display: table-cell;
+    height: inherit;
+}
+
+.more {
+    border-top: 1px solid #76A8F1;
+    text-align: center;
+    vertical-align: middle;
+    width: 250px;
+    display: none;
+}
+
+.icon { 
+  width: 25px;
+  height: 25px;
+  margin-top: 12px;
+  position: absolute;
+  right: 11px;
+  display: inline-block;
+  content:url(../img/heart.svg);
   transition-duration: 0.3s;
+  cursor: pointer;
+  webkit-backface-visibility: hidden;
+  -webkit-transform: translateZ(0) scale(1.0);
+}
+.icon:hover { transform: scale(1.12); transition-duration: 0s;
+}
+.icon:active { transform: scale(0.95); }
+
+.icon-gray { 
+  opacity: 0.4;
+  filter: alpha(opacity=35);
+  -webkit-filter: grayscale(100%);
+  filter: grayscale(100%);
+  transition-duration: 0.0s; 
 }
