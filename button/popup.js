@@ -8,7 +8,7 @@ var Sites = {
             "<div class='add'>" +
             "<img class='favicon' src='" + faviconUrl + "'>" +
             "</div>" +
-            "<div class='sitetitle' data-href='" + url + "'>" + title + "</div>" +
+            "<div class='sitetitle' data-href='" + url + "' title='" + title + "'>" + title + "</div>" +
             "</div>"
         );
     },
