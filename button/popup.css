@@ -4,21 +4,9 @@ body {
     background-color: whitesmoke;
 }
 
-.options, .more {
-    height: 50px;
-}
-
 .site {
     height: 40px;
     border-top: 1px solid #76A8F1;
-}
-
-.more {
-    border-top: 1px solid #76A8F1;
-    text-align: center;
-    vertical-align: middle;
-    width: 250px;
-    display: none;
 }
 
 .add {
@@ -31,13 +19,6 @@ body {
     display: block;
     margin: 5px 8px;
     width: 25px;
-}
-
-.optionsbtn {
-    vertical-align: middle;
-    display: table-cell;
-    height: inherit;
-    padding-left: 130px;
 }
 
 .sitetitle {
@@ -57,13 +38,34 @@ body {
     margin: 10px;
 }
 
+.options, .more {
+    height: 50px;
+}
+
+.optionsbtn {
+    vertical-align: middle;
+    display: table-cell;
+    height: inherit;
+    padding-right: 130px;
+}
+
+.more {
+    border-top: 1px solid #76A8F1;
+    text-align: center;
+    vertical-align: middle;
+    width: 250px;
+    display: none;
+}
+
 .icon { 
   width: 30px;
   height: 30px;
   display: inline-block;
   background: url(../img/heart.svg) no-repeat 50% 50%; 
   background-size: cover;
-  margin: 3px 0px 0px 5px;
+  /*margin: 3px 0px 0px 5px; */
+  position: absolute;
+  right: 130px;
   transition-duration: 0.3s;
 }
 
