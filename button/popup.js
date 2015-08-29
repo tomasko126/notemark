@@ -8,7 +8,7 @@ var Sites = {
             "<div class='add'>" +
             "<img class='favicon' src='" + faviconUrl + "'>" +
             "</div>" +
-            "<div class='sitetitle' data-href='" + url + "'>" + title + "</div>" +
+            "<div class='sitetitle' data-href='" + url + "' title='" + title + "'>" + title + "</div>" +
             "</div>"
         );
     },
@@ -44,6 +44,7 @@ var Sites = {
         });
     },
     initClickHandlers: function() {
+        var self = this;
         // "Heart" button click event
         var addbtn = document.getElementById("addbtn");
         addbtn.addEventListener("click", function() {
@@ -51,9 +52,15 @@ var Sites = {
             BG.getCurrentTabInfo(function(info) {
                 var tab = info[0];
                 var title = tab.title;
-                var faviconUrl = tab.favIconUrl || chrome.runtime.getURL("/img/favicon.png");
+                var faviconUrl = null;
+                // Chrome throws an error, when bookmarking chrome://extensions
+                if (tab.favIconUrl.indexOf("chrome://theme") > -1) {
+                    faviconUrl = chrome.runtime.getURL("/img/favicon.png");
+                } else {
+                    faviconUrl = tab.favIconUrl;
+                }
                 var url = tab.url;
-                Sites.addSite(title, faviconUrl, url);
+                self.addSite(title, faviconUrl, url);
             });
         }, true);
 
