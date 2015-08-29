@@ -11,10 +11,6 @@ var Sites = {
             "<div class='sitetitle' data-href='" + url + "'>" + title + "</div>" +
             "</div>"
         );
-        $(".sitetitle").click(function(event) {
-            var url = event.target.dataset.href;
-            chrome.tabs.create({url});
-        });
     },
     init: function() {
         var self = this;
@@ -26,6 +22,9 @@ var Sites = {
                 var details = sites[site];
                 self._createSiteUI(details.title, details.faviconUrl, details.url);
             }
+
+            // Initialize click handlers
+            self.initClickHandlers();
 
             BG.getCurrentTabInfo(function(info) {
                 var tab = info[0];
@@ -42,6 +41,26 @@ var Sites = {
                     }
                 });
             });
+        });
+    },
+    initClickHandlers: function() {
+        // "Heart" button click event
+        var addbtn = document.getElementById("addbtn");
+        addbtn.addEventListener("click", function() {
+            // Get info about current tab
+            BG.getCurrentTabInfo(function(info) {
+                var tab = info[0];
+                var title = tab.title;
+                var faviconUrl = tab.favIconUrl || chrome.runtime.getURL("/img/favicon.png");
+                var url = tab.url;
+                Sites.addSite(title, faviconUrl, url);
+            });
+        }, true);
+
+        // Site title click event
+        $(".sitetitle").click(function(event) {
+            var url = event.target.dataset.href;
+            chrome.tabs.create({ url:url });
         });
     },
     addSite: function(title, faviconUrl, url) {
@@ -92,16 +111,3 @@ var Sites = {
 }
 
 Sites.init();
-
-// "Heart" button click event
-var addbtn = document.getElementById("addbtn");
-addbtn.addEventListener("click", function() {
-    // Get info about current tab
-    BG.getCurrentTabInfo(function(info) {
-        var tab = info[0];
-        var title = tab.title;
-        var faviconUrl = tab.favIconUrl || chrome.runtime.getURL("/img/favicon.png");
-        var url = tab.url;
-        Sites.addSite(title, faviconUrl, url);
-    });
-}, true);
