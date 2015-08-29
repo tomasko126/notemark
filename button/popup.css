@@ -63,7 +63,7 @@ body {
   display: inline-block;
   background: url(../img/heart.svg) no-repeat 50% 50%; 
   background-size: cover;
-  /*margin: 3px 0px 0px 5px; */
+  margin: 12px 0px 0px 10px;
   position: absolute;
   right: 130px;
   transition-duration: 0.3s;
