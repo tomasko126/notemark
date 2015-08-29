@@ -24,7 +24,7 @@ var Sites = {
             }
 
             // Initialize click handlers
-            Sites.initClickHandlers();
+            self.initClickHandlers();
 
             BG.getCurrentTabInfo(function(info) {
                 var tab = info[0];
@@ -58,10 +58,8 @@ var Sites = {
         }, true);
 
         // Site title click event
-        console.log($(".sitetitle"));
         $(".sitetitle").click(function(event) {
             var url = event.target.dataset.href;
-            console.log("click sitetitle", url);
             chrome.tabs.create({ url:url });
         });
     },
