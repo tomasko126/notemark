@@ -5,10 +5,14 @@ var Sites = {
     _createSiteUI: function(title, faviconUrl, url) {
         $(".options").after(
             "<div class='site' data-id='" + this._items + "'>" +
-            "<div class='add'>" +
-            "<img class='favicon' src='" + faviconUrl + "'>" +
-            "</div>" +
-            "<div class='sitetitle' data-href='" + url + "' title='" + title + "'>" + title + "</div>" +
+                "<div class='add'>" +
+                    "<img class='favicon' src='" + faviconUrl + "'>" +
+                "</div>" +
+                "<div class='sitetitle' data-href='" + url + "' title='" + title + "'>" + title + "</div>" +
+                "<div class='siteoptions'>" +
+                    "<div class='siteoptionleft'></div>" + 
+                    "<div class='siteoptionright'></div>" +
+                "</div>" +
             "</div>"
         );
     },
@@ -68,6 +72,16 @@ var Sites = {
         $(".sitetitle").click(function(event) {
             var url = event.target.dataset.href;
             chrome.tabs.create({ url:url });
+        });
+        
+        $(".site").click(function(event) {
+            if ($(this).height() === 75) {
+                $(this).css("height", "40px");
+            } else {
+                $(this).css("height", "75px");
+            }
+            //console.log($(this).height());
+            
         });
     },
     addSite: function(title, faviconUrl, url) {
