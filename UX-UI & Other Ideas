@@ -1,0 +1,27 @@
+REMOVE ITEM:
+ - what if user hover on Favicon of note, than an X (close/delete) appears to remove it?
+ - like checking off something from a list.
+ 
+
+ -------------------------------------------
+  
+
+ COPY LINK
+ - for future updates. It will be handy.
+ - I may also have a simpler way to solve it in the interface, than I had documented before in the pdf.
+ 
+
+KEEP TIMER (AUTO REMOVE OLD LINKS)
+- for future updates. It will be handy.
+- A simpler way would be to allow the user to set how long they want to keep their links:
+ e.g. If user set keep for 5 days (120 hours), get time based on when the note is added.
+      Get time again when extention opens, If time is less than 120 hours (5day), auto remove note.
+ 
+- Or auto remove Notes that havent been interacted with for xx days (based on the keep timer).
+ e.g. Tidy your notes: Remove Notes that I havent used in [10] days.
+
+SPONSORSHIP
+- i have some thoughts but not fully formed yet.
+
+ 
+ 
