@@ -12,6 +12,10 @@
    eg. Hover mouse on favicon for 1.5sec, slide out Get link button,
    while it push Page Title to left for extra space for button (2x width of favicon).
 
+
+ADD CURRENT TABS TO NOTEMARK - for future updates. It will be handy.
+- Add all current tabs to notemark (and close them).
+
 KEEP TIMER (AUTO REMOVE OLD LINKS) - for future updates. It will be handy.
 - A simpler way would be to allow the user to set how long they want to keep their links:
  e.g. If user set keep for 5 days (120 hours), get time based on when the note is added.
