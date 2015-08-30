@@ -2,6 +2,7 @@ body {
     width: 250px;
     margin: 0px;
     background-color: whitesmoke;
+    -webkit-user-select: none;
 }
 
 .site {
@@ -21,25 +22,49 @@ body {
     width: 25px;
 }
 
+.favicon {
+    width: 20px;
+    margin: 10px;
+}
+
 .sitetitle {
     vertical-align: middle;
-    display: block;
-    width: 190px;
+    display: inline-block;
+    max-width: 190px;
     text-align: left;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
     margin-top: 13px;
     cursor: pointer;
+    transition: all .1s ease-in;
 }
 
-.sitetitle { transition: all .1s ease-in; }
-.sitetitle:hover { color: #0087f0; }
-.sitetitle:active { color: #ccc; }
+.sitetitle:hover {
+    color: #0087f0;
+}
 
-.favicon {
-    width: 20px;
-    margin: 10px;
+.sitetitle:active {
+    color: #ccc;
+}
+
+.siteoptions {
+    border-top: 1px solid #e3e3e3;
+    margin-top: 12px;
+    display: none;
+}
+
+.siteoptionleft, siteoptionright {
+   height: 100%;
+    width: 50%; 
+}
+
+.siteoptionleft {
+    float: left;
+}
+
+.siteoptionright {
+   float: right; 
 }
 
 .options, .more {
@@ -73,9 +98,15 @@ body {
   webkit-backface-visibility: hidden;
   -webkit-transform: translateZ(0) scale(1.0);
 }
-.icon:hover { transform: scale(1.12); transition-duration: 0s;
+
+.icon:hover {
+    transform: scale(1.12);
+    transition-duration: 0s;
 }
-.icon:active { transform: scale(0.95); }
+
+.icon:active {
+    transform: scale(0.95);
+}
 
 .icon-gray { 
   opacity: 0.4;
