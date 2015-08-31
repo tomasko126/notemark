@@ -30,7 +30,7 @@ var Sites = {
             // Initialize click handlers
             self.initClickHandlers();
 
-            BG.getCurrentTabInfo(function(info) {
+            self.getCurrentTabInfo(function(info) {
                 var tab = info[0];
                 var url = tab.url;
                 self.checkSite(url, function(allowed) {
@@ -53,7 +53,7 @@ var Sites = {
         var addbtn = document.getElementById("addbtn");
         addbtn.addEventListener("click", function() {
             // Get info about current tab
-            BG.getCurrentTabInfo(function(info) {
+            self.getCurrentTabInfo(function(info) {
                 var tab = info[0];
                 var title = tab.title;
                 var faviconUrl = null;
@@ -126,9 +126,11 @@ var Sites = {
     removeSite: function(id) {
 
     },
-    saveToStorage: function(args) {
-
-    }
+    getCurrentTabInfo: function(callback) {
+        chrome.tabs.query({active: true}, function(info) {
+            callback(info);
+        });
+    },
 }
 
 Sites.init();
