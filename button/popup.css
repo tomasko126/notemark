@@ -9,11 +9,16 @@ body {
     height: 40px;
     border-top: 1px solid #e3e3e3;
     background-color: whitesmoke;
+    transition-duration: 0.1s;
     z-index: 1;
 }
 
 .site:hover {
     background: #fafafa;
+}
+
+.site:active {
+    background: #eeeeee;
 }
 
 .header {
@@ -46,14 +51,13 @@ body {
     display: inline-block;
     right: 73px;
     position: absolute;
-    cursor: pointer;
-    opacity: .7;
+    opacity: .6;
     transition-duration: 0.3s;
     transform: rotate(0deg);
 }
 
 .settingsicon:hover {
-transform:rotate(45deg);
+    transform:rotate(45deg);
 
 }
 
@@ -65,7 +69,6 @@ transform:rotate(45deg);
     right: 4px;
     display: inline-block;
     content:url(../img/heart.svg);
-    cursor: pointer;
     transition-duration: 0.3s;
     transform: translateZ(0) scale(1.0);
 }
@@ -121,14 +124,17 @@ transform:rotate(45deg);
 .sitetitle {
     margin-top: 5px;
     display: block;
-    padding: 8px;
+    left: -10px;
+    position: relative;
+    padding: 8px 0px 8px 15px;
     text-align: left;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
-    cursor: pointer;
+    cursor: default;
     transition: all .1s ease-in;
-    /* background: green; */ 
+    /* background: green; */
+
 }
 
 .siteoptions {
