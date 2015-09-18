@@ -1,16 +1,59 @@
 body {
-    width: 250px;
     margin: 0px;
-    background-color: whitesmoke;
     -webkit-user-select: none;
+    background-color: whitesmoke;
+}
+.container {
+    margin: 0px;
+    width: 250px;
+    height: 474px; /*  'Deck' scroll area height */
+    overflow: hidden;
+    position: relative;
+    vertical-align: middle;
+}
+
+.deck {
+    margin-top: 57px; /*  'header' height */
+    width: 100%;
+    height: 360px; /*  'Deck' scroll area height - footnote */
+    position: absolute;
+    overflow: auto;
+    overflow-x: hidden;
+}
+
+.header {
+    /* this is where the ext name, gear and heart icon sit */
+    width: 100%;
+    height: 57px;
+    top: 0px;
+    background: #fff;
+    position: absolute;
+    border-bottom: 1px solid #e3e3e3;
+    z-index: 4;
+}
+
+.footnote {
+    width: 100%;
+    height: 57px;
+    position: absolute;
+    bottom: 0px;
+    color: #959595;
+    padding-left: 15px;
+    line-height: 57px;
+    background: #fff;
+    border-top: 1px solid #e3e3e3;
+    z-index: 4;
+    cursor: default;
 }
 
 .site {
+    /* each note area e3e3e3*/
     height: 40px;
-    border-top: 1px solid #e3e3e3;
-    background-color: whitesmoke;
-    transition-duration: 0.1s;
+    padding: 2px 0 2px 0;
+    border-bottom: 1px solid #e3e3e3;
+    -webkit-transition-duration: 0.05s;
     z-index: 1;
+
 }
 
 .site:hover {
@@ -21,23 +64,15 @@ body {
     background: #eeeeee;
 }
 
-.header {
-    width: 100%;
-    height: 120px;
-    position: fixed;
-    height: 57px;
-    background: #fff;
-    border-bottom: 1px solid #e3e3e3;
-    z-index: 4;
-}
-
 .add {
+    /* favicon area */
     float: left;
     width: 20%;
     height: 100%;
 }
 
 .logotype {
+ /* extention name text */
     width: 85px;
     margin-top: 21px;
     display: inline-block;
@@ -47,18 +82,19 @@ body {
 
 .settingsicon {
     width: 21px;
-    margin-top: 18px;
+    margin-top: 5px;
     display: inline-block;
-    right: 73px;
+    right: 60px;
     position: absolute;
     opacity: .6;
-    transition-duration: 0.3s;
-    transform: rotate(0deg);
+    -webkit-transition-duration: 0.4s;
+    -webkit-transform: rotate(0deg);
+    padding: 12px;
 }
 
 .settingsicon:hover {
-    transform:rotate(45deg);
-
+    -webkit-transform:rotate(90deg);
+    opacity: .8;
 }
 
 .icon { 
@@ -69,23 +105,31 @@ body {
     right: 4px;
     display: inline-block;
     content:url(../img/heart.svg);
-    transition-duration: 0.3s;
-    transform: translateZ(0) scale(1.0);
+    -webkit-transform: translateZ(0) scale(1.0001);
+    -webkit-transition: all .07s ease-in;
+}
+
+@-webkit-keyframes heartbeat {
+    /* heart hover animation */
+    10% { -webkit-transform: translateZ(0) scale(1.0001);}
+    60% { -webkit-transform: translateZ(0) scale(1.12);}
+
 }
 
 .icon:hover {
-    -webkit-transform: scale(1.12);
-    transition-duration: 0s;
+   -webkit-animation:heartbeat .35s ease-in-out;
+   -webkit-animation-iteration-count: 2;
 }
 
 .icon:active {
-    transform: scale(0.95);
+    -webkit-transform: scale(0.9);
+    -webkit-filter: grayscale(70%);
 }
 
 .icon-gray { 
     opacity: 0.4;
     -webkit-filter: grayscale(100%);
-    transition-duration: 0.0s; 
+    -webkit-transition-duration: 0.0s; 
 }
 
 .img {
@@ -98,7 +142,6 @@ body {
     z-index: 2;
     width: 20px;
     margin: 10px;
-
 }
 
 .favicon:hover {
@@ -106,18 +149,18 @@ body {
 }
 
 .removebtn {
+    /* favicon rollover to remove item */
     width: 30px;
     margin-top: -38px;
     left: 5px;
     position: relative;
     content: url(../img/remove.svg);
-    transition: all .07s ease-in;
+    -webkit-transition: all .07s ease-in;
     opacity: 0;
     z-index: 3;
 }
 
 .removebtn:hover {
-
         opacity: 1;
 }
 
@@ -132,11 +175,11 @@ body {
     overflow: hidden;
     white-space: nowrap;
     cursor: default;
-    transition: all .1s ease-in;
-    /* background: green; */
-
+    -webkit-transition: all .1s ease-in;
+    /* background: green; for referencing click area */
 }
 
+/* ----------- no idea what these are for: ----------- /
 .siteoptions {
     border-top: 1px solid #e3e3e3;
     margin-top: 12px;
@@ -159,8 +202,6 @@ body {
 
 .options, .more, {
 
-/* not sure how to fix/use this as a header. so i created a new div called header*/
-
 }
 
 .optionsbtn {
@@ -176,3 +217,5 @@ body {
     width: 250px;
     display: none;
 }
+--------------------------------------------------- */
+
