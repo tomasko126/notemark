@@ -7,6 +7,7 @@ var Sites = {
             "<div class='site' data-id='" + this._items + "'>" +
                 "<div class='add'>" +
                     "<img class='favicon' src='" + faviconUrl + "'>" +
+                    "<div class='removebtn'>" + "</div>" +
                 "</div>" +
                 "<div class='sitetitle' data-href='" + url + "' title='" + title + "'>" + title + "</div>" +
                 "<div class='siteoptions'>" +
@@ -67,13 +68,13 @@ var Sites = {
                 self.addSite(title, faviconUrl, url);
             });
         }, true);
-
+        
         // Site title click event
         $(".sitetitle").click(function(event) {
             var url = event.target.dataset.href;
             chrome.tabs.create({ url:url });
         });
-        
+        /* DISABLE site click EXPANDSION //////////
         $(".site").click(function(event) {
             if ($(this).height() === 75) {
                 $(this).css("height", "40px");
@@ -82,7 +83,7 @@ var Sites = {
             }
             //console.log($(this).height());
             
-        });
+        }); */////////////////////////////////
     },
     addSite: function(title, faviconUrl, url) {
         var self = this;
@@ -125,7 +126,17 @@ var Sites = {
     },
     removeSite: function(id) {
 
+        /* $("somethingsomething").click(function() {    
+     $(this).animate({ site': "-=260px" }, "fast" );
+     }
+     if (blabla)==250px" {
+     // remove item from arraw, poof.
+     // http://goo.gl/1TsYO3 <-- removing item tutorial
+     }
+    });
+        */
     },
+
     getCurrentTabInfo: function(callback) {
         chrome.tabs.query({active: true}, function(info) {
             callback(info);
