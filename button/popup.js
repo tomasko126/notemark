@@ -122,6 +122,7 @@ var Sites = {
                     chrome.storage.local.set({sites: storage});
                 }
             });
+            self.initClickHandlers();
         });
     },
     checkSite: function(url, callback) {
