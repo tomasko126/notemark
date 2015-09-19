@@ -125,10 +125,16 @@ var Sites = {
         });
     },
     checkSite: function(url, callback) {
+        // URL may be undefined in some cases, GH #16
+        if (url === undefined) {
+            callback(false);
+            return;
+        }
         chrome.storage.local.get("sites", function(storage) {
             var sites = storage["sites"];
             if (!sites) {
                 callback(true);
+                return;
             }
             var allowed = true;
             for (var site in sites) {
