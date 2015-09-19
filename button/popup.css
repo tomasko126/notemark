@@ -169,11 +169,6 @@ body {
     transform: translate(100%, 0%);
 }
 
-.movenote {
-    transition: 0.8s;
-    transform: translate(0%, -100%);
-}
-
 .sitetitle {
     margin-top: 5px;
     display: block;

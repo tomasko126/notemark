@@ -152,10 +152,10 @@ var Sites = {
         // Begin removal animation
         $(elem).addClass("removenote");
 
-        // Move an another note to the top
+        // Move notes to the top
         var next = elem.dataset.id - 1;
         setTimeout(function() {
-            $("[data-id=" + next + "]").addClass("movenote");
+            $(elem).remove();
         }, 800);
     },
     getCurrentTabInfo: function(callback) {
