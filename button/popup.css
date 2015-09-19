@@ -47,14 +47,14 @@ body {
 }
 
 .site {
-    /* each note area e3e3e3*/
+    /* each note area */
+    margin-top: -1px;
     height: 40px;
     padding: 2px 0 2px 0;
     border-top: 1px solid #e3e3e3;
     border-bottom: 1px solid #e3e3e3;
     -webkit-transition-duration: 0.05s;
     z-index: 1;
-
 }
 
 .site:hover {
@@ -182,16 +182,16 @@ body {
 }
 
 .sitetitle {
-    margin-top: 5px;
+    margin-top: 3px;
     display: block;
     left: -10px;
     position: relative;
-    padding: 8px 0px 8px 15px;
+    padding: 10px 0px 10px 15px;
     text-align: left;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
     cursor: default;
     -webkit-transition: all .1s ease-in;
-    /* background: green; for referencing click area */
+    /* background: green; for referencing click area  */
 }
