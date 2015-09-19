@@ -1,3 +1,8 @@
+// TODO: Unable to remove a note right after adding it
+//       Unable to add a note while page is loading
+//       When a note has been removed, update heart icon
+//       When a note has been added, heart should stay red after moving mouse to another element
+
 var BG = chrome.extension.getBackgroundPage();
 
 var Sites = {
@@ -79,6 +84,13 @@ var Sites = {
             chrome.tabs.create({ url:url });
         });
 
+        // Remove button click event
+        $(".removebtn").click(function(event) {
+          var elem = event.currentTarget.parentElement.parentElement;
+          var url = event.currentTarget.parentElement.nextSibling.dataset.href;
+          self.removeSite(url, elem); 
+        });
+
         /* DISABLE site click EXPANDSION
         $(".site").click(function(event) {
             if ($(this).height() === 75) {
@@ -104,12 +116,13 @@ var Sites = {
                 if (!storage) {
                     var arr = [];
                     arr.push(site);
-                    chrome.storage.local.set({sites: arr}, function() {});
+                    chrome.storage.local.set({sites: arr});
                 } else {
                     storage.push(site);
-                    chrome.storage.local.set({sites: storage}, function() {});
+                    chrome.storage.local.set({sites: storage});
                 }
             });
+            self.initClickHandlers();
         });
     },
     checkSite: function(url, callback) {
@@ -129,9 +142,26 @@ var Sites = {
             callback(allowed);
         });
     },
-    removeSite: function(id) {
-    },
+    removeSite: function(url, elem) {
+        chrome.storage.local.get("sites", function(storage) {
+            var sites = storage["sites"];
+            for (var i=0; i<sites.length; i++) {
+                if (sites[i].url === url) {
+                    sites.splice(i, 1);
+                    break;
+                }
+            }
+            chrome.storage.local.set({sites: sites});
+        });
 
+        // Begin removal animation
+        $(elem).addClass("removenote");
+
+        // When animation ends, remove note
+        setTimeout(function() {
+            $(elem).remove();
+        }, 800);
+    },
     getCurrentTabInfo: function(callback) {
         chrome.tabs.query({active: true}, function(info) {
             callback(info);

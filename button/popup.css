@@ -170,6 +170,11 @@ body {
 
 .removebtn:hover {
     opacity: 1;
+}
+
+.removenote {
+    transition: 0.8s;
+    transform: translate(100%, 0%);
     background: #fafafa;
 }
 .removebtn:active {
