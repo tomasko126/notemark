@@ -28,7 +28,6 @@ body {
     top: 0px;
     background: #fff;
     position: absolute;
-    border-top: 1px solid #e3e3e3;
     border-bottom: 1px solid #e3e3e3;
     z-index: 4;
 }
@@ -51,6 +50,7 @@ body {
     /* each note area e3e3e3*/
     height: 40px;
     padding: 2px 0 2px 0;
+    border-top: 1px solid #e3e3e3;
     border-bottom: 1px solid #e3e3e3;
     -webkit-transition-duration: 0.05s;
     z-index: 1;
