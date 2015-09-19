@@ -41,12 +41,12 @@ var Sites = {
                 var url = tab.url;
                 self.checkSite(url, function(allowed) {
                     if (allowed) {
-                        $("#addbtn").addClass("icon-gray");
+                        $("#addbtn").addClass("hearticon-gray");
                         $("#addbtn").mouseover(function() {
-                            $(this).removeClass("icon-gray");
+                            $(this).removeClass("hearticon-gray");
                         });
                         $("#addbtn").mouseleave(function() {
-                            $(this).addClass("icon-gray");
+                            $(this).addClass("hearticon-gray");
                         });
                     }
                 });
