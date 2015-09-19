@@ -1,3 +1,8 @@
+// TODO: Unable to remove a note right after adding it
+//       Unable to add a note while page is loading
+//       When a note has been removed, update heart icon
+//       When a note has been added, heart should stay red after moving mouse to another element
+
 var BG = chrome.extension.getBackgroundPage();
 
 var Sites = {
@@ -74,7 +79,15 @@ var Sites = {
             var url = event.target.dataset.href;
             chrome.tabs.create({ url:url });
         });
-        /* DISABLE site click EXPANDSION //////////
+
+        // Remove button click event
+        $(".removebtn").click(function(event) {
+          var elem = event.currentTarget.parentElement.parentElement;
+          var url = event.currentTarget.parentElement.nextSibling.dataset.href;
+          self.removeSite(url, elem); 
+        });
+
+        /* DISABLE site click EXPANDSION
         $(".site").click(function(event) {
             if ($(this).height() === 75) {
                 $(this).css("height", "40px");
@@ -83,7 +96,7 @@ var Sites = {
             }
             //console.log($(this).height());
             
-        }); */////////////////////////////////
+        }); */
     },
     addSite: function(title, faviconUrl, url) {
         var self = this;
@@ -99,10 +112,10 @@ var Sites = {
                 if (!storage) {
                     var arr = [];
                     arr.push(site);
-                    chrome.storage.local.set({sites: arr}, function() {});
+                    chrome.storage.local.set({sites: arr});
                 } else {
                     storage.push(site);
-                    chrome.storage.local.set({sites: storage}, function() {});
+                    chrome.storage.local.set({sites: storage});
                 }
             });
         });
@@ -124,17 +137,27 @@ var Sites = {
             callback(allowed);
         });
     },
-    removeSite: function(id) {
+    removeSite: function(url, elem) {
+        chrome.storage.local.get("sites", function(storage) {
+            var sites = storage["sites"];
+            for (var i=0; i<sites.length; i++) {
+                if (sites[i].url === url) {
+                    sites.splice(i, 1);
+                    console.log(sites);
+                    break;
+                }
+            }
+            chrome.storage.local.set({sites: sites});
+        });
 
-        /* $("somethingsomething").click(function() {    
-     $(this).animate({ site': "-=260px" }, "fast" );
-     }
-     if (blabla)==250px" {
-     // remove item from arraw, poof.
-     // http://goo.gl/1TsYO3 <-- removing item tutorial
-     }
-    });
-        */
+        // Begin removal animation
+        $(elem).addClass("removenote");
+
+        // Move an another note to the top
+        var next = elem.dataset.id - 1;
+        setTimeout(function() {
+            $("[data-id=" + next + "]").addClass("movenote");
+        }, 800);
     },
 
     getCurrentTabInfo: function(callback) {
