@@ -143,7 +143,6 @@ var Sites = {
             for (var i=0; i<sites.length; i++) {
                 if (sites[i].url === url) {
                     sites.splice(i, 1);
-                    console.log(sites);
                     break;
                 }
             }
@@ -159,7 +158,6 @@ var Sites = {
             $("[data-id=" + next + "]").addClass("movenote");
         }, 800);
     },
-
     getCurrentTabInfo: function(callback) {
         chrome.tabs.query({active: true}, function(info) {
             callback(info);
