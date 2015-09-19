@@ -28,6 +28,7 @@ body {
     top: 0px;
     background: #fff;
     position: absolute;
+    border-top: 1px solid #e3e3e3;
     border-bottom: 1px solid #e3e3e3;
     z-index: 4;
 }
