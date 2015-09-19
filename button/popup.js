@@ -56,8 +56,7 @@ var Sites = {
     initClickHandlers: function() {
         var self = this;
         // "Heart" button click event
-        var addbtn = document.getElementById("addbtn");
-        addbtn.addEventListener("click", function() {
+        $("#addbtn").one("click", function() {
             // Get info about current tab
             self.getCurrentTabInfo(function(info) {
                 var tab = info[0];
@@ -76,7 +75,7 @@ var Sites = {
                 var url = tab.url;
                 self.addSite(title, faviconUrl, url);
             });
-        }, true);
+        });
         
         // Site title click event
         $(".sitetitle").click(function(event) {
