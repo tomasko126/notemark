@@ -58,11 +58,15 @@ var Sites = {
                 var tab = info[0];
                 var title = tab.title;
                 var faviconUrl = null;
-                // Chrome throws an error, when bookmarking chrome://extensions
-                if (tab.favIconUrl.indexOf("chrome://theme") > -1) {
-                    faviconUrl = chrome.runtime.getURL("/img/favicon.png");
+                if (tab.favIconUrl) {
+                    // Chrome throws an error, when bookmarking chrome://extensions
+                    if (tab.favIconUrl.indexOf("chrome://theme") > -1) {
+                        faviconUrl = chrome.runtime.getURL("/img/favicon.png");
+                    } else {
+                        faviconUrl = tab.favIconUrl;
+                    }
                 } else {
-                    faviconUrl = tab.favIconUrl;
+                    faviconUrl = chrome.runtime.getURL("/img/favicon.png");
                 }
                 var url = tab.url;
                 self.addSite(title, faviconUrl, url);
