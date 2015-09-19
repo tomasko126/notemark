@@ -156,8 +156,7 @@ var Sites = {
         // Begin removal animation
         $(elem).addClass("removenote");
 
-        // Move notes to the top
-        var next = elem.dataset.id - 1;
+        // When animation ends, remove note
         setTimeout(function() {
             $(elem).remove();
         }, 800);
