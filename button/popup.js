@@ -134,6 +134,7 @@ var Sites = {
             var sites = storage["sites"];
             if (!sites) {
                 callback(true);
+                return;
             }
             var allowed = true;
             for (var site in sites) {
