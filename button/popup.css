@@ -169,7 +169,7 @@ body {
     transform: translate(100%, 0%);
 }
 
-.movenove {
+.movenote {
     transition: 0.8s;
     transform: translate(0%, -100%);
 }
