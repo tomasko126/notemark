@@ -91,7 +91,7 @@ body {
     content:url(../img/settings.svg);
     -webkit-filter: grayscale(100%);
     -webkit-transform: rotate(0deg);
-    opacity: .6;
+    opacity: .55;
 }
 
 .settingsicon:hover {
