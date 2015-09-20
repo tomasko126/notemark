@@ -36,21 +36,8 @@ var Sites = {
             // Initialize click handlers
             self.initClickHandlers();
 
-            self.getCurrentTabInfo(function(info) {
-                var tab = info[0];
-                var url = tab.url;
-                self.checkSite(url, function(allowed) {
-                    if (allowed) {
-                        $("#addbtn").addClass("hearticon-gray");
-                        $("#addbtn").mouseover(function() {
-                            $(this).removeClass("hearticon-gray");
-                        });
-                        $("#addbtn").mouseleave(function() {
-                            $(this).addClass("hearticon-gray");
-                        });
-                    }
-                });
-            });
+            // Update icon
+            self.updateIconState();
         });
     },
     initClickHandlers: function() {
@@ -122,6 +109,7 @@ var Sites = {
                 }
             });
             self.initClickHandlers();
+            self.updateIconState();
         });
     },
     checkSite: function(url, callback) {
@@ -162,6 +150,9 @@ var Sites = {
         // Begin removal animation
         $(elem).addClass("removenote");
 
+        // Update icon
+        this.updateIconState();
+
         // When animation ends, remove note
         setTimeout(function() {
             $(elem).remove();
@@ -172,6 +163,24 @@ var Sites = {
             callback(info);
         });
     },
+    updateIconState: function() {
+        var self = this;
+        self.getCurrentTabInfo(function(info) {
+            var tab = info[0];
+            var url = tab.url;
+            self.checkSite(url, function(allowed) {
+                if (allowed) {
+                    $("#addbtn").addClass("hearticon-gray");
+                    $("#addbtn").mouseover(function() {
+                        $(this).removeClass("hearticon-gray");
+                    });
+                    $("#addbtn").mouseleave(function() {
+                        $(this).addClass("hearticon-gray");
+                    });
+                }
+            });
+        });  
+    }
 }
 
 Sites.init();
