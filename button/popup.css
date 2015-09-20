@@ -4,56 +4,46 @@ body {
     background-color: whitesmoke;
 }
 .container {
-    margin: 0px;
     width: 250px;
-    height: 474px; /*  'Deck' scroll area height */
+    height: 100%; /* 'Deck' scroll area height */
     overflow: hidden;
     position: relative;
     vertical-align: middle;
 }
 
 .deck {
-    margin-top: 57px; /*  'header' height */
     width: 100%;
-    height: 360px; /*  'Deck' scroll area height - footnote */
-    position: absolute;
+    position: relative;
     overflow: auto;
     overflow-x: hidden;
+    max-height: 360px;
 }
 
-.header {
-    /* this is where the ext name, gear and heart icon sit */
-    width: 100%;
-    height: 57px;
+.header { /* this is where the ext name, gear and heart icon sit */
+    height: 55px;
     top: 0px;
     background: #fff;
-    position: absolute;
     border-bottom: 1px solid #e3e3e3;
-    z-index: 4;
 }
 
 .footnote {
     width: 100%;
-    height: 57px;
-    position: absolute;
+    height: 55px;
     bottom: 0px;
     color: #959595;
     padding-left: 15px;
     line-height: 57px;
     background: #fff;
-    border-top: 1px solid #e3e3e3;
-    z-index: 4;
-    cursor: default;
 }
 
-.site {
-    /* each note area */
+.site { /* each note area */
     margin-top: -1px;
     height: 40px;
     padding: 2px 0 2px 0;
     border-top: 1px solid #e3e3e3;
     border-bottom: 1px solid #e3e3e3;
     -webkit-transition-duration: 0.05s;
+    position: relative;
     z-index: 1;
 }
 
@@ -65,15 +55,13 @@ body {
     background: #eeeeee;
 }
 
-.add {
-    /* favicon area */
+.add { /* favicon area */
     float: left;
     width: 20%;
     height: 100%;
 }
 
-.logotype {
- /* extention name text */
+.logotype { /* extention name text */
     width: 85px;
     margin-top: 21px;
     content:url(../img/notemarklogotype.svg);
