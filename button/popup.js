@@ -110,10 +110,10 @@ var Sites = {
                     storage.push(site);
                     chrome.storage.local.set({sites: storage});
                 }
+                self.initClickHandlers();
+                self.updateIconState();
+                self.updateFooterText();
             });
-            self.initClickHandlers();
-            self.updateIconState();
-            self.updateFooterText();
         });
     },
     checkSite: function(url, callback) {
@@ -156,11 +156,11 @@ var Sites = {
 
                 // Update icon
                 self.updateIconState();
-                self.updateFooterText();
 
                 // When animation ends, remove note
                 setTimeout(function() {
                     $(elem).remove();
+                    self.updateFooterText();
                 }, 800);
             });
         });
