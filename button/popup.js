@@ -38,6 +38,9 @@ var Sites = {
 
             // Update icon
             self.updateIconState();
+
+            // Update number of saved notes
+            self.updateFooterText();
         });
     },
     initClickHandlers: function() {
@@ -110,6 +113,7 @@ var Sites = {
             });
             self.initClickHandlers();
             self.updateIconState();
+            self.updateFooterText();
         });
     },
     checkSite: function(url, callback) {
@@ -136,6 +140,7 @@ var Sites = {
         });
     },
     removeSite: function(url, elem) {
+        var self = this;
         chrome.storage.local.get("sites", function(storage) {
             var sites = storage["sites"];
             for (var i=0; i<sites.length; i++) {
@@ -144,19 +149,21 @@ var Sites = {
                     break;
                 }
             }
-            chrome.storage.local.set({sites: sites});
+            chrome.storage.local.set({sites: sites}, function() {
+                // Begin removal animation
+                $(elem).addClass("removenote");
+                self._items--;
+
+                // Update icon
+                self.updateIconState();
+                self.updateFooterText();
+
+                // When animation ends, remove note
+                setTimeout(function() {
+                    $(elem).remove();
+                }, 800);
+            });
         });
-
-        // Begin removal animation
-        $(elem).addClass("removenote");
-
-        // Update icon
-        this.updateIconState();
-
-        // When animation ends, remove note
-        setTimeout(function() {
-            $(elem).remove();
-        }, 800);
     },
     getCurrentTabInfo: function(callback) {
         chrome.tabs.query({active: true}, function(info) {
@@ -180,6 +187,9 @@ var Sites = {
                 }
             });
         });  
+    },
+    updateFooterText: function() {
+        $(".footnote").text(this._items + " notes; they're all important yeah?");
     }
 }
 
