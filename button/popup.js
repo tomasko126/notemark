@@ -68,13 +68,13 @@ var Sites = {
         });
         
         // Site title click event
-        $(".sitetitle").click(function(event) {
+        $(".sitetitle").unbind().click(function(event) {
             var url = event.target.dataset.href;
             chrome.tabs.create({ url:url });
         });
 
         // Remove button click event
-        $(".removebtn").click(function(event) {
+        $(".removebtn").unbind().click(function() {
           var elem = event.currentTarget.parentElement.parentElement;
           var url = event.currentTarget.parentElement.nextSibling.dataset.href;
           self.removeSite(url, elem); 
@@ -146,13 +146,14 @@ var Sites = {
             for (var i=0; i<sites.length; i++) {
                 if (sites[i].url === url) {
                     sites.splice(i, 1);
+                    self._items--;
+                    self.updateFooterText();
                     break;
                 }
             }
             chrome.storage.local.set({sites: sites}, function() {
                 // Begin removal animation
                 $(elem).addClass("removenote");
-                self._items--;
 
                 // Update icon
                 self.updateIconState();
@@ -160,7 +161,6 @@ var Sites = {
                 // When animation ends, remove note
                 setTimeout(function() {
                     $(elem).remove();
-                    self.updateFooterText();
                 }, 800);
             });
         });
