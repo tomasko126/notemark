@@ -189,7 +189,7 @@ var Sites = {
         });  
     },
     updateFooterText: function() {
-        $(".footnote").text(this._items + " notes; they're all important yeah?");
+        $(".footnote").text(this._items + " notes \u2014 they're all important yeah?");
     }
 }
 

@@ -95,22 +95,25 @@ body {
     -webkit-filter: grayscale(100%);
     -webkit-transition-duration: 0s;
 }
-
 .hearticon { 
+    /* calls directly to svg */
+    stroke-width: 1.1;
+    fill: none;
+    stroke: #DD5E41;
+    /* --------------------- */
     width: 2.3em;
     margin-top: 4px;
     padding: 10px;
     position: absolute;
     right: 1px;
     display: inline-block;
-    content:url(../img/heart.svg);
+    /* content:url(../img/heart.svg); */
     -webkit-transform: translateZ(0) scale(1.0001);
     -webkit-transition: all .07s ease-in;
-    opacity: 0.9;
+    opacity: 0.9; 
 }
 
-@-webkit-keyframes heartbeat {
-    /* heart hover animation */
+@-webkit-keyframes heartbeat { /* heart hover animation */
     10% { -webkit-transform: translateZ(0) scale(1.0001);}
     60% { -webkit-transform: translateZ(0) scale(1.12);}
 }
@@ -121,8 +124,11 @@ body {
 }
 
 .hearticon:active {
+    fill: #a2a7aa; 
+    stroke: #a2a7aa;
     -webkit-transform: scale(0.9);
     -webkit-filter: grayscale(100%);
+    -webkit-animation:heartbeat 0s; /* cancel heartbeat animation */
 }
 
 .hearticon-gray { 
