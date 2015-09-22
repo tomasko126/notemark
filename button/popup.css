@@ -55,7 +55,7 @@ body {
     background: #eeeeee;
 }
 
-.add { /* favicon area */
+.faviconcontainer { /* favicon area */
     float: left;
     width: 20%;
     height: 100%;

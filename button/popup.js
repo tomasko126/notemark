@@ -1,7 +1,4 @@
-// TODO: Unable to remove a note right after adding it
-//       Unable to add a note while page is loading
-//       When a note has been removed, update heart icon
-//       When a note has been added, heart should stay red after moving mouse to another element
+// TODO: When a note has been added, heart should stay red after moving mouse to another element
 
 var BG = chrome.extension.getBackgroundPage();
 
@@ -10,7 +7,7 @@ var Sites = {
     _createSiteUI: function(title, faviconUrl, url) {
         $(".options").after(
             "<div class='site' data-id='" + this._items + "'>" +
-                "<div class='add'>" +
+                "<div class='faviconcontainer'>" +
                     "<img class='favicon' src='" + faviconUrl + "'>" +
                     "<div class='removebtn'>" + "</div>" +
                 "</div>" +
