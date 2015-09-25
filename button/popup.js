@@ -151,14 +151,14 @@ var Sites = {
             chrome.storage.local.set({sites: sites}, function() {
                 // Begin removal animation
                 $(elem).addClass("removenote");
-
+                
                 // Update icon
                 self.updateIconState();
 
                 // When animation ends, remove note
                 setTimeout(function() {
                     $(elem).remove();
-                }, 800);
+                }, 600);
             });
         });
     },

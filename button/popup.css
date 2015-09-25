@@ -34,6 +34,7 @@ body {
     padding-left: 15px;
     line-height: 57px;
     background: #fff;
+    cursor: default;
 }
 
 .site { /* each note area */
@@ -167,10 +168,11 @@ body {
 }
 
 .removenote {
-    transition: 0.8s;
+    transition: all .5s cubic-bezier(0.800, -0.300, 0.500, 1.000); /* custom */
     transform: translate(100%, 0%);
     background: #fafafa;
 }
+
 .removebtn:active {
     background: #eeeeee;
 }
