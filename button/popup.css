@@ -46,6 +46,7 @@ body {
     -webkit-transition-duration: 0.05s;
     position: relative;
     z-index: 1;
+    width: 100%;
 }
 
 .site:hover {
@@ -168,9 +169,16 @@ body {
 }
 
 .removenote {
-    transition: all .5s cubic-bezier(0.800, -0.300, 0.500, 1.000); /* custom */
+    transition: 0.5s cubic-bezier(0.800, -0.300, 0.500, 1.000); /* custom */
     transform: translate(100%, 0%);
     background: #fafafa;
+}
+
+.removenote2 {
+   transition: 0.4s;
+   height: 0px;
+   padding: 0px;
+   border: none;
 }
 
 .removebtn:active {
@@ -181,8 +189,8 @@ body {
     margin-top: 3px;
     display: block;
     left: -10px;
-    position: relative;
-    padding: 10px 0px 10px 15px;
+    position: inherit;
+    padding: 10px 0px 0px 15px;
     text-align: left;
     text-overflow: ellipsis;
     overflow: hidden;

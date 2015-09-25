@@ -155,10 +155,18 @@ var Sites = {
                 // Update icon
                 self.updateIconState();
 
-                // When animation ends, remove note
+                // When removal animation ends, add top up animation
+                // TODO: Don't use setTimeout, switch to jQuery/CSS animations
                 setTimeout(function() {
-                    $(elem).remove();
-                }, 600);
+                    $(elem).addClass("removenote2");
+                    var id = $(elem).data().id;
+                    $("[data-id='" + id + "'] > .sitetitle").css("margin", "0px");
+                }, 500);
+
+                // Remove a note after end of both animations
+                setTimeout(function() {
+                   $(elem).remove(); 
+                }, 750);
             });
         });
     },
@@ -185,7 +193,15 @@ var Sites = {
             });
         });  
     },
+    updateScrollbarState: function() {
+        if (this._items < 9) {
+            $(".deck").css("overflow-y", "hidden");
+        } else {
+            $(".deck").css("overflow-y", "auto");
+        }
+    },
     updateFooterText: function() {
+        this.updateScrollbarState();
         $(".footnote").text(this._items + " notes \u2014 they're all important yeah?");
     }
 }
