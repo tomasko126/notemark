@@ -6,7 +6,7 @@ var Sites = {
     _items: 0,
     _createSiteUI: function(title, faviconUrl, url) {
         $(".options").after(
-            "<div class='site' draggable='true' data-id='" + this._items + "'>" +
+            "<div class='site' data-id='" + this._items + "'>" +
                 "<div class='faviconcontainer'>" +
                     "<img class='favicon' src='" + faviconUrl + "'>" +
                     "<div class='removebtn'>" + "</div>" +
@@ -193,7 +193,7 @@ var Sites = {
         });  
     },
     updateScrollbarState: function() {
-        if (this._items > 9) {
+        if (this._items < 9) {
             $(".deck").css("overflow-y", "hidden");
         } else {
             $(".deck").css("overflow-y", "auto");
