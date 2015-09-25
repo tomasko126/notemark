@@ -6,7 +6,7 @@ var Sites = {
     _items: 0,
     _createSiteUI: function(title, faviconUrl, url) {
         $(".options").after(
-            "<div class='site' data-id='" + this._items + "'>" +
+            "<div class='site' draggable='true' data-id='" + this._items + "'>" +
                 "<div class='faviconcontainer'>" +
                     "<img class='favicon' src='" + faviconUrl + "'>" +
                     "<div class='removebtn'>" + "</div>" +
@@ -150,15 +150,22 @@ var Sites = {
             }
             chrome.storage.local.set({sites: sites}, function() {
                 // Begin removal animation
-                $(elem).addClass("removenote");
+                $(elem).addClass("removenote"); //.addClass("removenote2");
                 
                 // Update icon
                 self.updateIconState();
 
-                // When animation ends, remove note
+                // When removal animation ends, add top up animation
                 setTimeout(function() {
-                    $(elem).remove();
-                }, 600);
+                    $(elem).addClass("removenote2");
+                    var id = $(elem).data().id;
+                    $("[data-id='" + id + "'] > .sitetitle").css("margin", "0px");
+                }, 500);
+
+                // Remove a note after end of both animations
+                setTimeout(function() {
+                   $(elem).remove(); 
+                }, 750);
             });
         });
     },
@@ -185,7 +192,15 @@ var Sites = {
             });
         });  
     },
+    updateScrollbarState: function() {
+        if (this._items > 9) {
+            $(".deck").css("overflow-y", "hidden");
+        } else {
+            $(".deck").css("overflow-y", "auto");
+        }
+    },
     updateFooterText: function() {
+        this.updateScrollbarState();
         $(".footnote").text(this._items + " notes \u2014 they're all important yeah?");
     }
 }
