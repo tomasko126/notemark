@@ -150,12 +150,13 @@ var Sites = {
             }
             chrome.storage.local.set({sites: sites}, function() {
                 // Begin removal animation
-                $(elem).addClass("removenote"); //.addClass("removenote2");
+                $(elem).addClass("removenote");
                 
                 // Update icon
                 self.updateIconState();
 
                 // When removal animation ends, add top up animation
+                // TODO: Don't use setTimeout, switch to jQuery/CSS animations
                 setTimeout(function() {
                     $(elem).addClass("removenote2");
                     var id = $(elem).data().id;
