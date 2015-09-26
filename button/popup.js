@@ -17,7 +17,8 @@ var Sites = {
                 "</div>" +
             "</div>"
         );
-        //console.log($("[data-id='" + Sites._items.toString() + "']"));
+
+        // Animate an added note
         if (custom) {
             $("[data-id='" + this._items.toString() + "']").animate({ marginTop: "-1px" }, 300);
         }
