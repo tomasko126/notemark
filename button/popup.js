@@ -152,7 +152,6 @@ var Sites = {
                 if (sites[i].url === url) {
                     sites.splice(i, 1);
                     self._items--;
-                    self.updateFooterText();
                     break;
                 }
             }
@@ -173,7 +172,8 @@ var Sites = {
 
                 // Remove a note after end of both animations
                 setTimeout(function() {
-                   $(elem).remove(); 
+                   $(elem).remove();
+                   self.updateFooterText();
                 }, 750);
             });
         });
@@ -213,7 +213,10 @@ var Sites = {
         }
     },
     updateFooterText: function() {
+        // Update scrollbar visibility
         this.updateScrollbarState();
+
+        // Update footer text
         $(".footnote").text(this._items + " notes \u2014 they're all important yeah?");
     }
 }
