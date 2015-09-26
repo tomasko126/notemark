@@ -162,12 +162,12 @@ var Sites = {
                     $(elem).addClass("removenote2");
                     var id = $(elem).data().id;
                     $("[data-id='" + id + "'] > .sitetitle").css("margin", "0px");
-                }, 500);
+                }, 400);
 
                 // Remove a note after end of both animations
                 setTimeout(function() {
                    $(elem).remove(); 
-                }, 750);
+                }, 600);
             });
         });
     },
