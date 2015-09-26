@@ -168,6 +168,7 @@ http://matthewlein.com/ceaser/
     opacity: 0;
     z-index: 3;
     background-color: whitesmoke;
+    transition-duration: 0.2s;
 }
 
 .removebtn:hover {
