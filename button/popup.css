@@ -83,7 +83,7 @@ http://matthewlein.com/ceaser/
     margin-top: 5px;
     padding: 10px;
     position: absolute;
-    display: inline-block;
+    display: none;
     right: 63px;
     content:url(../img/settings.svg);
     -webkit-filter: grayscale(100%);
@@ -92,7 +92,7 @@ http://matthewlein.com/ceaser/
 }
 
 .settingsicon:hover {
-    -webkit-transform:rotate(90deg);
+    -webkit-transform: rotate(90deg);
     -webkit-transition-duration: 0.4s;
     -webkit-filter: grayscale(0%);
     opacity: 1;
