@@ -23,7 +23,6 @@ var Sites = {
             $("[data-id='" + this._items.toString() + "']").animate({ marginTop: "-1px" }, 300);
         }
     },
-    
     init: function() {
         var self = this;
         chrome.storage.local.get("sites", function(storage) {
@@ -65,7 +64,13 @@ var Sites = {
                     faviconUrl = chrome.runtime.getURL("/img/favicon.png");
                 }
                 var url = tab.url;
-                self.addSite(title, faviconUrl, url);
+                // Add or remove a note?
+                if ($("#addbtn").hasClass("hearticon-red")) {
+                    var elem = self.getElement(url);
+                    self.removeSite(url, elem);
+                } else {
+                    self.addSite(title, faviconUrl, url);
+                }
             });
         });
         
@@ -182,6 +187,9 @@ var Sites = {
         chrome.tabs.query({active: true}, function(info) {
             callback(info);
         });
+    },
+    getElement: function(url) {
+        return $("[data-href='" + url + "']").parent();
     },
     updateIconState: function() {
         var self = this;
