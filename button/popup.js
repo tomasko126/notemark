@@ -229,7 +229,7 @@ var Sites = {
         var text = null;
         
         if (items < 3) {
-            text = "that’s kind of Zen";
+            text = "that's kind of Zen";
         } else if (items < 6) {
             text = "the magic number";
         } else if (items < 12) {
