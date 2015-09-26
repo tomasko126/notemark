@@ -225,7 +225,34 @@ var Sites = {
         this.updateScrollbarState();
 
         // Update footer text
-        $(".footnote").text(this._items + " notes \u2014 they're all important yeah?");
+        var items = this._items;
+        var text = null;
+        
+        if (items < 3) {
+            text = "that's kind of Zen";
+        } else if (items < 6) {
+            text = "the magic number";
+        } else if (items < 12) {
+            text = "you can do more with less";
+        } else if (items < 22) {
+            text = "starting to look like work";
+        } else if (items < 28) {
+            text = "they're all important yeah?";
+        } else if (items < 44) {
+            text = "if it's important, it will stand out";
+        } else if (items < 50) {
+            text = "bookmark some for keep sake";
+        } else if (items < 60) {
+            text = "still checking these?";
+        } else if (items < 70) {
+            text = "that's 3 hours of browsing";   
+        } else if (items < 90) {
+            text = "let's see, where were we?";   
+        } else {
+            text = "Notemark loves you back";
+        }
+
+        $(".footnote").text(items + " notes \u2014 " + text);
     }
 }
 
