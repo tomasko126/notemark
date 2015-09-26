@@ -1,5 +1,3 @@
-// TODO: When a note has been added, heart should stay red after moving mouse to another element
-
 var BG = chrome.extension.getBackgroundPage();
 
 var Sites = {
