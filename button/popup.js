@@ -2,9 +2,10 @@ var BG = chrome.extension.getBackgroundPage();
 
 var Sites = {
     _items: 0,
-    _createSiteUI: function(title, faviconUrl, url) {
+    _createSiteUI: function(title, faviconUrl, url, custom) {
+        var top = custom ? -45 : -1;
         $(".options").after(
-            "<div class='site' data-id='" + this._items + "'>" +
+            "<div class='site' style='margin-top:" + top.toString() + "px;' data-id='" + this._items + "'>" +
                 "<div class='faviconcontainer'>" +
                     "<img class='favicon' src='" + faviconUrl + "'>" +
                     "<div class='removebtn'>" + "</div>" +
@@ -16,6 +17,10 @@ var Sites = {
                 "</div>" +
             "</div>"
         );
+        //console.log($("[data-id='" + Sites._items.toString() + "']"));
+        if (custom) {
+            $("[data-id='" + this._items.toString() + "']").animate({ marginTop: "-1px" }, 300);
+        }
     },
     
     init: function() {
@@ -94,7 +99,7 @@ var Sites = {
                 return;
             }
             self._items++;
-            self._createSiteUI(title, faviconUrl, url);
+            self._createSiteUI(title, faviconUrl, url, true);
             chrome.storage.local.get("sites", function(storage) {
                 var storage = storage["sites"];
                 var site = { title: title, faviconUrl: faviconUrl, url: url };
