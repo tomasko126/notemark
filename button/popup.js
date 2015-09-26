@@ -182,13 +182,17 @@ var Sites = {
             var tab = info[0];
             var url = tab.url;
             self.checkSite(url, function(allowed) {
-                if (allowed) {
-                    $("#addbtn").addClass("hearticon-gray");
-                    $("#addbtn").mouseover(function() {
-                        $(this).removeClass("hearticon-gray");
-                    });
+                // If site has already been added
+                if (!allowed) {
+                    $("#addbtn").addClass("hearticon-red");
                     $("#addbtn").mouseleave(function() {
-                        $(this).addClass("hearticon-gray");
+                        $(this).addClass("hearticon-red");
+                    });
+                // If site hasn't been added yet
+                } else {
+                    $("#addbtn").removeClass("hearticon-red");
+                    $("#addbtn").mouseleave(function() {
+                        $(this).removeClass("hearticon-red");
                     });
                 }
             });
