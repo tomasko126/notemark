@@ -204,5 +204,6 @@ http://matthewlein.com/ceaser/
     white-space: nowrap;
     cursor: default;
     -webkit-transition: all .1s ease-in;
+    cursor: pointer;
     /* background: green; for referencing click area  */
 }
