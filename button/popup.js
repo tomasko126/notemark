@@ -44,7 +44,7 @@ var Sites = {
     initClickHandlers: function() {
         var self = this;
         // "Heart" button click event
-        $("#addbtn").one("click", function() {
+        $("#addbtn").unbind().click(function(event) {
             // Get info about current tab
             self.getCurrentTabInfo(function(info) {
                 var tab = info[0];
