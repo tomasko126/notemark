@@ -109,6 +109,9 @@ var Sites = {
                 self.initClickHandlers();
                 self.updateIconState();
                 self.updateFooterText();
+
+                // Scroll to the top to see latest note
+                $(".deck").animate({ scrollTop: 0 }, 50); 
             });
         });
     },
