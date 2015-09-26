@@ -3,6 +3,12 @@ body {
     -webkit-user-select: none;
     background-color: whitesmoke;
 }
+
+/* css easing tool
+based on Penner's easing equations:
+http://matthewlein.com/ceaser/  
+*/
+
 .container {
     width: 250px;
     height: 100%; /* 'Deck' scroll area height */
@@ -175,7 +181,7 @@ body {
 }
 
 .removenote2 {
-   transition: 0.4s;
+   transition: 0.4s cubic-bezier(0.075, 0.820, 0.165, 1.000); /* easeOutCirc */;
    height: 0px;
    padding: 0px;
    border: none;

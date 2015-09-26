@@ -19,6 +19,7 @@ var Sites = {
             "</div>"
         );
     },
+    
     init: function() {
         var self = this;
         chrome.storage.local.get("sites", function(storage) {
@@ -29,7 +30,7 @@ var Sites = {
                 var details = sites[site];
                 self._createSiteUI(details.title, details.faviconUrl, details.url);
             }
-
+            
             // Initialize click handlers
             self.initClickHandlers();
 
