@@ -135,7 +135,8 @@ http://matthewlein.com/ceaser/
 .hearticon:active {
     fill: #A2A7AA; 
     stroke: #A2A7AA;
-    -webkit-transform: scale(0.9);
+    opacity: 0.6;
+    -webkit-transform: scale(0.95);
     -webkit-filter: grayscale(100%);
     -webkit-animation: heartbeat 0s; /* cancel heartbeat animation */
 }
@@ -182,7 +183,7 @@ http://matthewlein.com/ceaser/
 }
 
 .removenote2 {
-   transition: 0.4s cubic-bezier(0.075, 0.820, 0.165, 1.000); /* easeOutCirc */;
+   transition: 0.3s cubic-bezier(0.075, 0.820, 0.165, 1.000); /* easeOutCirc */;
    height: 0px;
    padding: 0px;
    border: none;
