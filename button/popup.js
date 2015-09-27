@@ -122,7 +122,7 @@ var Sites = {
                 self.updateFooterText();
 
                 // Scroll to the top to see latest note
-                $(".deck").animate({ scrollTop: 0 }, { duration: 150, easing: 'easeOutSine'}); 
+                $(".deck").animate({ scrollTop: 0 }, { duration: 150, easing: 'easeOutExpo'}); 
             });
         });
     },
