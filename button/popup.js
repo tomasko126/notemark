@@ -177,12 +177,8 @@ var Sites = {
 
                 // Remove a note after end of both animations
                 setTimeout(function() {
-<<<<<<< HEAD
-                   $(elem).remove(); 
-=======
                    $(elem).remove();
                    self.updateFooterText();
->>>>>>> origin/master
                 }, 600);
             });
         });
