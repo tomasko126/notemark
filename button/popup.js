@@ -20,7 +20,7 @@ var Sites = {
 
         // Animate an added note
         if (custom) {
-            $("[data-id='" + this._items.toString() + "']").animate({ marginTop: "-1px" }, 300);
+            $("[data-id='" + this._items.toString() + "']").animate({ marginTop: "-1px" }, { duration: 300, easing: 'easeOutExpo'});
         }
     },
     init: function() {
@@ -122,7 +122,7 @@ var Sites = {
                 self.updateFooterText();
 
                 // Scroll to the top to see latest note
-                $(".deck").animate({ scrollTop: 0 }, 50); 
+                $(".deck").animate({ scrollTop: 0 }, { duration: 150, easing: 'easeOutSine'}); 
             });
         });
     },
