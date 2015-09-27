@@ -22,7 +22,7 @@ http://matthewlein.com/ceaser/
     position: relative;
     overflow: auto;
     overflow-x: hidden;
-    max-height: 360px;
+    max-height: 351px;
 }
 
 .header { /* this is where the ext name, gear and heart icon sit */
@@ -41,15 +41,13 @@ http://matthewlein.com/ceaser/
     line-height: 57px;
     background: #fff;
     cursor: default;
+    border-top: 1px solid #e3e3e3;
 }
 
 .site { /* each note area */
-    margin-top: -1px;
     height: 40px;
     padding: 2px 0 2px 0;
     border-top: 1px solid #e3e3e3;
-    border-bottom: 1px solid #e3e3e3;
-    -webkit-transition-duration: 0.05s;
     position: relative;
     z-index: 1;
     width: 100%;
@@ -83,7 +81,7 @@ http://matthewlein.com/ceaser/
     margin-top: 5px;
     padding: 10px;
     position: absolute;
-    display: inline-block;
+    display: none;
     right: 63px;
     content:url(../img/settings.svg);
     -webkit-filter: grayscale(100%);
@@ -92,7 +90,7 @@ http://matthewlein.com/ceaser/
 }
 
 .settingsicon:hover {
-    -webkit-transform:rotate(90deg);
+    -webkit-transform: rotate(90deg);
     -webkit-transition-duration: 0.4s;
     -webkit-filter: grayscale(0%);
     opacity: 1;
@@ -106,8 +104,8 @@ http://matthewlein.com/ceaser/
 .hearticon { 
     /* calls directly to svg */
     stroke-width: 1.1;
+    stroke: #696B6B;
     fill: none;
-    stroke: #DD5E41;
     /* --------------------- */
     width: 2.3em;
     margin-top: 4px;
@@ -118,7 +116,7 @@ http://matthewlein.com/ceaser/
     /* content:url(../img/heart.svg); */
     -webkit-transform: translateZ(0) scale(1.0001);
     -webkit-transition: all .07s ease-in;
-    opacity: 0.9; 
+    opacity: 0.6;
 }
 
 @-webkit-keyframes heartbeat { /* heart hover animation */
@@ -127,22 +125,23 @@ http://matthewlein.com/ceaser/
 }
 
 .hearticon:hover {
+   stroke: #DD5E41;
    -webkit-animation:heartbeat .35s ease-in-out;
    -webkit-animation-iteration-count: 2;
 }
 
 .hearticon:active {
-    fill: #a2a7aa; 
-    stroke: #a2a7aa;
-    -webkit-transform: scale(0.9);
+    fill: #A2A7AA; 
+    stroke: #A2A7AA;
+    opacity: 0.6;
+    -webkit-transform: scale(0.95);
     -webkit-filter: grayscale(100%);
-    -webkit-animation:heartbeat 0s; /* cancel heartbeat animation */
+    -webkit-animation: heartbeat 0s; /* cancel heartbeat animation */
 }
 
-.hearticon-gray { 
-    opacity: 0.6;
-    -webkit-filter: grayscale(100%);
-    -webkit-transition-duration: 0.0s; 
+.hearticon-red {
+    stroke: #DD5E41;
+    fill: #DD5E41;
 }
 
 .img {
@@ -168,6 +167,7 @@ http://matthewlein.com/ceaser/
     opacity: 0;
     z-index: 3;
     background-color: whitesmoke;
+    transition-duration: 0.2s;
 }
 
 .removebtn:hover {
@@ -203,5 +203,6 @@ http://matthewlein.com/ceaser/
     white-space: nowrap;
     cursor: default;
     -webkit-transition: all .1s ease-in;
+    cursor: pointer;
     /* background: green; for referencing click area  */
 }

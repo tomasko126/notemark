@@ -1,12 +1,11 @@
-// TODO: When a note has been added, heart should stay red after moving mouse to another element
-
 var BG = chrome.extension.getBackgroundPage();
 
 var Sites = {
     _items: 0,
-    _createSiteUI: function(title, faviconUrl, url) {
+    _createSiteUI: function(title, faviconUrl, url, custom) {
+        var top = custom ? -45 : -1;
         $(".options").after(
-            "<div class='site' data-id='" + this._items + "'>" +
+            "<div class='site' style='margin-top:" + top.toString() + "px;' data-id='" + this._items + "'>" +
                 "<div class='faviconcontainer'>" +
                     "<img class='favicon' src='" + faviconUrl + "'>" +
                     "<div class='removebtn'>" + "</div>" +
@@ -18,8 +17,12 @@ var Sites = {
                 "</div>" +
             "</div>"
         );
+
+        // Animate an added note
+        if (custom) {
+            $("[data-id='" + this._items.toString() + "']").animate({ marginTop: "-1px" }, 300);
+        }
     },
-    
     init: function() {
         var self = this;
         chrome.storage.local.get("sites", function(storage) {
@@ -44,7 +47,7 @@ var Sites = {
     initClickHandlers: function() {
         var self = this;
         // "Heart" button click event
-        $("#addbtn").one("click", function() {
+        $("#addbtn").unbind().click(function(event) {
             // Get info about current tab
             self.getCurrentTabInfo(function(info) {
                 var tab = info[0];
@@ -61,7 +64,13 @@ var Sites = {
                     faviconUrl = chrome.runtime.getURL("/img/favicon.png");
                 }
                 var url = tab.url;
-                self.addSite(title, faviconUrl, url);
+                // Add or remove a note?
+                if ($("#addbtn").hasClass("hearticon-red")) {
+                    var elem = self.getElement(url);
+                    self.removeSite(url, elem);
+                } else {
+                    self.addSite(title, faviconUrl, url);
+                }
             });
         });
         
@@ -96,7 +105,7 @@ var Sites = {
                 return;
             }
             self._items++;
-            self._createSiteUI(title, faviconUrl, url);
+            self._createSiteUI(title, faviconUrl, url, true);
             chrome.storage.local.get("sites", function(storage) {
                 var storage = storage["sites"];
                 var site = { title: title, faviconUrl: faviconUrl, url: url };
@@ -111,6 +120,9 @@ var Sites = {
                 self.initClickHandlers();
                 self.updateIconState();
                 self.updateFooterText();
+
+                // Scroll to the top to see latest note
+                $(".deck").animate({ scrollTop: 0 }, 50); 
             });
         });
     },
@@ -145,7 +157,6 @@ var Sites = {
                 if (sites[i].url === url) {
                     sites.splice(i, 1);
                     self._items--;
-                    self.updateFooterText();
                     break;
                 }
             }
@@ -166,7 +177,12 @@ var Sites = {
 
                 // Remove a note after end of both animations
                 setTimeout(function() {
+<<<<<<< HEAD
                    $(elem).remove(); 
+=======
+                   $(elem).remove();
+                   self.updateFooterText();
+>>>>>>> origin/master
                 }, 600);
             });
         });
@@ -176,19 +192,26 @@ var Sites = {
             callback(info);
         });
     },
+    getElement: function(url) {
+        return $("[data-href='" + url + "']").parent();
+    },
     updateIconState: function() {
         var self = this;
         self.getCurrentTabInfo(function(info) {
             var tab = info[0];
             var url = tab.url;
             self.checkSite(url, function(allowed) {
-                if (allowed) {
-                    $("#addbtn").addClass("hearticon-gray");
-                    $("#addbtn").mouseover(function() {
-                        $(this).removeClass("hearticon-gray");
-                    });
+                // If site has already been added
+                if (!allowed) {
+                    $("#addbtn").addClass("hearticon-red");
                     $("#addbtn").mouseleave(function() {
-                        $(this).addClass("hearticon-gray");
+                        $(this).addClass("hearticon-red");
+                    });
+                // If site hasn't been added yet
+                } else {
+                    $("#addbtn").removeClass("hearticon-red");
+                    $("#addbtn").mouseleave(function() {
+                        $(this).removeClass("hearticon-red");
                     });
                 }
             });
@@ -202,8 +225,38 @@ var Sites = {
         }
     },
     updateFooterText: function() {
+        // Update scrollbar visibility
         this.updateScrollbarState();
-        $(".footnote").text(this._items + " notes \u2014 they're all important yeah?");
+
+        // Update footer text
+        var items = this._items;
+        var text = null;
+        
+        if (items < 3) {
+            text = "that's kind of Zen";
+        } else if (items < 6) {
+            text = "the magic number";
+        } else if (items < 12) {
+            text = "you can do more with less";
+        } else if (items < 22) {
+            text = "starting to look like work";
+        } else if (items < 28) {
+            text = "they're all important yeah?";
+        } else if (items < 44) {
+            text = "eeny meeny miney mo";
+        } else if (items < 50) {
+            text = "bookmark some for keepsake";
+        } else if (items < 60) {
+            text = "still checking these?";
+        } else if (items < 70) {
+            text = "that's 3 hours of browsing";   
+        } else if (items < 90) {
+            text = "let's see, where were we?";   
+        } else {
+            text = "Notemark loves you back";
+        }
+
+        $(".footnote").text(items + " notes \u2014 " + text);
     }
 }
 
