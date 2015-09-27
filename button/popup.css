@@ -104,7 +104,7 @@ http://matthewlein.com/ceaser/
 .hearticon { 
     /* calls directly to svg */
     stroke-width: 1.1;
-    stroke: #696B6B;
+    stroke: #a3a09d;
     fill: none;
     /* --------------------- */
     width: 2.3em;
@@ -116,7 +116,6 @@ http://matthewlein.com/ceaser/
     /* content:url(../img/heart.svg); */
     -webkit-transform: translateZ(0) scale(1.0001);
     -webkit-transition: all .07s ease-in;
-    opacity: 0.6;
 }
 
 @-webkit-keyframes heartbeat { /* heart hover animation */
@@ -125,23 +124,24 @@ http://matthewlein.com/ceaser/
 }
 
 .hearticon:hover {
-   stroke: #DD5E41;
+   stroke: #e5694d;
    -webkit-animation:heartbeat .35s ease-in-out;
    -webkit-animation-iteration-count: 2;
 }
 
 .hearticon:active {
-    fill: #A2A7AA; 
-    stroke: #A2A7AA;
-    opacity: 0.6;
+    fill: #a3a09d; 
+    stroke: none;
+    opacity: 0.7;
     -webkit-transform: scale(0.95);
     -webkit-filter: grayscale(100%);
     -webkit-animation: heartbeat 0s; /* cancel heartbeat animation */
 }
 
 .hearticon-red {
-    stroke: #DD5E41;
-    fill: #DD5E41;
+    stroke: none;
+    fill: #e5694d;
+    opacity: 0.8;
 }
 
 .img {
