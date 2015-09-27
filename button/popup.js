@@ -251,8 +251,13 @@ var Sites = {
         } else {
             text = "Notemark loves you back";
         }
+        
+        var notetext = " notes";
+        if (items === 1) {
+           notetext = " note"; 
+        }
 
-        $(".footnote").text(items + " notes \u2014 " + text);
+        $(".footnote").text(items + notetext + " \u2014 " + text);
     }
 }
 
