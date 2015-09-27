@@ -22,7 +22,7 @@ http://matthewlein.com/ceaser/
     position: relative;
     overflow: auto;
     overflow-x: hidden;
-    max-height: 360px;
+    max-height: 351px;
 }
 
 .header { /* this is where the ext name, gear and heart icon sit */
