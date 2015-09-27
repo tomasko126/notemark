@@ -173,13 +173,13 @@ var Sites = {
                     $(elem).addClass("removenote2");
                     var id = $(elem).data().id;
                     $("[data-id='" + id + "'] > .sitetitle").css("margin", "0px");
-                }, 500);
+                }, 400);
 
                 // Remove a note after end of both animations
                 setTimeout(function() {
                    $(elem).remove();
                    self.updateFooterText();
-                }, 750);
+                }, 600);
             });
         });
     },
@@ -239,9 +239,9 @@ var Sites = {
         } else if (items < 28) {
             text = "they're all important yeah?";
         } else if (items < 44) {
-            text = "if it's important, it will stand out";
+            text = "eeny meeny miney mo";
         } else if (items < 50) {
-            text = "bookmark some for keep sake";
+            text = "bookmark some for keepsake";
         } else if (items < 60) {
             text = "still checking these?";
         } else if (items < 70) {
