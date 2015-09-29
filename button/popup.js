@@ -65,7 +65,7 @@ var Sites = {
                 }
                 var url = tab.url;
                 // Add or remove a note?
-                if ($("#addbtn").hasClass("hearticon-red")) {
+                if ($("#addbtn").hasClass("heart-red")) {
                     var elem = self.getElement(url);
                     self.removeSite(url, elem);
                 } else {
@@ -204,15 +204,15 @@ var Sites = {
             self.checkSite(url, function(allowed) {
                 // If site has already been added
                 if (!allowed) {
-                    $("#addbtn").addClass("hearticon-red");
+                    $("#addbtn").addClass("heart-red");
                     $("#addbtn").mouseleave(function() {
-                        $(this).addClass("hearticon-red");
+                        $(this).addClass("heart-red");
                     });
                 // If site hasn't been added yet
                 } else {
-                    $("#addbtn").removeClass("hearticon-red");
+                    $("#addbtn").removeClass("heart-red");
                     $("#addbtn").mouseleave(function() {
-                        $(this).removeClass("hearticon-red");
+                        $(this).removeClass("heart-red");
                     });
                 }
             });
