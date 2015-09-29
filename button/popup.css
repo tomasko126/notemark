@@ -170,9 +170,9 @@ http://matthewlein.com/ceaser/
 }
 
 .option:hover {
-    background-color: #F5F5F5;
+    background-color: rgba(245, 245, 245, 0.8);
     border-radius: 2px;
-    border: 1px solid #e3e3e3;
+    border: 1px solid rgba(227, 227, 227, 0.75);
     transition-duration: 0.3s;
 }
 
