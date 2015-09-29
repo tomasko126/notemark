@@ -76,7 +76,7 @@ var Sites = {
 
         // Settings icon click event
         $(".settingsicon").click(function(event) {
-            $(".settings").slideToggle();
+            $(".settings").slideToggle({ duration: 250, easing: 'easeOutExpo'});
         });
         
         // Site title click event

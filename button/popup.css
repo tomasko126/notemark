@@ -150,7 +150,8 @@ http://matthewlein.com/ceaser/
 }
 
 .settings {
-    height: 95px;
+    position: relative;
+    height: 131px;
     background: white;
     width: 100%;
     display: none;
@@ -159,21 +160,26 @@ http://matthewlein.com/ceaser/
 
 .settingscontainer {
     margin: 0px auto;
-    padding: 8px 12px;
+    padding: 8px 10px;
 }
 
 .option {
-    height: 25px;
-    line-height: 25px;
-    cursor: pointer;
+    height: 30px;
+    width: 224px;
+    margin-top: 5px;
+    line-height:30px;
+    cursor: default;
     border: 1px solid white;
+    border-radius: 2px;
 }
 
 .option:hover {
-    background-color: rgba(245, 245, 245, 0.8);
-    border-radius: 2px;
-    border: 1px solid rgba(227, 227, 227, 0.75);
-    transition-duration: 0.3s;
+    background-color: rgba(253, 253, 253, 1);
+    border: 1px solid rgba(219, 221, 222, 1);
+}
+.option:active {
+    background-color: rgba(245, 245, 245, 1);
+    border: 1px solid rgba(219, 221, 222, 1);
 }
 
 .optiontext {
@@ -182,22 +188,37 @@ http://matthewlein.com/ceaser/
 }
 
 .checkboxicon {
-    margin-top: 3px;
-    position: fixed;
-    left: 15.5px;
+    width: 17px;
+    height: 17px;
+    display: block;
+    background: url(../img/checkbox_ico.svg) no-repeat;
+    background-position: 0 -23px; /*position bg, 0 0px is off*/
+    position: absolute;
+    margin-top: 6px;
+    left: 16px;
 }
+
+.checkboxicon:active {
+    background-position: 0 0px;
+}
+
 
 .hearticon {
-    position: fixed;
-    left: 15px;
-    width: 20px;
-    margin-top: 1px;
+    content: url(../img/heart_ico_settings.svg);
+    position: absolute;
+    width: 17px;
+    height: 17px;
+    left: 16px;
+    margin-top: 6px;
 }
 
-.notesicon {
-    position: fixed;
-    left: 17px;
-    margin-top: 5px;
+.opennotesicon {
+    content: url(../img/open_allnotes_ico.svg);
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    left: 16px;
+    margin-top: 7px;
 }
 
 .favicon {
@@ -251,8 +272,7 @@ http://matthewlein.com/ceaser/
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
-    cursor: default;
     -webkit-transition: all .1s ease-in;
-    cursor: pointer;
+    cursor: default;
     /* background: green; for referencing click area  */
 }
