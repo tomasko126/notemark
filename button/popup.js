@@ -33,7 +33,7 @@ var Sites = {
                 var details = sites[site];
                 self._createSiteUI(details.title, details.faviconUrl, details.url);
             }
-            
+
             // Initialize click handlers
             self.initClickHandlers();
 
@@ -72,6 +72,11 @@ var Sites = {
                     self.addSite(title, faviconUrl, url);
                 }
             });
+        });
+
+        // Settings icon click event
+        $(".settingsicon").click(function(event) {
+            $(".settings").slideToggle();
         });
         
         // Site title click event
