@@ -4,7 +4,7 @@ var Sites = {
     _items: 0,
     _createSiteUI: function(title, faviconUrl, url, custom) {
         var top = custom ? -45 : -1;
-        $(".options").after(
+        $(".settings").after(
             "<div class='site' style='margin-top:" + top.toString() + "px;' data-id='" + this._items + "'>" +
                 "<div class='faviconcontainer'>" +
                     "<img class='favicon' src='" + faviconUrl + "'>" +
@@ -75,7 +75,7 @@ var Sites = {
         });
 
         // Settings icon click event
-        $(".settingsicon").click(function(event) {
+        $(".settingsicon").unbind().click(function(event) {
             $(".settings").slideToggle({ duration: 250, easing: 'easeOutExpo'});
         });
         
