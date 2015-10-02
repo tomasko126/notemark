@@ -4,7 +4,7 @@ var Sites = {
     _items: 0,
     _createSiteUI: function(title, faviconUrl, url, custom) {
         var top = custom ? -45 : -1;
-        $(".settings").after(
+        $(".deck").prepend(
             "<div class='site' style='margin-top:" + top.toString() + "px;' data-id='" + this._items + "'>" +
                 "<div class='faviconcontainer'>" +
                     "<img class='favicon' src='" + faviconUrl + "'>" +
