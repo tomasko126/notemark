@@ -29,7 +29,7 @@ http://matthewlein.com/ceaser/
     height: 55px;
     top: 0px;
     background: #fff;
-    border-bottom: 2px solid #DF705A;
+    border-bottom: 2px solid #ff646c;
 }
 
 .footnote {
@@ -123,7 +123,7 @@ http://matthewlein.com/ceaser/
 }
 
 .heart:hover {
-   stroke: #e5694d;
+   stroke: #ff646c;
    -webkit-animation:heartbeat .35s ease-in-out;
    -webkit-animation-iteration-count: 2;
 }
@@ -139,8 +139,8 @@ http://matthewlein.com/ceaser/
 
 .heart-red {
     stroke: none;
-    fill: #e5694d;
-    opacity: 0.8;
+    fill: #ff646c;
+    -webkit-transform: translateZ(0) scale(1.0001);
 }
 
 .img {
