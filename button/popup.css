@@ -170,7 +170,7 @@ http://matthewlein.com/ceaser/
     width: 224px;
     margin-top: 5px;
     line-height:30px;
-    cursor: default;
+    cursor: pointer;
     border: 1px solid white;
     border-radius: 2px;
 }
