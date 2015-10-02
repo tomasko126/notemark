@@ -53,15 +53,16 @@ var Sites = {
                 var tab = info[0];
                 var title = tab.title;
                 var faviconUrl = null;
+                // TODO: Move faviconurl logic inside of self.addSite
                 if (tab.favIconUrl) {
                     // Chrome throws an error, when bookmarking chrome://extensions
                     if (tab.favIconUrl.indexOf("chrome://theme") > -1) {
-                        faviconUrl = chrome.runtime.getURL("/img/favicon.png");
+                        faviconUrl = chrome.runtime.getURL("../img/favicon.png");
                     } else {
                         faviconUrl = tab.favIconUrl;
                     }
                 } else {
-                    faviconUrl = chrome.runtime.getURL("/img/favicon.png");
+                    faviconUrl = chrome.runtime.getURL("../img/favicon.png");
                 }
                 var url = tab.url;
                 // Add or remove a note?
@@ -77,6 +78,34 @@ var Sites = {
         // Settings icon click event
         $(".settingsicon").unbind().click(function(event) {
             $(".settings").slideToggle({ duration: 250, easing: 'easeOutExpo'});
+        });
+        
+        // "Open in new tab" checkbox
+        $("#checkboxoption").unbind().click(function(event) {
+            var checked = $(this).is(":checked");
+            console.log(checked);
+        });
+
+        // Add current tabs to notes
+        $("#addnotesoption").unbind().click(function(event) {
+            chrome.tabs.getAllInWindow(function(tabs) {
+                console.log(tabs);
+                for (var tab in tabs) {
+                    self.addSite(tabs[tab].title, tabs[tab].favIconUrl, tabs[tab].url);
+                }
+            });
+        });
+
+        // Open all notes
+        $("#opennotesoption").unbind().click(function(event) {
+            var sites = $(".sitetitle");
+            if (!sites) {
+                return;
+            }
+            for (var i=0; i<sites.length; i++) {
+                var url = $(sites[i]).data().href;
+                chrome.tabs.create({ url: url });
+            }
         });
         
         // Site title click event
