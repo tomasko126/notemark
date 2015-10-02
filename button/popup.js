@@ -28,6 +28,7 @@ var Sites = {
         chrome.storage.local.get("sites", function(storage) {
             var sites = storage["sites"];
 
+            // Add existing notes to deck
             for (var site in sites) {
                 self._items++;
                 var details = sites[site];
@@ -42,6 +43,9 @@ var Sites = {
 
             // Update number of saved notes
             self.updateFooterText();
+
+            // Update "Open in new tab" checkbox
+            self.updateCheckBox();
         });
     },
     initClickHandlers: function() {
@@ -82,16 +86,17 @@ var Sites = {
         
         // "Open in new tab" checkbox
         $("#checkboxoption").unbind().click(function(event) {
-            var checked = $(this).is(":checked");
-            console.log(checked);
+            var checked = $(".checkboxicon").hasClass("enabled");
+            chrome.storage.local.set({ settings: { openInNewTab: !checked } }, function() {
+                self.updateCheckBox();
+            });
         });
 
         // Add current tabs to notes
         $("#addnotesoption").unbind().click(function(event) {
-            chrome.tabs.getAllInWindow(function(tabs) {
-                console.log(tabs);
-                for (var tab in tabs) {
-                    self.addSite(tabs[tab].title, tabs[tab].favIconUrl, tabs[tab].url);
+            chrome.tabs.query({ currentWindow: true }, function(tabs) {
+                for (var tab of tabs) {
+                    self.addSite(tab.title, tab.favIconUrl, tab.url);
                 }
             });
         });
@@ -111,7 +116,12 @@ var Sites = {
         // Site title click event
         $(".sitetitle").unbind().click(function(event) {
             var url = event.target.dataset.href;
-            chrome.tabs.create({ url:url });
+            var checked = $(".checkboxicon").hasClass("enabled");
+            if (checked) {
+                chrome.tabs.create({ url: url });
+            } else {
+                chrome.windows.create({ url: url, focused: true });
+            }
         });
 
         // Remove button click event
@@ -224,6 +234,16 @@ var Sites = {
     },
     getElement: function(url) {
         return $("[data-href='" + url + "']").parent();
+    },
+    updateCheckBox: function() {
+        chrome.storage.local.get("settings", function(data) {
+            var openInNewTab = data.settings.openInNewTab;
+            if (openInNewTab) {
+                $(".checkboxicon").css("background-position", "0px -23px").addClass("enabled").removeClass("disabled");
+            } else {
+                $(".checkboxicon").css("background-position", "0px 0px").addClass("disabled").removeClass("enabled");
+            }
+        });
     },
     updateIconState: function() {
         var self = this;
