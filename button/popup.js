@@ -107,9 +107,14 @@ var Sites = {
             if (!sites) {
                 return;
             }
+            var checked = $(".checkboxicon").hasClass("enabled");
             for (var i=0; i<sites.length; i++) {
                 var url = $(sites[i]).data().href;
-                chrome.tabs.create({ url: url });
+                if (checked) {
+                    chrome.tabs.create({ url: url });
+                } else {
+                    chrome.windows.create({ url: url, focused: true });
+                }
             }
         });
         
