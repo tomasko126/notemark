@@ -29,7 +29,7 @@ http://matthewlein.com/ceaser/
     height: 55px;
     top: 0px;
     background: #fff;
-    border-bottom: 2px solid #DF705A;
+    border-bottom: 1px solid #e3e3e3;
 }
 
 .footnote {
@@ -70,7 +70,7 @@ http://matthewlein.com/ceaser/
 .logotype { /* extention name text */
     width: 85px;
     margin-top: 21px;
-    content: url(../img/notemarklogotype.svg);
+    content:url(../img/notemarklogotype.svg);
     display: inline-block;
     left: 15px;
     position: absolute;
@@ -81,6 +81,7 @@ http://matthewlein.com/ceaser/
     margin-top: 5px;
     padding: 10px;
     position: absolute;
+    display: none;
     right: 63px;
     content:url(../img/settings.svg);
     -webkit-filter: grayscale(100%);
@@ -100,7 +101,7 @@ http://matthewlein.com/ceaser/
     -webkit-filter: grayscale(100%);
     -webkit-transition-duration: 0s;
 }
-.heart { 
+.hearticon { 
     /* calls directly to svg */
     stroke-width: 1.1;
     stroke: #a3a09d;
@@ -122,13 +123,13 @@ http://matthewlein.com/ceaser/
     60% { -webkit-transform: translateZ(0) scale(1.12);}
 }
 
-.heart:hover {
+.hearticon:hover {
    stroke: #e5694d;
    -webkit-animation:heartbeat .35s ease-in-out;
    -webkit-animation-iteration-count: 2;
 }
 
-.heart:active {
+.hearticon:active {
     fill: #a3a09d; 
     stroke: none;
     opacity: 0.7;
@@ -137,7 +138,7 @@ http://matthewlein.com/ceaser/
     -webkit-animation: heartbeat 0s; /* cancel heartbeat animation */
 }
 
-.heart-red {
+.hearticon-red {
     stroke: none;
     fill: #e5694d;
     opacity: 0.8;
@@ -147,57 +148,6 @@ http://matthewlein.com/ceaser/
     display: block;
     margin: 5px 8px;
     width: 25px;
-}
-
-.settings {
-    height: 95px;
-    background: white;
-    width: 100%;
-    display: none;
-    border-bottom: 1px solid #e3e3e3;
-}
-
-.settingscontainer {
-    margin: 0px auto;
-    padding: 8px 12px;
-}
-
-.option {
-    height: 25px;
-    line-height: 25px;
-    cursor: pointer;
-    border: 1px solid white;
-}
-
-.option:hover {
-    background-color: rgba(245, 245, 245, 0.8);
-    border-radius: 2px;
-    border: 1px solid rgba(227, 227, 227, 0.75);
-    transition-duration: 0.3s;
-}
-
-.optiontext {
-    position: relative;
-    left: 42px;
-}
-
-.checkboxicon {
-    margin-top: 3px;
-    position: fixed;
-    left: 15.5px;
-}
-
-.hearticon {
-    position: fixed;
-    left: 15px;
-    width: 20px;
-    margin-top: 1px;
-}
-
-.notesicon {
-    position: fixed;
-    left: 17px;
-    margin-top: 5px;
 }
 
 .favicon {

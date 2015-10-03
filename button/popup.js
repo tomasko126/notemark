@@ -33,7 +33,7 @@ var Sites = {
                 var details = sites[site];
                 self._createSiteUI(details.title, details.faviconUrl, details.url);
             }
-
+            
             // Initialize click handlers
             self.initClickHandlers();
 
@@ -65,18 +65,13 @@ var Sites = {
                 }
                 var url = tab.url;
                 // Add or remove a note?
-                if ($("#addbtn").hasClass("heart-red")) {
+                if ($("#addbtn").hasClass("hearticon-red")) {
                     var elem = self.getElement(url);
                     self.removeSite(url, elem);
                 } else {
                     self.addSite(title, faviconUrl, url);
                 }
             });
-        });
-
-        // Settings icon click event
-        $(".settingsicon").click(function(event) {
-            $(".settings").slideToggle();
         });
         
         // Site title click event
@@ -204,15 +199,15 @@ var Sites = {
             self.checkSite(url, function(allowed) {
                 // If site has already been added
                 if (!allowed) {
-                    $("#addbtn").addClass("heart-red");
+                    $("#addbtn").addClass("hearticon-red");
                     $("#addbtn").mouseleave(function() {
-                        $(this).addClass("heart-red");
+                        $(this).addClass("hearticon-red");
                     });
                 // If site hasn't been added yet
                 } else {
-                    $("#addbtn").removeClass("heart-red");
+                    $("#addbtn").removeClass("hearticon-red");
                     $("#addbtn").mouseleave(function() {
-                        $(this).removeClass("heart-red");
+                        $(this).removeClass("hearticon-red");
                     });
                 }
             });
