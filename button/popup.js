@@ -4,7 +4,7 @@ var Sites = {
     _items: 0,
     _createSiteUI: function(title, faviconUrl, url, custom) {
         var top = custom ? -45 : -1;
-        $(".deck").prepend(
+        $(".options").after(
             "<div class='site' style='margin-top:" + top.toString() + "px;' data-id='" + this._items + "'>" +
                 "<div class='faviconcontainer'>" +
                     "<img class='favicon' src='" + faviconUrl + "'>" +
@@ -28,13 +28,12 @@ var Sites = {
         chrome.storage.local.get("sites", function(storage) {
             var sites = storage["sites"];
 
-            // Add existing notes to deck
             for (var site in sites) {
                 self._items++;
                 var details = sites[site];
                 self._createSiteUI(details.title, details.faviconUrl, details.url);
             }
-
+            
             // Initialize click handlers
             self.initClickHandlers();
 
@@ -43,9 +42,6 @@ var Sites = {
 
             // Update number of saved notes
             self.updateFooterText();
-
-            // Update "Open in new tab" checkbox
-            self.updateCheckBox();
         });
     },
     initClickHandlers: function() {
@@ -57,20 +53,19 @@ var Sites = {
                 var tab = info[0];
                 var title = tab.title;
                 var faviconUrl = null;
-                // TODO: Move faviconurl logic inside of self.addSite
                 if (tab.favIconUrl) {
                     // Chrome throws an error, when bookmarking chrome://extensions
                     if (tab.favIconUrl.indexOf("chrome://theme") > -1) {
-                        faviconUrl = chrome.runtime.getURL("../img/favicon.png");
+                        faviconUrl = chrome.runtime.getURL("/img/favicon.png");
                     } else {
                         faviconUrl = tab.favIconUrl;
                     }
                 } else {
-                    faviconUrl = chrome.runtime.getURL("../img/favicon.png");
+                    faviconUrl = chrome.runtime.getURL("/img/favicon.png");
                 }
                 var url = tab.url;
                 // Add or remove a note?
-                if ($("#addbtn").hasClass("heart-red")) {
+                if ($("#addbtn").hasClass("hearticon-red")) {
                     var elem = self.getElement(url);
                     self.removeSite(url, elem);
                 } else {
@@ -78,55 +73,11 @@ var Sites = {
                 }
             });
         });
-
-        // Settings icon click event
-        $(".settingsicon").unbind().click(function(event) {
-            $(".settings").slideToggle({ duration: 250, easing: 'easeOutExpo'});
-        });
-        
-        // "Open in new tab" checkbox
-        $("#checkboxoption").unbind().click(function(event) {
-            var checked = $(".checkboxicon").hasClass("enabled");
-            chrome.storage.local.set({ settings: { openInNewTab: !checked } }, function() {
-                self.updateCheckBox();
-            });
-        });
-
-        // Add current tabs to notes
-        $("#addnotesoption").unbind().click(function(event) {
-            chrome.tabs.query({ currentWindow: true }, function(tabs) {
-                for (var tab of tabs) {
-                    self.addSite(tab.title, tab.favIconUrl, tab.url);
-                }
-            });
-        });
-
-        // Open all notes
-        $("#opennotesoption").unbind().click(function(event) {
-            var sites = $(".sitetitle");
-            if (!sites) {
-                return;
-            }
-            var checked = $(".checkboxicon").hasClass("enabled");
-            for (var i=0; i<sites.length; i++) {
-                var url = $(sites[i]).data().href;
-                if (checked) {
-                    chrome.tabs.create({ url: url });
-                } else {
-                    chrome.windows.create({ url: url, focused: true });
-                }
-            }
-        });
         
         // Site title click event
         $(".sitetitle").unbind().click(function(event) {
             var url = event.target.dataset.href;
-            var checked = $(".checkboxicon").hasClass("enabled");
-            if (checked) {
-                chrome.tabs.create({ url: url });
-            } else {
-                chrome.windows.create({ url: url, focused: true });
-            }
+            chrome.tabs.create({ url:url });
         });
 
         // Remove button click event
@@ -240,16 +191,6 @@ var Sites = {
     getElement: function(url) {
         return $("[data-href='" + url + "']").parent();
     },
-    updateCheckBox: function() {
-        chrome.storage.local.get("settings", function(data) {
-            var openInNewTab = data.settings.openInNewTab;
-            if (openInNewTab) {
-                $(".checkboxicon").css("background-position", "0px -23px").addClass("enabled").removeClass("disabled");
-            } else {
-                $(".checkboxicon").css("background-position", "0px 0px").addClass("disabled").removeClass("enabled");
-            }
-        });
-    },
     updateIconState: function() {
         var self = this;
         self.getCurrentTabInfo(function(info) {
@@ -258,15 +199,15 @@ var Sites = {
             self.checkSite(url, function(allowed) {
                 // If site has already been added
                 if (!allowed) {
-                    $("#addbtn").addClass("heart-red");
+                    $("#addbtn").addClass("hearticon-red");
                     $("#addbtn").mouseleave(function() {
-                        $(this).addClass("heart-red");
+                        $(this).addClass("hearticon-red");
                     });
                 // If site hasn't been added yet
                 } else {
-                    $("#addbtn").removeClass("heart-red");
+                    $("#addbtn").removeClass("hearticon-red");
                     $("#addbtn").mouseleave(function() {
-                        $(this).removeClass("heart-red");
+                        $(this).removeClass("hearticon-red");
                     });
                 }
             });
