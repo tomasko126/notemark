@@ -87,6 +87,7 @@ http://matthewlein.com/ceaser/
     -webkit-transform: rotate(0deg);
     opacity: .55;
     cursor: pointer;
+    display: none;
 }
 
 .settingsicon:hover {
