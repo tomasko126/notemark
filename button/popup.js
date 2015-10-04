@@ -1,5 +1,4 @@
-var BG = chrome.extension.getBackgroundPage();
-
+// Main Sites object, which includes methods for adding/removing site etc.
 var Sites = {
     _items: 0,
     _createSiteUI: function(title, faviconUrl, url, custom) {
@@ -320,4 +319,5 @@ var Sites = {
     }
 }
 
+// Initialize Notemark
 Sites.init();
