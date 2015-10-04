@@ -1,5 +1,5 @@
 body {
-    margin: 0px;
+    margin: 0;
     -webkit-user-select: none;
     background-color: whitesmoke;
 }
@@ -27,7 +27,7 @@ http://matthewlein.com/ceaser/
 
 .header { /* this is where the ext name, gear and heart icon sit */
     height: 55px;
-    top: 0px;
+    top: 0;
     background: #fff;
     border-bottom: 2px solid #ff646c;
 }
@@ -35,7 +35,7 @@ http://matthewlein.com/ceaser/
 .footnote {
     width: 100%;
     height: 55px;
-    bottom: 0px;
+    bottom: 0;
     color: #959595;
     padding-left: 15px;
     line-height: 57px;
@@ -162,7 +162,7 @@ http://matthewlein.com/ceaser/
 }
 
 .settingscontainer {
-    margin: 0px auto;
+    margin: 0 auto;
     padding: 8px 10px;
 }
 
@@ -170,7 +170,7 @@ http://matthewlein.com/ceaser/
     height: 30px;
     width: 224px;
     margin-top: 5px;
-    line-height:30px;
+    line-height: 30px;
     cursor: pointer;
     border: 1px solid white;
     border-radius: 2px;
@@ -256,8 +256,8 @@ http://matthewlein.com/ceaser/
 
 .removenote2 {
    transition: 0.3s cubic-bezier(0.075, 0.820, 0.165, 1.000); /* easeOutCirc */;
-   height: 0px;
-   padding: 0px;
+   height: 0;
+   padding: 0;
    border: none;
 }
 
@@ -270,7 +270,7 @@ http://matthewlein.com/ceaser/
     display: block;
     left: -10px;
     position: inherit;
-    padding: 10px 0px 0px 15px;
+    padding: 10px 0 0 15px;
     text-align: left;
     text-overflow: ellipsis;
     overflow: hidden;
