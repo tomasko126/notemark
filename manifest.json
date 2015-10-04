@@ -1,11 +1,6 @@
 {
   "name": "Notemark",
   "version": "2.1.1",
-  "background": {
-    "scripts": [
-      "background.js"
-    ]
-  },
   "browser_action": {
   "default_icon": {
     "19": "img/notemark-id-ico19x19.png",
