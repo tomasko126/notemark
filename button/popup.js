@@ -50,7 +50,7 @@ var Sites = {
     initClickHandlers: function() {
         var self = this;
         // "Heart" button click event
-        $("#addbtn").unbind().click(function(event) {
+        $("#addbtn").unbind().click(function() {
             // Get info about current tab
             self.getCurrentTabInfo(function(info) {
                 var tab = info[0];
@@ -79,12 +79,12 @@ var Sites = {
         });
 
         // Settings icon click event
-        $(".settingsicon").unbind().click(function(event) {
+        $(".settingsicon").unbind().click(function() {
             $(".settings").slideToggle({ duration: 250, easing: 'easeOutExpo'});
         });
         
         // "Open in new tab" checkbox
-        $("#checkboxoption").unbind().click(function(event) {
+        $("#checkboxoption").unbind().click(function() {
             var checked = $(".checkboxicon").hasClass("enabled");
             chrome.storage.local.set({ settings: { openInNewTab: !checked } }, function() {
                 self.updateCheckBox();
@@ -92,7 +92,7 @@ var Sites = {
         });
 
         // Add current tabs to notes
-        $("#addnotesoption").unbind().click(function(event) {
+        $("#addnotesoption").unbind().click(function() {
             chrome.tabs.query({ currentWindow: true }, function(tabs) {
                 for (var tab of tabs) {
                     self.addSite(tab.title, tab.favIconUrl, tab.url);
@@ -101,7 +101,7 @@ var Sites = {
         });
 
         // Open all notes
-        $("#opennotesoption").unbind().click(function(event) {
+        $("#opennotesoption").unbind().click(function() {
             var sites = $(".sitetitle");
             if (!sites) {
                 return;
@@ -134,17 +134,6 @@ var Sites = {
           var url = event.currentTarget.parentElement.nextSibling.dataset.href;
           self.removeSite(url, elem); 
         });
-
-        /* DISABLE site click EXPANDSION
-        $(".site").click(function(event) {
-            if ($(this).height() === 75) {
-                $(this).css("height", "40px");
-            } else {
-                $(this).css("height", "75px");
-            }
-            //console.log($(this).height());
-            
-        }); */
     },
     addSite: function(title, faviconUrl, url) {
         var self = this;
