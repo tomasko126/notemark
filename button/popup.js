@@ -19,7 +19,7 @@ var Sites = {
 
         // Animate an added note
         if (custom) {
-            $("[data-id='" + this._items.toString() + "']").animate({ marginTop: "-1px" }, { duration: 300, easing: 'easeOutExpo'});
+            $("[data-id='" + this._items.toString() + "']").animate({ marginTop: "-1px" }, { duration: 300, easing: "easeOutExpo"});
         }
     },
     init: function() {
@@ -80,7 +80,7 @@ var Sites = {
 
         // Settings icon click event
         $(".settingsicon").unbind().click(function() {
-            $(".settings").slideToggle({ duration: 250, easing: 'easeOutExpo'});
+            $(".settings").slideToggle({ duration: 250, easing: "easeOutExpo"});
         });
         
         // "Open in new tab" checkbox
@@ -159,7 +159,7 @@ var Sites = {
                 self.updateFooterText();
 
                 // Scroll to the top to see latest note
-                $(".deck").animate({ scrollTop: 0 }, { duration: 150, easing: 'easeOutExpo'}); 
+                $(".deck").animate({ scrollTop: 0 }, { duration: 150, easing: "easeOutExpo"}); 
             });
         });
     },
@@ -306,7 +306,7 @@ var Sites = {
 
         $(".footnote").text(items + notetext + " \u2014 " + text);
     }
-}
+};
 
 // Initialize Notemark
 Sites.init();
