@@ -13,6 +13,6 @@
   "incognito": "spanning",
   "manifest_version": 2,
   "permissions": [
-    "activeTab", "storage"
+    "tabs", "storage"
   ]
 }

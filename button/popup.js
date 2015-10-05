@@ -54,26 +54,12 @@ var Sites = {
             // Get info about current tab
             self.getCurrentTabInfo(function(info) {
                 var tab = info[0];
-                var title = tab.title;
-                var faviconUrl = null;
-                // TODO: Move faviconurl logic inside of self.addSite
-                if (tab.favIconUrl) {
-                    // Chrome throws an error, when bookmarking chrome://extensions
-                    if (tab.favIconUrl.indexOf("chrome://theme") > -1) {
-                        faviconUrl = chrome.runtime.getURL("../img/favicon.png");
-                    } else {
-                        faviconUrl = tab.favIconUrl;
-                    }
-                } else {
-                    faviconUrl = chrome.runtime.getURL("../img/favicon.png");
-                }
-                var url = tab.url;
                 // Add or remove a note?
                 if ($("#addbtn").hasClass("heart-red")) {
-                    var elem = self.getElement(url);
-                    self.removeSite(url, elem);
+                    var elem = self.getElement(tab.url);
+                    self.removeSite(tab.url, elem);
                 } else {
-                    self.addSite(title, faviconUrl, url);
+                    self.addSite(tab);
                 }
             });
         });
@@ -95,7 +81,7 @@ var Sites = {
         $("#addnotesoption").unbind().click(function() {
             chrome.tabs.query({ currentWindow: true }, function(tabs) {
                 for (var tab of tabs) {
-                    self.addSite(tab.title, tab.favIconUrl, tab.url);
+                    self.addSite(tab);
                 }
             });
         });
@@ -129,23 +115,27 @@ var Sites = {
         });
 
         // Remove button click event
-        $(".removebtn").unbind().click(function() {
+        $(".removebtn").unbind().click(function(event) {
           var elem = event.currentTarget.parentElement.parentElement;
           var url = event.currentTarget.parentElement.nextSibling.dataset.href;
           self.removeSite(url, elem); 
         });
     },
-    addSite: function(title, faviconUrl, url) {
+    addSite: function(tab) {
         var self = this;
-        this.checkSite(url, function(allowed) {
+        this.checkSite(tab.url, function(allowed) {
             if (!allowed) {
                 return;
             }
             self._items++;
-            self._createSiteUI(title, faviconUrl, url, true);
+            // Get a favicon properly
+            if (!tab.favIconUrl || tab.favIconUrl.indexOf("chrome://theme") > -1) {
+                tab.favIconUrl = chrome.runtime.getURL("../img/favicon.png");
+            }
+            self._createSiteUI(tab.title, tab.favIconUrl, tab.url, true);
             chrome.storage.local.get("sites", function(storage) {
                 var storage = storage["sites"];
-                var site = { title: title, faviconUrl: faviconUrl, url: url };
+                var site = { title: tab.title, faviconUrl: tab.favIconUrl, url: tab.url };
                 if (!storage) {
                     var arr = [];
                     arr.push(site);
@@ -169,22 +159,20 @@ var Sites = {
             callback(false);
             return;
         }
-        chrome.storage.local.get("sites", function(storage) {
-            var sites = storage["sites"];
-            if (!sites) {
-                callback(true);
-                return;
+        var sites = $(".sitetitle");
+        if (!sites) {
+            callback(false);
+            return;
+        }
+        var allowed = true;
+        for (var i=0; i<sites.length; i++) {
+            var siteUrl = $(sites[i]).data().href;
+            if (siteUrl === url) {
+                allowed = false;
+                break;
             }
-            var allowed = true;
-            for (var site in sites) {
-                var details = sites[site];
-                if (details.url === url) {
-                    allowed = false;
-                    break;
-                }
-            }
-            callback(allowed);
-        });
+        }
+        callback(allowed);
     },
     removeSite: function(url, elem) {
         var self = this;
