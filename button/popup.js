@@ -11,7 +11,7 @@ var Sites = {
                 "</div>" +
                 "<div class='sitetitle' data-href='" + url + "' title='" + title + "'>" + title + "</div>" +
                 "<div class='siteoptions'>" +
-                    "<div class='siteoptionleft'></div>" + 
+                    "<div class='siteoptionleft'></div>" +
                     "<div class='siteoptionright'></div>" +
                 "</div>" +
             "</div>"
@@ -68,7 +68,7 @@ var Sites = {
         $(".settingsicon").unbind().click(function() {
             $(".settings").slideToggle({ duration: 250, easing: "easeOutExpo"});
         });
-        
+
         // "Open in new tab" checkbox
         $("#checkboxoption").unbind().click(function() {
             var checked = $(".checkboxicon").hasClass("enabled");
@@ -102,7 +102,7 @@ var Sites = {
                 }
             }
         });
-        
+
         // Site title click event
         $(".sitetitle").unbind().click(function(event) {
             var url = event.target.dataset.href;
@@ -118,7 +118,7 @@ var Sites = {
         $(".removebtn").unbind().click(function(event) {
           var elem = event.currentTarget.parentElement.parentElement;
           var url = event.currentTarget.parentElement.nextSibling.dataset.href;
-          self.removeSite(url, elem); 
+          self.removeSite(url, elem);
         });
     },
     addSite: function(tab) {
@@ -149,7 +149,7 @@ var Sites = {
                 self.updateFooterText();
 
                 // Scroll to the top to see latest note
-                $(".deck").animate({ scrollTop: 0 }, { duration: 150, easing: "easeOutExpo"}); 
+                $(".deck").animate({ scrollTop: 0 }, { duration: 150, easing: "easeOutExpo"});
             });
         });
     },
@@ -188,7 +188,7 @@ var Sites = {
             chrome.storage.local.set({sites: sites}, function() {
                 // Begin removal animation
                 $(elem).addClass("removenote");
-                
+
                 // Update icon
                 self.updateIconState();
 
@@ -218,7 +218,7 @@ var Sites = {
     },
     updateCheckBox: function() {
         chrome.storage.local.get("settings", function(data) {
-            var openInNewTab = data.settings.openInNewTab;
+            var openInNewTab = data && data.setting && data.settings.openInNewTab;
             if (openInNewTab) {
                 $(".checkboxicon").css("background-position", "0px -23px").addClass("enabled").removeClass("disabled");
             } else {
@@ -246,7 +246,7 @@ var Sites = {
                     });
                 }
             });
-        });  
+        });
     },
     updateScrollbarState: function() {
         if (this._items < 9) {
@@ -262,7 +262,7 @@ var Sites = {
         // Update footer text
         var items = this._items;
         var text = null;
-        
+
         if (items < 3) {
             text = "that's kind of Zen";
         } else if (items < 6) {
@@ -280,16 +280,16 @@ var Sites = {
         } else if (items < 60) {
             text = "still checking these?";
         } else if (items < 70) {
-            text = "that's 3 hours of browsing";   
+            text = "that's 3 hours of browsing";
         } else if (items < 90) {
-            text = "let's see, where were we?";   
+            text = "let's see, where were we?";
         } else {
             text = "Notemark loves you back";
         }
-        
+
         var notetext = " notes";
         if (items === 1) {
-           notetext = " note"; 
+           notetext = " note";
         }
 
         $(".footnote").text(items + notetext + " \u2014 " + text);
