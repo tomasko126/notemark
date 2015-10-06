@@ -189,9 +189,6 @@ var Sites = {
                 // Begin removal animation
                 $(elem).addClass("removenote");
 
-                // Update icon
-                self.updateIconState();
-
                 // When removal animation ends, add top up animation
                 // TODO: Don't use setTimeout, switch to jQuery/CSS animations
                 setTimeout(function() {
@@ -204,6 +201,7 @@ var Sites = {
                 setTimeout(function() {
                    $(elem).remove();
                    self.updateFooterText();
+                   self.updateIconState();
                 }, 600);
             });
         });
