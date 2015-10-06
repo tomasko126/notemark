@@ -11,7 +11,7 @@ var Sites = {
                 "</div>" +
                 "<div class='sitetitle' data-href='" + url + "' title='" + title + "'>" + title + "</div>" +
                 "<div class='siteoptions'>" +
-                    "<div class='siteoptionleft'></div>" + 
+                    "<div class='siteoptionleft'></div>" +
                     "<div class='siteoptionright'></div>" +
                 "</div>" +
             "</div>"
@@ -54,26 +54,12 @@ var Sites = {
             // Get info about current tab
             self.getCurrentTabInfo(function(info) {
                 var tab = info[0];
-                var title = tab.title;
-                var faviconUrl = null;
-                // TODO: Move faviconurl logic inside of self.addSite
-                if (tab.favIconUrl) {
-                    // Chrome throws an error, when bookmarking chrome://extensions
-                    if (tab.favIconUrl.indexOf("chrome://theme") > -1) {
-                        faviconUrl = chrome.runtime.getURL("../img/favicon.png");
-                    } else {
-                        faviconUrl = tab.favIconUrl;
-                    }
-                } else {
-                    faviconUrl = chrome.runtime.getURL("../img/favicon.png");
-                }
-                var url = tab.url;
                 // Add or remove a note?
                 if ($("#addbtn").hasClass("heart-red")) {
-                    var elem = self.getElement(url);
-                    self.removeSite(url, elem);
+                    var elem = self.getElement(tab.url);
+                    self.removeSite(tab.url, elem);
                 } else {
-                    self.addSite(title, faviconUrl, url);
+                    self.addSite(tab);
                 }
             });
         });
@@ -82,7 +68,7 @@ var Sites = {
         $(".settingsicon").unbind().click(function() {
             $(".settings").slideToggle({ duration: 250, easing: "easeOutExpo"});
         });
-        
+
         // "Open in new tab" checkbox
         $("#checkboxoption").unbind().click(function() {
             var checked = $(".checkboxicon").hasClass("enabled");
@@ -95,7 +81,7 @@ var Sites = {
         $("#addnotesoption").unbind().click(function() {
             chrome.tabs.query({ currentWindow: true }, function(tabs) {
                 for (var tab of tabs) {
-                    self.addSite(tab.title, tab.favIconUrl, tab.url);
+                    self.addSite(tab);
                 }
             });
         });
@@ -116,7 +102,7 @@ var Sites = {
                 }
             }
         });
-        
+
         // Site title click event
         $(".sitetitle").unbind().click(function(event) {
             var url = event.target.dataset.href;
@@ -129,23 +115,27 @@ var Sites = {
         });
 
         // Remove button click event
-        $(".removebtn").unbind().click(function() {
+        $(".removebtn").unbind().click(function(event) {
           var elem = event.currentTarget.parentElement.parentElement;
           var url = event.currentTarget.parentElement.nextSibling.dataset.href;
-          self.removeSite(url, elem); 
+          self.removeSite(url, elem);
         });
     },
-    addSite: function(title, faviconUrl, url) {
+    addSite: function(tab) {
         var self = this;
-        this.checkSite(url, function(allowed) {
+        this.checkSite(tab.url, function(allowed) {
             if (!allowed) {
                 return;
             }
             self._items++;
-            self._createSiteUI(title, faviconUrl, url, true);
+            // Get a favicon properly
+            if (!tab.favIconUrl || tab.favIconUrl.indexOf("chrome://theme") > -1) {
+                tab.favIconUrl = chrome.runtime.getURL("../img/favicon.png");
+            }
+            self._createSiteUI(tab.title, tab.favIconUrl, tab.url, true);
             chrome.storage.local.get("sites", function(storage) {
                 var storage = storage["sites"];
-                var site = { title: title, faviconUrl: faviconUrl, url: url };
+                var site = { title: tab.title, faviconUrl: tab.favIconUrl, url: tab.url };
                 if (!storage) {
                     var arr = [];
                     arr.push(site);
@@ -159,7 +149,7 @@ var Sites = {
                 self.updateFooterText();
 
                 // Scroll to the top to see latest note
-                $(".deck").animate({ scrollTop: 0 }, { duration: 150, easing: "easeOutExpo"}); 
+                $(".deck").animate({ scrollTop: 0 }, { duration: 150, easing: "easeOutExpo"});
             });
         });
     },
@@ -169,22 +159,20 @@ var Sites = {
             callback(false);
             return;
         }
-        chrome.storage.local.get("sites", function(storage) {
-            var sites = storage["sites"];
-            if (!sites) {
-                callback(true);
-                return;
+        var sites = $(".sitetitle");
+        if (!sites) {
+            callback(false);
+            return;
+        }
+        var allowed = true;
+        for (var i=0; i<sites.length; i++) {
+            var siteUrl = $(sites[i]).data().href;
+            if (siteUrl === url) {
+                allowed = false;
+                break;
             }
-            var allowed = true;
-            for (var site in sites) {
-                var details = sites[site];
-                if (details.url === url) {
-                    allowed = false;
-                    break;
-                }
-            }
-            callback(allowed);
-        });
+        }
+        callback(allowed);
     },
     removeSite: function(url, elem) {
         var self = this;
@@ -200,9 +188,6 @@ var Sites = {
             chrome.storage.local.set({sites: sites}, function() {
                 // Begin removal animation
                 $(elem).addClass("removenote");
-                
-                // Update icon
-                self.updateIconState();
 
                 // When removal animation ends, add top up animation
                 // TODO: Don't use setTimeout, switch to jQuery/CSS animations
@@ -216,6 +201,7 @@ var Sites = {
                 setTimeout(function() {
                    $(elem).remove();
                    self.updateFooterText();
+                   self.updateIconState();
                 }, 600);
             });
         });
@@ -230,7 +216,7 @@ var Sites = {
     },
     updateCheckBox: function() {
         chrome.storage.local.get("settings", function(data) {
-            var openInNewTab = data.settings.openInNewTab;
+            var openInNewTab = data && data.setting && data.settings.openInNewTab;
             if (openInNewTab) {
                 $(".checkboxicon").css("background-position", "0px -23px").addClass("enabled").removeClass("disabled");
             } else {
@@ -258,7 +244,7 @@ var Sites = {
                     });
                 }
             });
-        });  
+        });
     },
     updateScrollbarState: function() {
         if (this._items < 9) {
@@ -274,7 +260,7 @@ var Sites = {
         // Update footer text
         var items = this._items;
         var text = null;
-        
+
         if (items < 3) {
             text = "that's kind of Zen";
         } else if (items < 6) {
@@ -292,16 +278,16 @@ var Sites = {
         } else if (items < 60) {
             text = "still checking these?";
         } else if (items < 70) {
-            text = "that's 3 hours of browsing";   
+            text = "that's 3 hours of browsing";
         } else if (items < 90) {
-            text = "let's see, where were we?";   
+            text = "let's see, where were we?";
         } else {
             text = "Notemark loves you back";
         }
-        
+
         var notetext = " notes";
         if (items === 1) {
-           notetext = " note"; 
+           notetext = " note";
         }
 
         $(".footnote").text(items + notetext + " \u2014 " + text);
