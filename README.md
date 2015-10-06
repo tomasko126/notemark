@@ -1,4 +1,4 @@
-# Notemark [![Codacy Badge](https://api.codacy.com/project/badge/507069a7c3274088a466a7bc8b19a54e)](https://www.codacy.com/app/tomas_2/notemark)
+# Notemark [![Codacy Badge](https://api.codacy.com/project/badge/507069a7c3274088a466a7bc8b19a54e)](https://www.codacy.com/app/tomastaro/notemark)
 Notemark is an extension for Chrome/Opera intended for saving URLs for later visit.
 
 If you want to contribute any improvements, please go ahead and send us a pull request from a fork of this repo!
