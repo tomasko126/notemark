@@ -2,12 +2,21 @@
   "name": "Notemark",
   "version": "2.1.1",
   "browser_action": {
-  "default_icon": {
-    "19": "img/notemark-id-ico19x19.png",
-    "38": "img/notemark-id-ico38x38.png"
-  },
+    "default_icon": {
+      "16": "img/icon16.png",
+      "19": "img/icon19.png",
+      "38": "img/icon38.png",
+      "48": "img/icon48.png"
+    },
     "default_popup": "button/popup.html",
     "default_title": "Sites noted with Notemark"
+  },
+  "icons": {
+    "16": "img/icon16.png",
+    "19": "img/icon19.png",
+    "38": "img/icon38.png",
+    "48": "img/icon48.png",
+    "128": "img/icon128.png"
   },
   "description": "Notemark",
   "incognito": "spanning",
