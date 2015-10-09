@@ -6,7 +6,7 @@ body {
 
 /* css easing tool
 based on Penner's easing equations:
-http://matthewlein.com/ceaser/  
+http://matthewlein.com/ceaser/
 */
 
 .container {
@@ -87,6 +87,7 @@ http://matthewlein.com/ceaser/
     -webkit-transform: rotate(0deg);
     opacity: .55;
     cursor: pointer;
+    display: none;
 }
 
 .settingsicon:hover {
@@ -101,7 +102,7 @@ http://matthewlein.com/ceaser/
     -webkit-filter: grayscale(100%);
     -webkit-transition-duration: 0s;
 }
-.heart { 
+.heart {
     /* calls directly to svg */
     stroke-width: 1.1;
     stroke: #a3a09d;
@@ -131,7 +132,7 @@ http://matthewlein.com/ceaser/
 }
 
 .heart:active {
-    fill: #a3a09d; 
+    fill: #a3a09d;
     stroke: none;
     opacity: 0.7;
     -webkit-transform: scale(0.95);
