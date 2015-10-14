@@ -24,8 +24,14 @@ var Sites = {
     },
     init: function() {
         var self = this;
-        chrome.storage.local.get("sites", function(storage) {
-            var sites = storage["sites"];
+        chrome.storage.local.get(null, function(storage) {
+            var sites = storage.sites;
+            var openInNewTab = storage && storage.settings && storage.settings.openInNewTab;
+
+            // A new installation, open new tabs in current window
+            if (openInNewTab === undefined) {
+                chrome.storage.local.set({ settings: { openInNewTab: true } });
+            }
 
             // Add existing notes to deck
             for (var site in sites) {
@@ -216,7 +222,7 @@ var Sites = {
     },
     updateCheckBox: function() {
         chrome.storage.local.get("settings", function(data) {
-            var openInNewTab = data && data.setting && data.settings.openInNewTab;
+            var openInNewTab = data.settings.openInNewTab;
             if (openInNewTab) {
                 $(".checkboxicon").css("background-position", "0px -23px").addClass("enabled").removeClass("disabled");
             } else {
