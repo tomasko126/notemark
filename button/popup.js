@@ -1,3 +1,5 @@
+"use strict";
+
 // Main Sites object, which includes methods for adding/removing site etc.
 var Sites = {
     _items: 0,
