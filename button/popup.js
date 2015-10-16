@@ -117,8 +117,14 @@ var Sites = {
             if (checked) {
                 chrome.tabs.create({ url: url });
             } else {
-                chrome.windows.create({ url: url, focused: true });
-            }
+                chrome.tabs.query({ active: true }, function(tabs) {
+                    var tab = tabs[0];
+                    chrome.tabs.update(tab.id, { url: url });
+                    // Extension's popup doesn't automatically close,
+                    // so close it manually
+                    window.close();
+                });
+                }
         });
 
         // Remove button click event
