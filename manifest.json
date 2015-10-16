@@ -21,7 +21,7 @@
   "description": "Notemark",
   "incognito": "spanning",
   "manifest_version": 2,
-  "minimum_chrome_version": "38.0",
+  "minimum_chrome_version": "41.0",
   "permissions": [
     "http://*/*", "https://*/*", "tabs", "storage"
   ]
