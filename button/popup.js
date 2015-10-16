@@ -36,9 +36,11 @@ var Sites = {
             }
 
             // Add existing notes to deck
-            for (let site of sites) {
-                self._items++;
-                self._createSiteUI(site.title, site.faviconUrl, site.url);
+            if (sites) {
+                for (let site of sites) {
+                    self._items++;
+                    self._createSiteUI(site.title, site.faviconUrl, site.url);
+                }
             }
 
             // Initialize click handlers
