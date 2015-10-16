@@ -34,7 +34,7 @@ var Sites = {
             }
 
             // Add existing notes to deck
-            for (var site of sites) {
+            for (let site of sites) {
                 self._items++;
                 self._createSiteUI(site.title, site.faviconUrl, site.url);
             }
@@ -85,7 +85,7 @@ var Sites = {
         // Add current tabs to notes
         $("#addnotesoption").unbind().click(function() {
             chrome.tabs.query({ currentWindow: true }, function(tabs) {
-                for (var tab of tabs) {
+                for (let tab of tabs) {
                     self.addSite(tab);
                 }
             });
@@ -98,7 +98,7 @@ var Sites = {
                 return;
             }
             var checked = $(".checkboxicon").hasClass("enabled");
-            for (var i=0; i<sites.length; i++) {
+            for (let i=0; i<sites.length; i++) {
                 var url = $(sites[i]).data().href;
                 if (checked) {
                     chrome.tabs.create({ url: url });
@@ -121,9 +121,9 @@ var Sites = {
 
         // Remove button click event
         $(".removebtn").unbind().click(function(event) {
-          var elem = event.currentTarget.parentElement.parentElement;
-          var url = event.currentTarget.parentElement.nextSibling.dataset.href;
-          self.removeSite(url, elem);
+            var elem = event.currentTarget.parentElement.parentElement;
+            var url = event.currentTarget.parentElement.nextSibling.dataset.href;
+            self.removeSite(url, elem);
         });
     },
     addSite: function(tab) {
@@ -139,16 +139,12 @@ var Sites = {
             }
             self._createSiteUI(tab.title, tab.favIconUrl, tab.url, true);
             chrome.storage.local.get("sites", function(storage) {
-                var storage = storage["sites"];
+                var storage = storage["sites"] || [];
                 var site = { title: tab.title, faviconUrl: tab.favIconUrl, url: tab.url };
-                if (!storage) {
-                    var arr = [];
-                    arr.push(site);
-                    chrome.storage.local.set({sites: arr});
-                } else {
-                    storage.push(site);
-                    chrome.storage.local.set({sites: storage});
-                }
+                // Push site object into storage and save it
+                storage.push(site);
+                chrome.storage.local.set({sites: storage});
+                // Call handlers
                 self.initClickHandlers();
                 self.updateIconState();
                 self.updateFooterText();
@@ -170,7 +166,7 @@ var Sites = {
             return;
         }
         var allowed = true;
-        for (var i=0; i<sites.length; i++) {
+        for (let i=0; i<sites.length; i++) {
             var siteUrl = $(sites[i]).data().href;
             if (siteUrl === url) {
                 allowed = false;
@@ -183,7 +179,7 @@ var Sites = {
         var self = this;
         chrome.storage.local.get("sites", function(storage) {
             var sites = storage["sites"];
-            for (var i=0; i<sites.length; i++) {
+            for (let i=0; i<sites.length; i++) {
                 if (sites[i].url === url) {
                     sites.splice(i, 1);
                     self._items--;
