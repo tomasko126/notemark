@@ -6,7 +6,6 @@ function addSite(tab, callback) {
         if (!allowed) {
             return;
         }
-        items++;
         // Get a favicon properly
         if (!tab.favIconUrl || tab.favIconUrl.indexOf("chrome://theme") > -1) {
             tab.favIconUrl = chrome.runtime.getURL("../img/favicon.png");
@@ -23,7 +22,7 @@ function addSite(tab, callback) {
     });
 }
 
-// Check url, whether it should be added or not
+// Check site's url, whether note should be added or not
 function checkSite(url, callback) {
     // URL may be undefined in some cases, GH #16
     if (url === undefined) {
@@ -58,7 +57,6 @@ function removeSite(url, callback) {
         for (let i=0; i<sites.length; i++) {
             if (sites[i].url === url) {
                 sites.splice(i, 1);
-                items--;
                 break;
             }
         }
