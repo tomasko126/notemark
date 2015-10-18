@@ -12,6 +12,11 @@
     "default_popup": "button/popup.html",
     "default_title": "Sites noted with Notemark"
   },
+  "background": {
+    "scripts": [
+      "background.js"
+    ]
+  },
   "icons": {
     "16": "img/icon16.png",
     "19": "img/icon19.png",
