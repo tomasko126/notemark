@@ -1,9 +1,11 @@
 "use strict";
 
+var BG = chrome.extension.getBackgroundPage();
+
 // Main Sites object, which includes methods for adding/removing site etc.
 var Sites = {
     _items: 0,
-    _createSiteUI: function(title, faviconUrl, url, custom) {
+    createSiteUI: function(title, faviconUrl, url, custom) {
         var top = custom ? -45 : -1;
         $(".deck").prepend(
             "<div class='site' style='margin-top:" + top.toString() + "px;' data-id='" + this._items + "'>" +
@@ -21,8 +23,30 @@ var Sites = {
 
         // Animate an added note
         if (custom) {
-            $("[data-id='" + this._items.toString() + "']").animate({ marginTop: "-1px" }, { duration: 300, easing: "easeOutExpo"});
+            $("[data-id='" + this._items + "']").animate({ marginTop: "-1px" }, { duration: 300, easing: "easeOutExpo"});
         }
+    },
+    removeSiteUI: function(element) {
+        // Begin removal animation
+        $(element).addClass("removenote");
+
+        var self = this;
+        this._items--;
+
+        // When removal animation ends, add top up animation
+        // TODO: Don't use setTimeout, switch to jQuery/CSS animations
+        setTimeout(function() {
+            $(element).addClass("removenote2");
+            var id = $(element).data().id;
+            $("[data-id='" + id + "'] > .sitetitle").css("margin", "0px");
+        }, 400);
+
+        // Remove a note after end of both animations
+        setTimeout(function() {
+            $(element).remove();
+            self.updateFooterText();
+            self.updateIconState();
+        }, 600);
     },
     init: function() {
         var self = this;
@@ -39,7 +63,7 @@ var Sites = {
             if (sites) {
                 for (let site of sites) {
                     self._items++;
-                    self._createSiteUI(site.title, site.faviconUrl, site.url);
+                    self.createSiteUI(site.title, site.faviconUrl, site.url);
                 }
             }
 
@@ -61,14 +85,26 @@ var Sites = {
         // "Heart" button click event
         $("#addbtn").unbind().click(function() {
             // Get info about current tab
-            self.getCurrentTabInfo(function(info) {
+            BG.getCurrentTabInfo(function(info) {
                 var tab = info[0];
                 // Add or remove a note?
                 if ($("#addbtn").hasClass("heart-red")) {
                     var elem = self.getElement(tab.url);
-                    self.removeSite(tab.url, elem);
+                    BG.removeSite(tab.url, function() {
+                        self.removeSiteUI(elem);
+                    });
                 } else {
-                    self.addSite(tab);
+                    BG.addSite(tab, function() {
+                        self._items++;
+                        self.createSiteUI(tab.title, tab.favIconUrl, tab.url, true);
+                        // Call handlers
+                        self.initClickHandlers();
+                        self.updateIconState();
+                        self.updateFooterText();
+
+                        // Scroll to the top to see latest note
+                        $(".deck").animate({ scrollTop: 0 }, { duration: 150, easing: "easeOutExpo"});
+                    });
                 }
             });
         });
@@ -90,7 +126,17 @@ var Sites = {
         $("#addnotesoption").unbind().click(function() {
             chrome.tabs.query({ currentWindow: true }, function(tabs) {
                 for (let tab of tabs) {
-                    self.addSite(tab);
+                    BG.addSite(tab, function() {
+                        self._items++;
+                        self.createSiteUI(tab.title, tab.favIconUrl, tab.url, true);
+                        // Call handlers
+                        self.initClickHandlers();
+                        self.updateIconState();
+                        self.updateFooterText();
+
+                        // Scroll to the top to see latest note
+                        $(".deck").animate({ scrollTop: 0 }, { duration: 150, easing: "easeOutExpo"});
+                    });
                 }
             });
         });
@@ -126,100 +172,16 @@ var Sites = {
                     // so close it manually
                     window.close();
                 });
-                }
+            }
         });
 
         // Remove button click event
         $(".removebtn").unbind().click(function(event) {
             var elem = event.currentTarget.parentElement.parentElement;
             var url = event.currentTarget.parentElement.nextSibling.dataset.href;
-            self.removeSite(url, elem);
-        });
-    },
-    addSite: function(tab) {
-        var self = this;
-        this.checkSite(tab.url, function(allowed) {
-            if (!allowed) {
-                return;
-            }
-            self._items++;
-            // Get a favicon properly
-            if (!tab.favIconUrl || tab.favIconUrl.indexOf("chrome://theme") > -1) {
-                tab.favIconUrl = chrome.runtime.getURL("../img/favicon.png");
-            }
-            self._createSiteUI(tab.title, tab.favIconUrl, tab.url, true);
-            chrome.storage.local.get("sites", function(storage) {
-                var storage = storage["sites"] || [];
-                var site = { title: tab.title, faviconUrl: tab.favIconUrl, url: tab.url };
-                // Push site object into storage and save it
-                storage.push(site);
-                chrome.storage.local.set({sites: storage});
-                // Call handlers
-                self.initClickHandlers();
-                self.updateIconState();
-                self.updateFooterText();
-
-                // Scroll to the top to see latest note
-                $(".deck").animate({ scrollTop: 0 }, { duration: 150, easing: "easeOutExpo"});
+            BG.removeSite(url, function() {
+                self.removeSiteUI(elem);
             });
-        });
-    },
-    checkSite: function(url, callback) {
-        // URL may be undefined in some cases, GH #16
-        if (url === undefined) {
-            callback(false);
-            return;
-        }
-        var sites = $(".sitetitle");
-        if (!sites) {
-            callback(false);
-            return;
-        }
-        var allowed = true;
-        for (let i=0; i<sites.length; i++) {
-            var siteUrl = $(sites[i]).data().href;
-            if (siteUrl === url) {
-                allowed = false;
-                break;
-            }
-        }
-        callback(allowed);
-    },
-    removeSite: function(url, elem) {
-        var self = this;
-        chrome.storage.local.get("sites", function(storage) {
-            var sites = storage["sites"];
-            for (let i=0; i<sites.length; i++) {
-                if (sites[i].url === url) {
-                    sites.splice(i, 1);
-                    self._items--;
-                    break;
-                }
-            }
-            chrome.storage.local.set({sites: sites}, function() {
-                // Begin removal animation
-                $(elem).addClass("removenote");
-
-                // When removal animation ends, add top up animation
-                // TODO: Don't use setTimeout, switch to jQuery/CSS animations
-                setTimeout(function() {
-                    $(elem).addClass("removenote2");
-                    var id = $(elem).data().id;
-                    $("[data-id='" + id + "'] > .sitetitle").css("margin", "0px");
-                }, 400);
-
-                // Remove a note after end of both animations
-                setTimeout(function() {
-                   $(elem).remove();
-                   self.updateFooterText();
-                   self.updateIconState();
-                }, 600);
-            });
-        });
-    },
-    getCurrentTabInfo: function(callback) {
-        chrome.tabs.query({active: true}, function(info) {
-            callback(info);
         });
     },
     getElement: function(url) {
@@ -236,18 +198,17 @@ var Sites = {
         });
     },
     updateIconState: function() {
-        var self = this;
-        self.getCurrentTabInfo(function(info) {
+        BG.getCurrentTabInfo(function(info) {
             var tab = info[0];
             var url = tab.url;
-            self.checkSite(url, function(allowed) {
+            BG.checkSite(url, function(allowed) {
                 // If site has already been added
                 if (!allowed) {
                     $("#addbtn").addClass("heart-red");
                     $("#addbtn").mouseleave(function() {
                         $(this).addClass("heart-red");
                     });
-                // If site hasn't been added yet
+                    // If site hasn't been added yet
                 } else {
                     $("#addbtn").removeClass("heart-red");
                     $("#addbtn").mouseleave(function() {
@@ -298,7 +259,7 @@ var Sites = {
 
         var notetext = " notes";
         if (items === 1) {
-           notetext = " note";
+            notetext = " note";
         }
 
         $(".footnote").text(items + notetext + " \u2014 " + text);

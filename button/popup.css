@@ -42,12 +42,14 @@ http://matthewlein.com/ceaser/
     background: #fff;
     cursor: default;
     border-top: 1px solid #e3e3e3;
+    margin-top: -1px;
 }
 
 .site { /* each note area */
     height: 40px;
     padding: 2px 0 2px 0;
     border-top: 1px solid #e3e3e3;
+    border-bottom: 1px solid #e3e3e3;
     position: relative;
     z-index: 1;
     width: 100%;
