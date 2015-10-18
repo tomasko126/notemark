@@ -5,7 +5,7 @@ var BG = chrome.extension.getBackgroundPage();
 // Main Sites object, which includes methods for adding/removing site etc.
 var Sites = {
     _items: 0,
-    _createSiteUI: function(title, faviconUrl, url, custom) {
+    createSiteUI: function(title, faviconUrl, url, custom) {
         var top = custom ? -45 : -1;
         $(".deck").prepend(
             "<div class='site' style='margin-top:" + top.toString() + "px;' data-id='" + this._items + "'>" +
@@ -26,6 +26,28 @@ var Sites = {
             $("[data-id='" + this._items + "']").animate({ marginTop: "-1px" }, { duration: 300, easing: "easeOutExpo"});
         }
     },
+    removeSiteUI: function(element) {
+        // Begin removal animation
+        $(element).addClass("removenote");
+
+        var self = this;
+        this._items--;
+
+        // When removal animation ends, add top up animation
+        // TODO: Don't use setTimeout, switch to jQuery/CSS animations
+        setTimeout(function() {
+            $(element).addClass("removenote2");
+            var id = $(element).data().id;
+            $("[data-id='" + id + "'] > .sitetitle").css("margin", "0px");
+        }, 400);
+
+        // Remove a note after end of both animations
+        setTimeout(function() {
+            $(element).remove();
+            self.updateFooterText();
+            self.updateIconState();
+        }, 600);
+    },
     init: function() {
         var self = this;
         chrome.storage.local.get(null, function(storage) {
@@ -41,7 +63,7 @@ var Sites = {
             if (sites) {
                 for (let site of sites) {
                     self._items++;
-                    self._createSiteUI(site.title, site.faviconUrl, site.url);
+                    self.createSiteUI(site.title, site.faviconUrl, site.url);
                 }
             }
 
@@ -69,30 +91,12 @@ var Sites = {
                 if ($("#addbtn").hasClass("heart-red")) {
                     var elem = self.getElement(tab.url);
                     BG.removeSite(tab.url, function() {
-                        self._items--;
-                        // TODO: Move to extension's popup in callback
-                        // Begin removal animation
-                        $(elem).addClass("removenote");
-
-                        // When removal animation ends, add top up animation
-                        // TODO: Don't use setTimeout, switch to jQuery/CSS animations
-                        setTimeout(function() {
-                            $(elem).addClass("removenote2");
-                            var id = $(elem).data().id;
-                            $("[data-id='" + id + "'] > .sitetitle").css("margin", "0px");
-                        }, 400);
-
-                        // Remove a note after end of both animations
-                        setTimeout(function() {
-                            $(elem).remove();
-                            self.updateFooterText();
-                            self.updateIconState();
-                        }, 600);
+                        self.removeSiteUI(elem);
                     });
                 } else {
                     BG.addSite(tab, function() {
                         self._items++;
-                        self._createSiteUI(tab.title, tab.favIconUrl, tab.url, true);
+                        self.createSiteUI(tab.title, tab.favIconUrl, tab.url, true);
                         // Call handlers
                         self.initClickHandlers();
                         self.updateIconState();
@@ -124,7 +128,7 @@ var Sites = {
                 for (let tab of tabs) {
                     BG.addSite(tab, function() {
                         self._items++;
-                        self._createSiteUI(tab.title, tab.favIconUrl, tab.url, true);
+                        self.createSiteUI(tab.title, tab.favIconUrl, tab.url, true);
                         // Call handlers
                         self.initClickHandlers();
                         self.updateIconState();
@@ -176,25 +180,7 @@ var Sites = {
             var elem = event.currentTarget.parentElement.parentElement;
             var url = event.currentTarget.parentElement.nextSibling.dataset.href;
             BG.removeSite(url, function() {
-                self._items--;
-                // TODO: Move to extension's popup in callback
-                // Begin removal animation
-                $(elem).addClass("removenote");
-
-                // When removal animation ends, add top up animation
-                // TODO: Don't use setTimeout, switch to jQuery/CSS animations
-                setTimeout(function() {
-                    $(elem).addClass("removenote2");
-                    var id = $(elem).data().id;
-                    $("[data-id='" + id + "'] > .sitetitle").css("margin", "0px");
-                }, 400);
-
-                // Remove a note after end of both animations
-                setTimeout(function() {
-                    $(elem).remove();
-                    self.updateFooterText();
-                    self.updateIconState();
-                }, 600);
+                self.removeSiteUI(elem);
             });
         });
     },
