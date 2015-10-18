@@ -32,7 +32,7 @@ function checkSite(url, callback) {
     chrome.storage.local.get("sites", function(storage) {
         var sites = storage["sites"];
         if (!sites) {
-            callback(false);
+            callback(true);
             return;
         }
         var allowed = true;
