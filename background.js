@@ -1,17 +1,5 @@
 "use strict";
 
-// Contains number of saved notes
-var items = null;
-
-(function() {
-    if (!items) {
-        chrome.storage.local.get("sites", function(storage) {
-            var length = storage["sites"].length || 0;
-            items = length;
-        });
-    }
-})();
-
 // Add site to storage
 function addSite(tab, callback) {
     checkSite(tab.url, function(allowed) {
@@ -64,6 +52,9 @@ function checkSite(url, callback) {
 function removeSite(url, callback) {
     chrome.storage.local.get("sites", function(storage) {
         var sites = storage["sites"];
+        if (!sites) {
+            return;
+        }
         for (let i=0; i<sites.length; i++) {
             if (sites[i].url === url) {
                 sites.splice(i, 1);

@@ -4,6 +4,7 @@ var BG = chrome.extension.getBackgroundPage();
 
 // Main Sites object, which includes methods for adding/removing site etc.
 var Sites = {
+    _items: 0,
     _createSiteUI: function(title, faviconUrl, url, custom) {
         var top = custom ? -45 : -1;
         $(".deck").prepend(
@@ -22,7 +23,7 @@ var Sites = {
 
         // Animate an added note
         if (custom) {
-            $("[data-id='" + BG.items + "']").animate({ marginTop: "-1px" }, { duration: 300, easing: "easeOutExpo"});
+            $("[data-id='" + this._items + "']").animate({ marginTop: "-1px" }, { duration: 300, easing: "easeOutExpo"});
         }
     },
     init: function() {
@@ -39,6 +40,7 @@ var Sites = {
             // Add existing notes to deck
             if (sites) {
                 for (let site of sites) {
+                    self._items++;
                     self._createSiteUI(site.title, site.faviconUrl, site.url);
                 }
             }
@@ -67,6 +69,7 @@ var Sites = {
                 if ($("#addbtn").hasClass("heart-red")) {
                     var elem = self.getElement(tab.url);
                     BG.removeSite(tab.url, function() {
+                        self._items--;
                         // TODO: Move to extension's popup in callback
                         // Begin removal animation
                         $(elem).addClass("removenote");
@@ -88,7 +91,7 @@ var Sites = {
                     });
                 } else {
                     BG.addSite(tab, function() {
-                        console.log("callback");
+                        self._items++;
                         self._createSiteUI(tab.title, tab.favIconUrl, tab.url, true);
                         // Call handlers
                         self.initClickHandlers();
@@ -120,6 +123,7 @@ var Sites = {
             chrome.tabs.query({ currentWindow: true }, function(tabs) {
                 for (let tab of tabs) {
                     BG.addSite(tab, function() {
+                        self._items++;
                         self._createSiteUI(tab.title, tab.favIconUrl, tab.url, true);
                         // Call handlers
                         self.initClickHandlers();
@@ -172,6 +176,7 @@ var Sites = {
             var elem = event.currentTarget.parentElement.parentElement;
             var url = event.currentTarget.parentElement.nextSibling.dataset.href;
             BG.removeSite(url, function() {
+                self._items--;
                 // TODO: Move to extension's popup in callback
                 // Begin removal animation
                 $(elem).addClass("removenote");
@@ -228,7 +233,7 @@ var Sites = {
         });
     },
     updateScrollbarState: function() {
-        if (BG.items < 9) {
+        if (this._items < 9) {
             $(".deck").css("overflow-y", "hidden");
         } else {
             $(".deck").css("overflow-y", "auto");
@@ -239,7 +244,7 @@ var Sites = {
         this.updateScrollbarState();
 
         // Update footer text
-        var items = BG.items;
+        var items = this._items;
         var text = null;
 
         if (items < 3) {
