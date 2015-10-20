@@ -148,13 +148,18 @@ var Sites = {
                 return;
             }
             var checked = $(".checkboxicon").hasClass("enabled");
-            for (let i=0; i<sites.length; i++) {
-                var url = $(sites[i]).data().href;
-                if (checked) {
+            if (checked) {
+                for (let i=0; i<sites.length; i++) {
+                    var url = $(sites[i]).data().href;
                     chrome.tabs.create({ url: url });
-                } else {
-                    chrome.windows.create({ url: url, focused: true });
                 }
+            } else {
+                var urls = [];
+                for (let i=0; i<sites.length; i++) {
+                    var url = $(sites[i]).data().href;
+                    urls.push(url);
+                }
+                chrome.windows.create({ url: urls });
             }
         });
 
