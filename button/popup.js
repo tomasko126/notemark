@@ -48,6 +48,27 @@ var Sites = {
             self.updateIconState();
         }, 600);
     },
+    checkSite: function(url, callback) {
+        // URL may be undefined in some cases, GH #16
+        if (url === undefined) {
+            callback(false);
+            return;
+        }
+        var sites = $(".sitetitle");
+        if (!sites) {
+            callback(true);
+            return;
+        }
+        var allowed = true;
+        for (var i=0; i<sites.length; i++) {
+            var siteUrl = $(sites[i]).data().href;
+            if (siteUrl === url) {
+                allowed = false;
+                break;
+            }
+        }
+        callback(allowed);
+    },
     init: function() {
         var self = this;
         chrome.storage.local.get(null, function(storage) {
@@ -94,16 +115,21 @@ var Sites = {
                         self.removeSiteUI(elem);
                     });
                 } else {
-                    BG.addSite(tab, function() {
-                        self._items++;
-                        self.createSiteUI(tab.title, tab.favIconUrl, tab.url, true);
-                        // Call handlers
-                        self.initClickHandlers();
-                        self.updateIconState();
-                        self.updateFooterText();
+                    self.checkSite(tab.url, function(allowed) {
+                        if (!allowed) {
+                            return;
+                        }
+                        BG.addSite(tab, function() {
+                            self._items++;
+                            self.createSiteUI(tab.title, tab.favIconUrl, tab.url, true);
+                            // Call handlers
+                            self.initClickHandlers();
+                            self.updateIconState();
+                            self.updateFooterText();
 
-                        // Scroll to the top to see latest note
-                        $(".deck").animate({ scrollTop: 0 }, { duration: 150, easing: "easeOutExpo"});
+                            // Scroll to the top to see latest note
+                            $(".deck").animate({ scrollTop: 0 }, { duration: 150, easing: "easeOutExpo"});
+                        });
                     });
                 }
             });
@@ -126,16 +152,21 @@ var Sites = {
         $("#addnotesoption").unbind().click(function() {
             chrome.tabs.query({ currentWindow: true }, function(tabs) {
                 for (let tab of tabs) {
-                    BG.addSite(tab, function() {
-                        self._items++;
-                        self.createSiteUI(tab.title, tab.favIconUrl, tab.url, true);
-                        // Call handlers
-                        self.initClickHandlers();
-                        self.updateIconState();
-                        self.updateFooterText();
+                    self.checkSite(tab.url, function(allowed) {
+                        if (!allowed) {
+                            return;
+                        }
+                        BG.addSite(tab, function() {
+                            self._items++;
+                            self.createSiteUI(tab.title, tab.favIconUrl, tab.url, true);
+                            // Call handlers
+                            self.initClickHandlers();
+                            self.updateIconState();
+                            self.updateFooterText();
 
-                        // Scroll to the top to see latest note
-                        $(".deck").animate({ scrollTop: 0 }, { duration: 150, easing: "easeOutExpo"});
+                            // Scroll to the top to see latest note
+                            $(".deck").animate({ scrollTop: 0 }, { duration: 150, easing: "easeOutExpo"});
+                        });
                     });
                 }
             });
@@ -203,10 +234,11 @@ var Sites = {
         });
     },
     updateIconState: function() {
+        var self = this;
         BG.getCurrentTabInfo(function(info) {
             var tab = info[0];
             var url = tab.url;
-            BG.checkSite(url, function(allowed) {
+            self.checkSite(url, function(allowed) {
                 // If site has already been added
                 if (!allowed) {
                     $("#addbtn").addClass("heart-red");
