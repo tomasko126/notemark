@@ -119,7 +119,9 @@ var Sites = {
                         if (!allowed) {
                             return;
                         }
-                        BG.addSite(tab, function() {
+                        let note = [];
+                        note.push(tab);
+                        BG.addSites(note, function() {
                             self._items++;
                             self.createSiteUI(tab.title, tab.favIconUrl, tab.url, true);
                             // Call handlers
@@ -151,23 +153,7 @@ var Sites = {
         // Add current tabs to notes
         $("#addnotesoption").unbind().click(function() {
             chrome.tabs.query({ currentWindow: true }, function(tabs) {
-                for (let tab of tabs) {
-                    self.checkSite(tab.url, function(allowed) {
-                        if (!allowed) {
-                            return;
-                        }
-                        BG.addSite(tab, function() {
-                            self._items++;
-                            self.createSiteUI(tab.title, tab.favIconUrl, tab.url, true);
-                            // Call handlers
-                            self.initClickHandlers();
-                            self.updateIconState();
-                            self.updateFooterText();
-
-                            // Scroll to the top to see latest note
-                            $(".deck").animate({ scrollTop: 0 }, { duration: 150, easing: "easeOutExpo"});
                         });
-                    });
                 }
             });
         });
