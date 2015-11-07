@@ -124,13 +124,14 @@ var Sites = {
                         BG.addSites(note, function() {
                             self._items++;
                             self.createSiteUI(tab.title, tab.favIconUrl, tab.url, true);
+
+                            // Scroll to the top to see latest note
+                            $(".deck").animate({ scrollTop: 0 }, { duration: 150, easing: "easeOutExpo"});
+
                             // Call handlers
                             self.initClickHandlers();
                             self.updateIconState();
                             self.updateFooterText();
-
-                            // Scroll to the top to see latest note
-                            $(".deck").animate({ scrollTop: 0 }, { duration: 150, easing: "easeOutExpo"});
                         });
                     });
                 }
@@ -153,8 +154,27 @@ var Sites = {
         // Add current tabs to notes
         $("#addnotesoption").unbind().click(function() {
             chrome.tabs.query({ currentWindow: true }, function(tabs) {
-                        });
+                let tabsToBeAdded = [];
+                for (let tab of tabs) {
+                    self.checkSite(tab.url, function(allowed) {
+                        if (allowed) {
+                            tabsToBeAdded.push(tab);
+                        }
+                    });
                 }
+                BG.addSites(tabsToBeAdded, function() {
+                    for (let tab of tabsToBeAdded) {
+                        self._items++;
+                        // Create a site UI
+                        self.createSiteUI(tab.title, tab.favIconUrl, tab.url, true);
+                        // Scroll to the top to see latest note
+                        $(".deck").animate({ scrollTop: 0 }, { duration: 150, easing: "easeOutExpo"});
+                    }
+                    // Call handlers
+                    self.initClickHandlers();
+                    self.updateIconState();
+                    self.updateFooterText();
+                });
             });
         });
 

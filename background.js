@@ -1,6 +1,6 @@
 "use strict";
 
-// Add site to storage
+// Add sites to storage
 function addSites(tabs, callback) {
     chrome.storage.local.get("sites", function(storage) {
         var storage = storage["sites"] || [];
