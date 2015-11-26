@@ -1,12 +1,12 @@
 "use strict";
 
-var BG = chrome.extension.getBackgroundPage();
+let BG = chrome.extension.getBackgroundPage();
 
 // Main Sites object, which includes methods for adding/removing site etc.
-var Sites = {
+let Sites = {
     _items: 0,
     createSiteUI: function(title, faviconUrl, url, custom) {
-        var top = custom ? -45 : -1;
+        let top = custom ? -45 : -1;
         $(".deck").prepend(
             "<div class='site' style='margin-top:" + top.toString() + "px;' data-id='" + this._items + "'>" +
                 "<div class='faviconcontainer'>" +
@@ -30,14 +30,14 @@ var Sites = {
         // Begin removal animation
         $(element).addClass("removenote");
 
-        var self = this;
+        let self = this;
         this._items--;
 
         // When removal animation ends, add top up animation
         // TODO: Don't use setTimeout, switch to jQuery/CSS animations
         setTimeout(function() {
             $(element).addClass("removenote2");
-            var id = $(element).data().id;
+            let id = $(element).data().id;
             $("[data-id='" + id + "'] > .sitetitle").css("margin", "0px");
         }, 400);
 
@@ -54,14 +54,14 @@ var Sites = {
             callback(false);
             return;
         }
-        var sites = $(".sitetitle");
+        let sites = $(".sitetitle");
         if (!sites) {
             callback(true);
             return;
         }
-        var allowed = true;
-        for (var i=0; i<sites.length; i++) {
-            var siteUrl = $(sites[i]).data().href;
+        let allowed = true;
+        for (let i=0; i<sites.length; i++) {
+            let siteUrl = $(sites[i]).data().href;
             if (siteUrl === url) {
                 allowed = false;
                 break;
@@ -70,10 +70,10 @@ var Sites = {
         callback(allowed);
     },
     init: function() {
-        var self = this;
+        let self = this;
         chrome.storage.local.get(null, function(storage) {
-            var sites = storage.sites;
-            var openInNewTab = storage && storage.settings && storage.settings.openInNewTab;
+            let sites = storage.sites;
+            let openInNewTab = storage && storage.settings && storage.settings.openInNewTab;
 
             // A new installation, open new tabs in current window
             if (openInNewTab === undefined) {
@@ -102,15 +102,15 @@ var Sites = {
         });
     },
     initClickHandlers: function() {
-        var self = this;
+        let self = this;
         // "Heart" button click event
         $("#addbtn").unbind().click(function() {
             // Get info about current tab
             BG.getCurrentTabInfo(function(info) {
-                var tab = info[0];
+                let tab = info[0];
                 // Add or remove a note?
                 if ($("#addbtn").hasClass("heart-red")) {
-                    var elem = self.getElement(tab.url);
+                    let elem = self.getElement(tab.url);
                     BG.removeSite(tab.url, function() {
                         self.removeSiteUI(elem);
                     });
@@ -145,7 +145,7 @@ var Sites = {
 
         // "Open in new tab" checkbox
         $("#checkboxoption").unbind().click(function() {
-            var checked = $(".checkboxicon").hasClass("enabled");
+            let checked = $(".checkboxicon").hasClass("enabled");
             chrome.storage.local.set({ settings: { openInNewTab: !checked } }, function() {
                 self.updateCheckBox();
             });
@@ -180,20 +180,20 @@ var Sites = {
 
         // Open all notes
         $("#opennotesoption").unbind().click(function() {
-            var sites = $(".sitetitle");
+            let sites = $(".sitetitle");
             if (!sites) {
                 return;
             }
-            var checked = $(".checkboxicon").hasClass("enabled");
+            let checked = $(".checkboxicon").hasClass("enabled");
             if (checked) {
                 for (let i=0; i<sites.length; i++) {
-                    var url = $(sites[i]).data().href;
+                    let url = $(sites[i]).data().href;
                     chrome.tabs.create({ url: url });
                 }
             } else {
-                var urls = [];
+                let urls = [];
                 for (let i=0; i<sites.length; i++) {
-                    var url = $(sites[i]).data().href;
+                    let url = $(sites[i]).data().href;
                     urls.push(url);
                 }
                 chrome.windows.create({ url: urls });
@@ -202,13 +202,13 @@ var Sites = {
 
         // Site title click event
         $(".sitetitle").unbind().click(function(event) {
-            var url = event.target.dataset.href;
-            var checked = $(".checkboxicon").hasClass("enabled");
+            let url = event.target.dataset.href;
+            let checked = $(".checkboxicon").hasClass("enabled");
             if (checked) {
                 chrome.tabs.create({ url: url });
             } else {
                 chrome.tabs.query({ active: true }, function(tabs) {
-                    var tab = tabs[0];
+                    let tab = tabs[0];
                     chrome.tabs.update(tab.id, { url: url });
                     // Extension's popup doesn't automatically close,
                     // so close it manually
@@ -219,8 +219,8 @@ var Sites = {
 
         // Remove button click event
         $(".removebtn").unbind().click(function(event) {
-            var elem = event.currentTarget.parentElement.parentElement;
-            var url = event.currentTarget.parentElement.nextSibling.dataset.href;
+            let elem = event.currentTarget.parentElement.parentElement;
+            let url = event.currentTarget.parentElement.nextSibling.dataset.href;
             BG.removeSite(url, function() {
                 self.removeSiteUI(elem);
             });
@@ -231,7 +231,7 @@ var Sites = {
     },
     updateCheckBox: function() {
         chrome.storage.local.get("settings", function(data) {
-            var openInNewTab = data.settings.openInNewTab;
+            let openInNewTab = data.settings.openInNewTab;
             if (openInNewTab) {
                 $(".checkboxicon").css("background-position", "0px -23px").addClass("enabled").removeClass("disabled");
             } else {
@@ -240,10 +240,10 @@ var Sites = {
         });
     },
     updateIconState: function() {
-        var self = this;
+        let self = this;
         BG.getCurrentTabInfo(function(info) {
-            var tab = info[0];
-            var url = tab.url;
+            let tab = info[0];
+            let url = tab.url;
             self.checkSite(url, function(allowed) {
                 // If site has already been added
                 if (!allowed) {
@@ -273,8 +273,8 @@ var Sites = {
         this.updateScrollbarState();
 
         // Update footer text
-        var items = this._items;
-        var text = null;
+        let items = this._items;
+        let text = null;
 
         if (items < 3) {
             text = "that's kind of Zen";
@@ -300,7 +300,7 @@ var Sites = {
             text = "Notemark loves you back";
         }
 
-        var notetext = " notes";
+        let notetext = " notes";
         if (items === 1) {
             notetext = " note";
         }
