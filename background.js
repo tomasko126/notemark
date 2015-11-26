@@ -3,7 +3,7 @@
 // Add sites to storage
 function addSites(tabs, callback) {
     chrome.storage.local.get("sites", function(storage) {
-        var storage = storage["sites"] || [];
+        let storage = storage["sites"] || [];
         for (let tab of tabs) {
             // Get a favicon properly
             if (!tab.favIconUrl || tab.favIconUrl.indexOf("chrome://theme") > -1) {
@@ -22,7 +22,7 @@ function addSites(tabs, callback) {
 // Remove site from storage
 function removeSite(url, callback) {
     chrome.storage.local.get("sites", function(storage) {
-        var sites = storage["sites"];
+        let sites = storage["sites"];
         if (!sites) {
             return;
         }
