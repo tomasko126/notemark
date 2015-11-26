@@ -180,24 +180,7 @@ let Sites = {
 
         // Open all notes
         $("#opennotesoption").unbind().click(function() {
-            let sites = $(".sitetitle");
-            if (!sites) {
-                return;
-            }
-            let checked = $(".checkboxicon").hasClass("enabled");
-            if (checked) {
-                for (let i=0; i<sites.length; i++) {
-                    let url = $(sites[i]).data().href;
-                    chrome.tabs.create({ url: url });
-                }
-            } else {
-                let urls = [];
-                for (let i=0; i<sites.length; i++) {
-                    let url = $(sites[i]).data().href;
-                    urls.push(url);
-                }
-                chrome.windows.create({ url: urls });
-            }
+            BG.openAllSites();
         });
 
         // Site title click event
