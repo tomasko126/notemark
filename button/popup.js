@@ -31,7 +31,6 @@ let Sites = {
         $(element).addClass("removenote");
 
         let self = this;
-        this._items--;
 
         // When removal animation ends, add top up animation
         // TODO: Don't use setTimeout, switch to jQuery/CSS animations
@@ -44,6 +43,8 @@ let Sites = {
         // Remove a note after end of both animations
         setTimeout(function() {
             $(element).remove();
+            // A safer way to check number of saved notes
+            self._items = document.querySelectorAll(".site").length;
             self.updateFooterText();
             self.updateIconState();
         }, 600);
