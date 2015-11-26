@@ -19,6 +19,34 @@ function addSites(tabs, callback) {
     });
 }
 
+// Open all saved sites
+function openAllSites() {
+    chrome.storage.local.get(null, function(storage) {
+        let sites = storage["sites"] || [];
+        if (sites.length < 1) {
+            return;
+        }
+        if (sites.length > 8) {
+            let confirm = window.confirm("Would you like to open " + sites.length + " notes?");
+            if (!confirm) {
+                return;
+            }
+        }
+        let checked = storage["settings"] && storage["settings"].openInNewTab;
+        if (checked) {
+            for (let site of sites) {
+                chrome.tabs.create({ url: site.url });
+            }
+        } else {
+            let urls = [];
+            for (let site of sites) {
+                urls.push(site.url);
+            }
+            chrome.windows.create({ url: urls });
+        }
+    });
+}
+
 // Remove site from storage
 function removeSite(url, callback) {
     chrome.storage.local.get("sites", function(storage) {
