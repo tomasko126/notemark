@@ -44,9 +44,13 @@ let Sites = {
         setTimeout(function() {
             $(element).remove();
             // A safer way to check number of saved notes
-            self._items = document.querySelectorAll(".site").length;
+            self._items = document.querySelectorAll(".deck > .site").length;
             self.updateFooterText();
             self.updateIconState();
+            // Show/hide how-to site
+            if (self._items === 0) {
+                $("#howto").show();
+            }
         }, 600);
     },
     checkSite: function(url, callback) {
@@ -89,6 +93,11 @@ let Sites = {
                 }
             }
 
+            // Hide how-to site, when user has saved some sites
+            if (self._items !== 0) {
+                $("#howto").hide();
+            }
+
             // Initialize click handlers
             self.initClickHandlers();
 
@@ -128,6 +137,9 @@ let Sites = {
 
                             // Scroll to the top to see latest note
                             $(".deck").animate({ scrollTop: 0 }, { duration: 150, easing: "easeOutExpo"});
+
+                            // Hide how-to site
+                            $("#howto").hide();
 
                             // Call handlers
                             self.initClickHandlers();
@@ -170,6 +182,8 @@ let Sites = {
                         self.createSiteUI(tab.title, tab.favIconUrl, tab.url, true);
                         // Scroll to the top to see latest note
                         $(".deck").animate({ scrollTop: 0 }, { duration: 150, easing: "easeOutExpo"});
+                        // Hide how-to site
+                        $("#howto").hide();
                     }
                     // Call handlers
                     self.initClickHandlers();
