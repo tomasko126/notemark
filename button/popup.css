@@ -48,12 +48,6 @@ http://matthewlein.com/ceaser/
     padding: 12px 0;
 }
 
-.howtohearticon {
-    content: url(../img/heart_ico_settings.svg);
-    display: inline-block;
-    vertical-align: bottom;
-}
-
 .footnote {
     width: 100%;
     height: 55px;
