@@ -45,7 +45,13 @@ http://matthewlein.com/ceaser/
     cursor: default;
     text-align: center;
     left: 0;
-    padding: 10px 0;
+    padding: 12px 0;
+}
+
+.howtohearticon {
+    content: url(../img/heart_ico_settings.svg);
+    display: inline-block;
+    vertical-align: bottom;
 }
 
 .footnote {
