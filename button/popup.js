@@ -49,7 +49,7 @@ let Sites = {
             self.updateIconState();
             // Show/hide how-to site
             if (self._items === 0) {
-                $(".howto").show();
+                $(".howto").slideDown();
             }
         }, 600);
     },
@@ -183,7 +183,7 @@ let Sites = {
                         // Scroll to the top to see latest note
                         $(".deck").animate({ scrollTop: 0 }, { duration: 150, easing: "easeOutExpo"});
                         // Hide how-to site
-                        $(".howto").hide();
+                        $(".howto").slideUp();
                     }
                     // Call handlers
                     self.initClickHandlers();
