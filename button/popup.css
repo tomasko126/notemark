@@ -43,6 +43,9 @@ http://matthewlein.com/ceaser/
 
 .howtotext {
     cursor: default;
+    text-align: center;
+    left: 0;
+    padding: 10px 0;
 }
 
 .footnote {
