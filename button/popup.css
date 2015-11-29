@@ -95,8 +95,7 @@ http://matthewlein.com/ceaser/
 
 .settingsicon {
     width: 2.2em;
-    margin-top: 5px;
-    padding: 10px;
+    margin: 15px 10px 10px 10px;
     position: absolute;
     right: 63px;
     content:url(../img/settings.svg);
@@ -125,8 +124,7 @@ http://matthewlein.com/ceaser/
     fill: none;
     /* --------------------- */
     width: 2.3em;
-    margin-top: 4px;
-    padding: 10px;
+    margin: 14px 10px 10px 10px;
     position: absolute;
     right: 1px;
     display: inline-block;
