@@ -1,6 +1,6 @@
 "use strict";
 
-let BG = chrome.extension.getBackgroundPage();
+const BG = chrome.extension.getBackgroundPage();
 
 // Main Sites object, which includes methods for adding/removing site etc.
 let Sites = {
