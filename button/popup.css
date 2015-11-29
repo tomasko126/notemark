@@ -32,6 +32,22 @@ http://matthewlein.com/ceaser/
     border-bottom: 2px solid #ff646c;
 }
 
+.howto {
+    height: 40px;
+    border-top: 1px solid #e3e3e3;
+    border-bottom: 1px solid #e3e3e3;
+    position: relative;
+    z-index: 1;
+    width: 100%;
+}
+
+.howtotext {
+    cursor: default;
+    text-align: center;
+    left: 0;
+    padding: 13px 0;
+}
+
 .footnote {
     width: 100%;
     height: 55px;

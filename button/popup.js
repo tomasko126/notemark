@@ -47,6 +47,10 @@ let Sites = {
             self._items = document.querySelectorAll(".site").length;
             self.updateFooterText();
             self.updateIconState();
+            // Show/hide how-to site
+            if (self._items === 0) {
+                $(".howto").slideDown({duration: 350, easing: "easeOutExpo"});
+            }
         }, 600);
     },
     checkSite: function(url, callback) {
@@ -89,6 +93,11 @@ let Sites = {
                 }
             }
 
+            // Hide how-to site, when user has saved some sites
+            if (self._items !== 0) {
+                $(".howto").hide();
+            }
+
             // Initialize click handlers
             self.initClickHandlers();
 
@@ -128,6 +137,9 @@ let Sites = {
 
                             // Scroll to the top to see latest note
                             $(".deck").animate({ scrollTop: 0 }, { duration: 150, easing: "easeOutExpo"});
+
+                            // Hide how-to site
+                            $(".howto").hide();
 
                             // Call handlers
                             self.initClickHandlers();
@@ -170,6 +182,8 @@ let Sites = {
                         self.createSiteUI(tab.title, tab.favIconUrl, tab.url, true);
                         // Scroll to the top to see latest note
                         $(".deck").animate({ scrollTop: 0 }, { duration: 150, easing: "easeOutExpo"});
+                        // Hide how-to site
+                        $(".howto").slideUp({duration: 350, easing: "easeOutExpo"});
                     }
                     // Call handlers
                     self.initClickHandlers();
