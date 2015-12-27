@@ -14,7 +14,7 @@ let Sites = {
                     "<div class='removebtn'>" + "</div>" +
                 "</div>" +
                 "<div class='sitetitle' data-href='" + url + "' title='" + title + "'>" + title + "</div>" +
-                "<div class='siteoptions'>" +
+                "<div class='siteoptions'>" + "<div class='dayadded'> 2 days ago" + "</div>" +
                     "<div class='siteoptionleft'></div>" +
                     "<div class='siteoptionright'></div>" +
                 "</div>" +
