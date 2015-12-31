@@ -25,10 +25,10 @@ http://matthewlein.com/ceaser/
 
 .deck {
     width: 100%;
+    max-height: 328px;
     position: relative;
     overflow: auto;
     overflow-x: hidden;
-    max-height: 384px;
 }
 
 .header { /* this is where the ext name, gear and heart icon sit */
@@ -74,7 +74,6 @@ http://matthewlein.com/ceaser/
     z-index: 1;
     width: 100%;
     cursor: pointer;
-
 }
 
 .site:hover {
@@ -296,7 +295,7 @@ http://matthewlein.com/ceaser/
     display: block;
     left: -10px;
     position: inherit;
-    padding: 10px 0 0 15px;
+    padding: 15px 0 0 15px;
     text-align: left;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -305,7 +304,7 @@ http://matthewlein.com/ceaser/
     cursor: pointer;
     /* background: green; for referencing click area  */
 }
-
+/*
 .dayadded {
     position: relative;
     color: #959595;
@@ -314,4 +313,5 @@ http://matthewlein.com/ceaser/
     left: 4px;
 
 }
+*/
 
