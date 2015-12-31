@@ -5,8 +5,15 @@ const BG = chrome.extension.getBackgroundPage();
 // Main Sites object, which includes methods for adding/removing site etc.
 let Sites = {
     _items: 0,
-    createSiteUI: function(title, faviconUrl, url, custom) {
+    createSiteUI: function(site, custom) {
+        // Site data
+        let title = site.title;
+        let faviconUrl = site.faviconUrl;
+        let url = site.url;
+        let date = BG.getDifference(new Date(site.date));
+
         let top = custom ? -45 : -1;
+
         $(".deck").prepend(
             "<div class='site' style='margin-top:" + top.toString() + "px;' data-id='" + this._items + "'>" +
                 "<div class='faviconcontainer'>" +
@@ -14,12 +21,14 @@ let Sites = {
                     "<div class='removebtn'>" + "</div>" +
                 "</div>" +
                 "<div class='sitetitle' data-href='" + url + "' title='" + title + "'>" + title + "</div>" +
-                "<div class='siteoptions'>" + "<div class='dayadded'> 2 days ago" + "</div>" +
+                "<div class='siteoptions'>" +
+                    "<div class='dayadded'>" + date + "</div>" +
                     "<div class='siteoptionleft'></div>" +
                     "<div class='siteoptionright'></div>" +
                 "</div>" +
             "</div>"
         );
+
 
         // Animate an added note
         if (custom) {
@@ -89,7 +98,7 @@ let Sites = {
             if (sites) {
                 for (let site of sites) {
                     self._items++;
-                    self.createSiteUI(site.title, site.faviconUrl, site.url);
+                    self.createSiteUI(site, false);
                 }
             }
 
@@ -131,9 +140,10 @@ let Sites = {
                         }
                         let note = [];
                         note.push(tab);
-                        BG.addSites(note, function() {
+                        BG.addSites(note, function(date) {
                             self._items++;
-                            self.createSiteUI(tab.title, tab.favIconUrl, tab.url, true);
+                            tab.date = date;
+                            self.createSiteUI(tab, true);
 
                             // Scroll to the top to see latest note
                             $(".deck").animate({ scrollTop: 0 }, { duration: 150, easing: "easeOutExpo"});
@@ -175,11 +185,12 @@ let Sites = {
                         }
                     });
                 }
-                BG.addSites(tabsToBeAdded, function() {
+                BG.addSites(tabsToBeAdded, function(date) {
                     for (let tab of tabsToBeAdded) {
                         self._items++;
+                        tab.date = date;
                         // Create a site UI
-                        self.createSiteUI(tab.title, tab.favIconUrl, tab.url, true);
+                        self.createSiteUI(tab, true);
                         // Scroll to the top to see latest note
                         $(".deck").animate({ scrollTop: 0 }, { duration: 150, easing: "easeOutExpo"});
                         // Hide how-to site
