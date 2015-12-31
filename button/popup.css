@@ -2,6 +2,12 @@ body {
     margin: 0;
     -webkit-user-select: none;
     background-color: whitesmoke;
+    font-family: 'Helvetica Neue', Helvetica, arial, sans-serif;
+    color: rgb(33, 25, 34);
+    font-size: 12px;
+    text-decoration: none;
+    cursor: default;
+
 }
 
 /* css easing tool
@@ -22,7 +28,7 @@ http://matthewlein.com/ceaser/
     position: relative;
     overflow: auto;
     overflow-x: hidden;
-    max-height: 351px;
+    max-height: 384px;
 }
 
 .header { /* this is where the ext name, gear and heart icon sit */
@@ -42,7 +48,6 @@ http://matthewlein.com/ceaser/
 }
 
 .howtotext {
-    cursor: default;
     text-align: center;
     left: 0;
     padding: 13px 0;
@@ -61,13 +66,15 @@ http://matthewlein.com/ceaser/
 }
 
 .site { /* each note area */
-    height: 40px;
+    height: 50px; /* prev hieght 40px */
     padding: 2px 0 2px 0;
     border-top: 1px solid #e3e3e3;
     border-bottom: 1px solid #e3e3e3;
     position: relative;
     z-index: 1;
     width: 100%;
+    cursor: pointer;
+
 }
 
 .site:hover {
@@ -76,12 +83,6 @@ http://matthewlein.com/ceaser/
 
 .site:active {
     background: #eeeeee;
-}
-
-.faviconcontainer { /* favicon area */
-    float: left;
-    width: 20%;
-    height: 100%;
 }
 
 .logotype { /* extention name text */
@@ -238,6 +239,15 @@ http://matthewlein.com/ceaser/
     margin-top: 7px;
 }
 
+.faviconcontainer { /* favicon area */
+    float: left;
+    width: 20%;
+    height: 100%;
+    position: relative;
+    top: 5px;
+    left: 3px;
+}
+
 .favicon {
     z-index: 2;
     width: 20px;
@@ -254,7 +264,7 @@ http://matthewlein.com/ceaser/
     -webkit-transition-duration: 0.05s;
     opacity: 0;
     z-index: 3;
-    background-color: whitesmoke;
+    background-color: #eeeeee;
     transition-duration: 0.2s;
 }
 
@@ -292,4 +302,13 @@ http://matthewlein.com/ceaser/
     -webkit-transition: all .1s ease-in;
     cursor: pointer;
     /* background: green; for referencing click area  */
+}
+
+.dayadded {
+    position: relative;
+    color: #959595;
+    font-size: 11px;
+    top: 2px;
+    left: 4px;
+
 }

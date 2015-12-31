@@ -7,14 +7,14 @@ function addSites(tabs, callback) {
         for (let tab of tabs) {
             // Get a favicon properly
             if (!tab.favIconUrl || tab.favIconUrl.indexOf("chrome://theme") > -1) {
-                tab.favIconUrl = chrome.runtime.getURL("../img/favicon.png");
+                tab.favIconUrl = chrome.runtime.getURL("/img/favicon.png");
             }
-            let site = { title: tab.title, faviconUrl: tab.favIconUrl, url: tab.url };
+            let site = { title: tab.title, faviconUrl: tab.favIconUrl, url: tab.url, date: Date.now() };
             sites.push(site);
         }
         // Save modified |storage| object
         chrome.storage.local.set({sites}, function() {
-            callback();
+            callback(Date.now());
         });
     });
 }
@@ -71,4 +71,27 @@ function getCurrentTabInfo(callback) {
     chrome.tabs.query({active: true}, function(tab) {
         callback(tab);
     });
+}
+
+// Get difference between now and date of note creation
+function getDifference(date) {
+  let dateOfNote = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate());
+
+  // Date of note's creation can be NaN,
+  // because we weren't saving dates in the past
+  if (isNaN(dateOfNote)) {
+      return "Sometime in the past";
+  }
+
+  let day = 1000 * 60 * 60 * 24;
+  let now = Date.now();
+
+  let result = Math.floor((now - dateOfNote) / day);
+  if (result === 0) {
+      return "Today";
+  } else if (result === 1) {
+      return "Yesterday";
+  } else {
+      return result + " days ago";
+  }
 }
