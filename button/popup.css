@@ -67,7 +67,7 @@ http://matthewlein.com/ceaser/
 
 .site { /* each note area */
     height: 50px; /* prev hieght 40px */
-    margin: 2px 0 0px 0;
+    margin: 2px 0 0 0;
     border-top: 1px solid #e3e3e3;
     border-bottom: 1px solid #e3e3e3;
     position: relative;
@@ -77,7 +77,7 @@ http://matthewlein.com/ceaser/
 }
 
 .site:last-child {
-    border-bottom:0px;
+    border-bottom: 0;
     height: 25px;
 }
 
@@ -299,7 +299,7 @@ http://matthewlein.com/ceaser/
     display: block;
     height: 35px;
     position: inherit;
-    padding: 15px 10px 0 5px;
+    margin: 15px 10px 0 5px;
     line-height: 20px;
     text-align: left;
     text-overflow: ellipsis;
