@@ -278,21 +278,21 @@ let Sites = {
         } else if (items < 6) {
             text = "the magic number";
         } else if (items < 12) {
-            text = "you can do more with less";
+            text = "less is more, more or less";
         } else if (items < 22) {
-            text = "starting to look like work";
+            text = "let's get to work";
         } else if (items < 28) {
-            text = "they're all important, yes?";
+            text = "rock on, rock on";
         } else if (items < 44) {
             text = "eeny meeny miney mo";
         } else if (items < 50) {
-            text = "bookmark some for keepsake";
+            text = "bookmark some for keepsake?";
         } else if (items < 60) {
-            text = "still checking these?";
+            text = "you need to check these";
         } else if (items < 70) {
-            text = "that's hours of browsing";
+            text = "it's only hours of browsing";
         } else if (items < 90) {
-            text = "let's see, where were I?";
+            text = "let's see, where were you?";
         } else {
             text = "Notemark loves you too";
         }
