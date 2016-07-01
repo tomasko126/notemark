@@ -274,7 +274,7 @@ let Sites = {
         let text = null;
 
         if (items < 3) {
-            text = "that's kind of Zen";
+            text = "that's kinda Zen";
         } else if (items < 6) {
             text = "the magic number";
         } else if (items < 12) {
@@ -282,7 +282,7 @@ let Sites = {
         } else if (items < 22) {
             text = "starting to look like work";
         } else if (items < 28) {
-            text = "they're all important yeah?";
+            text = "they're all important, yes?";
         } else if (items < 44) {
             text = "eeny meeny miney mo";
         } else if (items < 50) {
@@ -290,11 +290,11 @@ let Sites = {
         } else if (items < 60) {
             text = "still checking these?";
         } else if (items < 70) {
-            text = "that's 3 hours of browsing";
+            text = "that's hours of browsing";
         } else if (items < 90) {
-            text = "let's see, where were we?";
+            text = "let's see, where were I?";
         } else {
-            text = "Notemark loves you back";
+            text = "Notemark loves you too";
         }
 
         let notetext = " notes";
