@@ -27,7 +27,7 @@
   "description": "A better way to bookmark things you only need for a short while.",
   "incognito": "spanning",
   "manifest_version": 2,
-  "minimum_chrome_version": "41.0",
+  "minimum_chrome_version": "66",
   "permissions": [
     "http://*/*", "https://*/*", "tabs", "storage"
   ]

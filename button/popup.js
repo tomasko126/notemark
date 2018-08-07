@@ -1,84 +1,79 @@
-"use strict";
-
-const BG = chrome.extension.getBackgroundPage();
-
 // Main Sites object, which includes methods for adding/removing site etc.
-let Sites = {
-    _items: 0,
-    createSiteUI: function(title, faviconUrl, url, custom) {
-        let top = custom ? -45 : -1;
-        $(".deck").prepend(
-            "<div class='site' style='margin-top:" + top.toString() + "px;' data-id='" + this._items + "'>" +
-                "<div class='faviconcontainer'>" +
-                    "<img class='favicon' src='" + faviconUrl + "'>" +
-                    "<div class='removebtn'>" + "</div>" +
-                "</div>" +
-                "<div class='sitetitle' data-href='" + url + "' title='" + title + "'>" + title + "</div>" +
-                "<div class='siteoptions'>" +
-                    "<div class='siteoptionleft'></div>" +
-                    "<div class='siteoptionright'></div>" +
-                "</div>" +
+class Sites {
+    constructor() {
+        this._items = 0;
+    }
+
+    // Create an UI for a note, which is going to be added
+    createSiteUI(title, faviconUrl, url) {
+        $("#deck").prepend(
+            "<div class='site' data-id='" + this._items + "'>" +
+                "<img class='favicon' src='" + (faviconUrl || chrome.runtime.getURL("../img/favicon.png")) + "' />" +
+                "<span class='siteTitle' data-href='" + url + "' title='" + title + "'>" + title + "</span>" +
+                "<img class='openLink' />" +
             "</div>"
         );
+    }
 
-        // Animate an added note
-        if (custom) {
-            $("[data-id='" + this._items + "']").animate({ marginTop: "-1px" }, { duration: 300, easing: "easeOutExpo"});
-        }
-    },
-    removeSiteUI: function(element) {
+    // Remove UI of a note, which is going ot be removed
+    removeSiteUI(element) {
         // Begin removal animation
-        $(element).addClass("removenote");
+        $(element).addClass("removeNote");
 
-        let self = this;
+        $(element).on("animationend webkitAnimationEnd", () => {
+            // When the removal animation ends, we start another animation
+            // which slides up the content after "removed" note
+            $(element).addClass("removeNote2");
 
-        // When removal animation ends, add top up animation
-        // TODO: Don't use setTimeout, switch to jQuery/CSS animations
-        setTimeout(function() {
-            $(element).addClass("removenote2");
-            let id = $(element).data().id;
-            $("[data-id='" + id + "'] > .sitetitle").css("margin", "0px");
-        }, 400);
+            $(element).on("animationend webkitAnimationEnd", () => {
+                $(element).remove();
 
-        // Remove a note after end of both animations
-        setTimeout(function() {
-            $(element).remove();
-            // A safer way to check number of saved notes
-            self._items = document.querySelectorAll(".site").length;
-            self.updateFooterText();
-            self.updateIconState();
-            // Show/hide how-to site
-            if (self._items === 0) {
-                $(".howto").slideDown({duration: 350, easing: "easeOutExpo"});
-            }
-        }, 600);
-    },
-    checkSite: function(url, callback) {
+                // A safer way to check number of saved notes
+                this._items = document.querySelectorAll(".site").length;
+
+                // Update footer text
+                this.updateFooterText();
+
+                // Update heart icon
+                this.updateIconState();
+
+                // Show/hide how-to site
+                if (this._items === 0) {
+                    $("#howTo").slideDown({duration: 350, easing: "easeOutExpo"});
+                }
+            });
+        });
+    }
+
+    checkSite(url) {
         // URL may be undefined in some cases, GH #16
         if (url === undefined) {
-            callback(false);
-            return;
+            return false;
         }
-        let sites = $(".sitetitle");
+
+        const sites = $(".siteTitle");
+
         if (!sites) {
-            callback(true);
-            return;
+            return true;
         }
+
         let allowed = true;
+
         for (let i=0; i<sites.length; i++) {
-            let siteUrl = $(sites[i]).data().href;
+            const siteUrl = $(sites[i]).data().href;
             if (siteUrl === url) {
                 allowed = false;
                 break;
             }
         }
-        callback(allowed);
-    },
-    init: function() {
-        let self = this;
-        chrome.storage.local.get(null, function(storage) {
-            let sites = storage.sites;
-            let openInNewTab = storage && storage.settings && storage.settings.openInNewTab;
+
+        return allowed;
+    }
+
+    init() {
+        chrome.storage.local.get(null, (storage) => {
+            const sites = storage.sites;
+            const openInNewTab = storage && storage.settings && storage.settings.openInNewTab;
 
             // A new installation, open new tabs in current window
             if (openInNewTab === undefined) {
@@ -86,128 +81,146 @@ let Sites = {
             }
 
             // Add existing notes to deck
-            if (sites) {
-                for (let site of sites) {
-                    self._items++;
-                    self.createSiteUI(site.title, site.faviconUrl, site.url);
-                }
+            for (const site of sites) {
+                this._items++;
+                this.createSiteUI(site.title, site.faviconUrl, site.url);
             }
 
             // Hide how-to site, when user has saved some sites
-            if (self._items !== 0) {
-                $(".howto").hide();
+            if (this._items !== 0) {
+                $("#howTo").hide();
             }
 
             // Initialize click handlers
-            self.initClickHandlers();
+            this.initClickHandlers();
 
             // Update icon
-            self.updateIconState();
+            this.updateIconState();
 
             // Update number of saved notes
-            self.updateFooterText();
+            this.updateFooterText();
 
             // Update "Open in new tab" checkbox
-            self.updateCheckBox();
+            this.updateCheckBox();
         });
-    },
-    initClickHandlers: function() {
-        let self = this;
-        // "Heart" button click event
-        $("#addbtn").unbind().click(function() {
+    }
+
+    initClickHandlers() {
+        // "Heart" has been clicked
+        $("#addNoteButton").unbind().click(() => {
+
             // Get info about current tab
-            BG.getCurrentTabInfo(function(info) {
-                let tab = info[0];
-                // Add or remove a note?
-                if ($("#addbtn").hasClass("heart-red")) {
-                    let elem = self.getElement(tab.url);
-                    BG.removeSite(tab.url, function() {
-                        self.removeSiteUI(elem);
+            chrome.runtime.sendMessage({ action: "getCurrentTabInfo" }, (tabs) => {
+                const tab = tabs[0];
+
+                // When site has already been stored, remove it
+                if ($("#addNoteButton").hasClass("heart-red")) {
+                    const elem = this.getElement(tab.url);
+
+                    chrome.runtime.sendMessage({ action: "removeSite", url: tab.url }, () => {
+                        this.removeSiteUI(elem);
                     });
-                } else {
-                    self.checkSite(tab.url, function(allowed) {
-                        if (!allowed) {
-                            return;
-                        }
-                        let note = [];
-                        note.push(tab);
-                        BG.addSites(note, function() {
-                            self._items++;
-                            self.createSiteUI(tab.title, tab.favIconUrl, tab.url, true);
 
-                            // Scroll to the top to see latest note
-                            $(".deck").animate({ scrollTop: 0 }, { duration: 150, easing: "easeOutExpo"});
+                    return;
+                }
 
-                            // Hide how-to site
-                            $(".howto").hide();
+                // When site has not been added yet
+                if (this.checkSite(tab.url)) {
 
-                            // Call handlers
-                            self.initClickHandlers();
-                            self.updateIconState();
-                            self.updateFooterText();
-                        });
+                    const note = [];
+                    note.push(tab);
+
+                    chrome.runtime.sendMessage({ action: "addSites", notes: note }, () => {
+                        this._items++;
+                        this.createSiteUI(tab.title, tab.favIconUrl, tab.url);
+
+                        // Scroll to the top to see latest note
+                        $("#deck").animate({ scrollTop: 0 }, { duration: 150, easing: "easeOutExpo"});
+
+                        // Hide how-to site
+                        $("#howTo").hide();
+
+                        // Call handlers
+                        this.initClickHandlers();
+                        this.updateIconState();
+                        this.updateFooterText();
                     });
                 }
             });
         });
 
         // Settings icon click event
-        $(".settingsicon").unbind().click(function() {
-            $(".settings").slideToggle({ duration: 250, easing: "easeOutExpo"});
+        $("#settingsIcon").unbind().click(() => {
+            if ($("#settingsContainer:hidden").length === 1) {
+                $("#settingsContainer").css("display", "flex");
+            } else {
+                $("#settingsContainer").css("display", "none");
+            }
         });
 
         // "Open in new tab" checkbox
-        $("#checkboxoption").unbind().click(function() {
-            let checked = $(".checkboxicon").hasClass("enabled");
-            chrome.storage.local.set({ settings: { openInNewTab: !checked } }, function() {
-                self.updateCheckBox();
+        $("#checkboxOption").unbind().click(() => {
+            const checked = $("#checkboxIcon").hasClass("enabled");
+
+            chrome.storage.local.set({ settings: { openInNewTab: !checked } }, () => {
+                this.updateCheckBox();
             });
         });
 
         // Add current tabs to notes
-        $("#addnotesoption").unbind().click(function() {
-            chrome.tabs.query({ currentWindow: true }, function(tabs) {
-                let tabsToBeAdded = [];
-                for (let tab of tabs) {
-                    self.checkSite(tab.url, function(allowed) {
-                        if (allowed) {
-                            tabsToBeAdded.push(tab);
-                        }
-                    });
-                }
-                BG.addSites(tabsToBeAdded, function() {
-                    for (let tab of tabsToBeAdded) {
-                        self._items++;
-                        // Create a site UI
-                        self.createSiteUI(tab.title, tab.favIconUrl, tab.url, true);
-                        // Scroll to the top to see latest note
-                        $(".deck").animate({ scrollTop: 0 }, { duration: 150, easing: "easeOutExpo"});
-                        // Hide how-to site
-                        $(".howto").slideUp({duration: 350, easing: "easeOutExpo"});
+        $("#addNotesOption").unbind().click(() => {
+            chrome.tabs.query({ currentWindow: true }, (tabs) => {
+                const tabsToBeAdded = [];
+
+                for (const tab of tabs) {
+                    if (this.checkSite(tab.url)) {
+                        tabsToBeAdded.push(tab);
                     }
+                }
+
+                chrome.runtime.sendMessage({ action: "addSites", notes: tabsToBeAdded }, () => {
+                    
+                    // Process every added note
+                    for (const tab of tabsToBeAdded) {
+                        // Increment no of items
+                        this._items++;
+
+                        // Create a site UI
+                        this.createSiteUI(tab.title, tab.favIconUrl, tab.url);
+
+                        // Scroll to the top to see latest note
+                        $("#deck").animate({ scrollTop: 0 }, { duration: 150, easing: "easeOutExpo"});
+
+                        // Hide how-to site
+                        $("#howTo").slideUp({duration: 350, easing: "easeOutExpo"});
+                    }
+
                     // Call handlers
-                    self.initClickHandlers();
-                    self.updateIconState();
-                    self.updateFooterText();
+                    this.initClickHandlers();
+                    this.updateIconState();
+                    this.updateFooterText();
                 });
             });
         });
 
         // Open all notes
-        $("#opennotesoption").unbind().click(function() {
-            BG.openAllSites();
+        $("#openNotesOption").unbind().click(() => {
+            chrome.runtime.sendMessage({ action: "openAllSites" });
         });
 
         // Site title click event
-        $(".sitetitle").unbind().click(function(event) {
-            let url = event.target.dataset.href;
-            let checked = $(".checkboxicon").hasClass("enabled");
+        $(".openLink").unbind().click((event) => {
+            const url = event.target.previousSibling.dataset.href;
+            const checked = $("#checkboxIcon").hasClass("enabled");
+
             if (checked) {
-                chrome.tabs.create({ url: url });
+                chrome.tabs.create({ url });
             } else {
-                chrome.tabs.query({ active: true }, function(tabs) {
-                    let tab = tabs[0];
-                    chrome.tabs.update(tab.id, { url: url });
+                chrome.tabs.query({ active: true }, (tabs) => {
+                    const tab = tabs[0];
+
+                    chrome.tabs.update(tab.id, { url });
+
                     // Extension's popup doesn't automatically close,
                     // so close it manually
                     window.close();
@@ -216,62 +229,67 @@ let Sites = {
         });
 
         // Remove button click event
-        $(".removebtn").unbind().click(function(event) {
-            let elem = event.currentTarget.parentElement.parentElement;
-            let url = event.currentTarget.parentElement.nextSibling.dataset.href;
-            BG.removeSite(url, function() {
-                self.removeSiteUI(elem);
+        $(".favicon").unbind().click((event) => {
+            const elem = event.currentTarget.parentElement;
+            const url = event.currentTarget.parentElement.children[1].dataset.href;
+
+            chrome.runtime.sendMessage({ action: "removeSite", url }, () => {
+                this.removeSiteUI(elem);
             });
         });
-    },
-    getElement: function(url) {
+    }
+
+    getElement(url) {
         return $("[data-href='" + url + "']").parent();
-    },
-    updateCheckBox: function() {
-        chrome.storage.local.get("settings", function(data) {
-            let openInNewTab = data.settings.openInNewTab;
+    }
+
+    updateCheckBox() {
+        chrome.storage.local.get("settings", (data) => {
+            const openInNewTab = data.settings.openInNewTab;
+
             if (openInNewTab) {
-                $(".checkboxicon").css("background-position", "0px -23px").addClass("enabled").removeClass("disabled");
+                $("#checkboxIcon").css("background-position", "0px -23px").addClass("enabled").removeClass("disabled");
             } else {
-                $(".checkboxicon").css("background-position", "0px 0px").addClass("disabled").removeClass("enabled");
+                $("#checkboxIcon").css("background-position", "0px 0px").addClass("disabled").removeClass("enabled");
             }
         });
-    },
-    updateIconState: function() {
-        let self = this;
-        BG.getCurrentTabInfo(function(info) {
-            let tab = info[0];
-            let url = tab.url;
-            self.checkSite(url, function(allowed) {
-                // If site has already been added
-                if (!allowed) {
-                    $("#addbtn").addClass("heart-red");
-                    $("#addbtn").mouseleave(function() {
-                        $(this).addClass("heart-red");
-                    });
-                    // If site hasn't been added yet
-                } else {
-                    $("#addbtn").removeClass("heart-red");
-                    $("#addbtn").mouseleave(function() {
-                        $(this).removeClass("heart-red");
-                    });
-                }
-            });
+    }
+
+    updateIconState() {
+        chrome.runtime.sendMessage({ action: "getCurrentTabInfo"}, (tabs) => {
+
+            const alreadyAddedTab = this.checkSite(tabs[0].url);
+
+            // If site has already been added
+            if (!alreadyAddedTab) {
+                $("#addNoteButton").addClass("heart-red");
+                $("#addNoteButton").mouseleave(() => {
+                    $("#addNoteButton").addClass("heart-red");
+                });
+            } else {
+                // If site hasn't been added yet
+                $("#addNoteButton").removeClass("heart-red");
+                $("#addNoteButton").mouseleave(() => {
+                    $("#addNoteButton").removeClass("heart-red");
+                });
+            }
         });
-    },
-    updateScrollbarState: function() {
+    }
+
+    updateScrollbarState() {
         if (this._items < 9) {
-            $(".deck").css("overflow-y", "hidden");
+            $("#deck").css("overflow-y", "hidden");
         } else {
-            $(".deck").css("overflow-y", "auto");
+            $("#deck").css("overflow-y", "auto");
         }
-    },
-    updateFooterText: function() {
+    }
+
+    updateFooterText() {
         // Update scrollbar visibility
         this.updateScrollbarState();
 
         // Update footer text
-        let items = this._items;
+        const items = this._items;
         let text = null;
 
         if (items < 3) {
@@ -303,9 +321,10 @@ let Sites = {
             notetext = " note";
         }
 
-        $(".footnote").text(items + notetext + " \u2014 " + text);
+        $("footer").text(items + notetext + " \u2014 " + text);
     }
 };
 
 // Initialize Notemark
-Sites.init();
+const sites = new Sites();
+sites.init();

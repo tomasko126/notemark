@@ -4,20 +4,181 @@ body {
     background-color: whitesmoke;
 }
 
-/* css easing tool
-based on Penner's easing equations:
-http://matthewlein.com/ceaser/
-*/
-
-.container {
+main {
     width: 250px;
-    height: 100%; /* 'Deck' scroll area height */
     overflow: hidden;
     position: relative;
     vertical-align: middle;
 }
 
-.deck {
+header { /* this is where the ext name, gear and heart icon sit */
+    height: 50px;
+    background: #fff;
+    border-bottom: 2px solid #ff646c;
+    display: flex;
+    align-content: center;
+    justify-content: space-between;
+}
+
+#logo {
+    content: url(../img/notemarklogotype.svg);
+    position: sticky;
+    left: 15px;
+}
+
+#icons {
+    display: flex;
+    align-items: center;
+}
+
+#settingsIcon {
+    width: 2.2em;
+    right: 30px;
+    content: url(../img/settings.svg);
+    opacity: .55;
+    cursor: pointer;
+    position: relative;
+}
+
+#settingsIcon:hover {
+    opacity: 1;
+}
+
+#settingsIcon:active {
+    transform: rotate(90deg);
+    transition-duration: 0.4s;
+    filter: grayscale(0%);
+    opacity: 1;
+}
+
+#addNoteButton {
+    /* calls directly to svg */
+    stroke-width: 1.1;
+    stroke: #a3a09d;
+    fill: none;
+    width: 2.3em;
+    transform: translateZ(0) scale(1.0001);
+    transition: all .07s ease-in;
+    cursor: pointer;
+    position: sticky;
+    right: 10px;
+}
+
+#addNoteButton:hover {
+   stroke: #ff646c;
+   animation:heartbeat .35s ease-in-out;
+   animation-iteration-count: 2;
+}
+
+#addNoteButton:active {
+    fill: #a3a09d;
+    stroke: none;
+    opacity: 0.7;
+    transform: scale(0.95);
+    filter: grayscale(100%);
+    animation: heartbeat 0s; /* cancel heartbeat animation */
+}
+
+@keyframes heartbeat { /* heart hover animation */
+    10% {
+        transform: translateZ(0) scale(1.0001);
+    }
+    60% {
+        transform: translateZ(0) scale(1.12);
+    }
+}
+
+.heart-red {
+    stroke: none !important;
+    fill: #ff646c !important;
+    transform: translateZ(0) scale(1.0001) !important;
+}
+
+#settingsContainer {
+    height: 135px;
+    background: white;
+    border-bottom: 1px solid #e3e3e3;
+    margin: 0 auto;
+    display: none;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.option {
+    height: 30px;
+    width: 225px;
+    margin: 2px 0;
+    padding: 2px 0;
+    cursor: pointer;
+    border: 1px solid white;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+}
+
+.option:hover {
+    background-color: rgba(253, 253, 253, 1);
+    border: 1px solid rgba(219, 221, 222, 1);
+}
+
+.option:active {
+    background-color: rgba(245, 245, 245, 1);
+    border: 1px solid rgba(219, 221, 222, 1);
+}
+
+.option > span {
+    position: sticky;
+    left: 50px;
+}
+
+#checkboxIcon {
+    width: 17px;
+    height: 17px;
+    display: block;
+    background: url(../img/checkbox_ico.svg) no-repeat;
+    background-position: 0 -23px; /*position bg, 0 0px is off*/
+    position: absolute;
+    left: 16px;
+}
+
+#checkboxIcon:active {
+    background-position: 0 0;
+}
+
+#heartIcon {
+    content: url(../img/heart_ico_settings.svg);
+    position: absolute;
+    width: 17px;
+    height: 17px;
+    left: 16px;
+}
+
+#openNotesIcon {
+    content: url(../img/open_allnotes_ico.svg);
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    left: 16px;
+}
+
+#howTo {
+    height: 40px;
+    border-top: 1px solid #e3e3e3;
+    border-bottom: 1px solid #e3e3e3;
+    position: relative;
+    z-index: 1;
+    width: 100%;
+}
+
+#howTo > span {
+    cursor: default;
+    text-align: center;
+    left: 0;
+    padding: 13px 0;
+}
+
+#deck {
     width: 100%;
     position: relative;
     overflow: auto;
@@ -25,271 +186,95 @@ http://matthewlein.com/ceaser/
     max-height: 351px;
 }
 
-.header { /* this is where the ext name, gear and heart icon sit */
-    height: 55px;
-    top: 0;
-    background: #fff;
-    border-bottom: 2px solid #ff646c;
-}
-
-.howto {
-    height: 40px;
-    border-top: 1px solid #e3e3e3;
-    border-bottom: 1px solid #e3e3e3;
-    position: relative;
-    z-index: 1;
-    width: 100%;
-}
-
-.howtotext {
-    cursor: default;
-    text-align: center;
-    left: 0;
-    padding: 13px 0;
-}
-
-.footnote {
-    width: 100%;
-    height: 55px;
-    bottom: 0;
-    color: #959595;
-    padding-left: 15px;
-    line-height: 57px;
-    background: #fff;
-    cursor: default;
-    border-top: 1px solid #e3e3e3;
-}
-
 .site { /* each note area */
     height: 40px;
-    padding: 2px 0 2px 0;
     border-top: 1px solid #e3e3e3;
     border-bottom: 1px solid #e3e3e3;
-    position: relative;
-    z-index: 1;
-    width: 100%;
+    display: flex;
+    align-content: center;
+    align-items: center;
+    justify-content: space-between;
 }
 
-.site:hover {
+.site:hover .openLink {
     background: #fafafa;
+    display: block;
 }
 
 .site:active {
     background: #eeeeee;
 }
 
-.faviconcontainer { /* favicon area */
-    float: left;
-    width: 20%;
-    height: 100%;
-}
-
-.logotype { /* extention name text */
-    width: 85px;
-    margin-top: 21px;
-    content: url(../img/notemarklogotype.svg);
-    display: inline-block;
-    left: 15px;
-    position: absolute;
-}
-
-.settingsicon {
-    width: 2.2em;
-    margin: 15px 10px 10px 10px;
-    position: absolute;
-    right: 63px;
-    content:url(../img/settings.svg);
-    -webkit-filter: grayscale(100%);
-    -webkit-transform: rotate(0deg);
-    opacity: .55;
-    cursor: pointer;
-}
-
-.settingsicon:hover {
-    -webkit-transform: rotate(90deg);
-    -webkit-transition-duration: 0.4s;
-    -webkit-filter: grayscale(0%);
-    opacity: 1;
-}
-
-.settingsicon:active {
-    -webkit-transform: scale(0.9);
-    -webkit-filter: grayscale(100%);
-    -webkit-transition-duration: 0s;
-}
-.heart {
-    /* calls directly to svg */
-    stroke-width: 1.1;
-    stroke: #a3a09d;
-    fill: none;
-    /* --------------------- */
-    width: 2.3em;
-    margin: 14px 10px 10px 10px;
-    position: absolute;
-    right: 1px;
-    display: inline-block;
-    /* content:url(../img/heart.svg); */
-    -webkit-transform: translateZ(0) scale(1.0001);
-    -webkit-transition: all .07s ease-in;
-    cursor: pointer;
-}
-
-@-webkit-keyframes heartbeat { /* heart hover animation */
-    10% { -webkit-transform: translateZ(0) scale(1.0001);}
-    60% { -webkit-transform: translateZ(0) scale(1.12);}
-}
-
-.heart:hover {
-   stroke: #ff646c;
-   -webkit-animation:heartbeat .35s ease-in-out;
-   -webkit-animation-iteration-count: 2;
-}
-
-.heart:active {
-    fill: #a3a09d;
-    stroke: none;
-    opacity: 0.7;
-    -webkit-transform: scale(0.95);
-    -webkit-filter: grayscale(100%);
-    -webkit-animation: heartbeat 0s; /* cancel heartbeat animation */
-}
-
-.heart-red {
-    stroke: none;
-    fill: #ff646c;
-    -webkit-transform: translateZ(0) scale(1.0001);
-}
-
-.img {
-    display: block;
-    margin: 5px 8px;
-    width: 25px;
-}
-
-.settings {
-    position: relative;
-    height: 131px;
-    background: white;
-    width: 100%;
-    display: none;
-    border-bottom: 1px solid #e3e3e3;
-}
-
-.settingscontainer {
-    margin: 0 auto;
-    padding: 8px 10px;
-}
-
-.option {
-    height: 30px;
-    width: 224px;
-    margin-top: 5px;
-    line-height: 30px;
-    cursor: pointer;
-    border: 1px solid white;
-    border-radius: 2px;
-}
-
-.option:hover {
-    background-color: rgba(253, 253, 253, 1);
-    border: 1px solid rgba(219, 221, 222, 1);
-}
-.option:active {
-    background-color: rgba(245, 245, 245, 1);
-    border: 1px solid rgba(219, 221, 222, 1);
-}
-
-.optiontext {
-    position: relative;
-    left: 42px;
-}
-
-.checkboxicon {
-    width: 17px;
-    height: 17px;
-    display: block;
-    background: url(../img/checkbox_ico.svg) no-repeat;
-    background-position: 0 -23px; /*position bg, 0 0px is off*/
-    position: absolute;
-    margin-top: 6px;
-    left: 16px;
-}
-
-.checkboxicon:active {
-    background-position: 0 0;
-}
-
-
-.hearticon {
-    content: url(../img/heart_ico_settings.svg);
-    position: absolute;
-    width: 17px;
-    height: 17px;
-    left: 16px;
-    margin-top: 6px;
-}
-
-.opennotesicon {
-    content: url(../img/open_allnotes_ico.svg);
-    position: absolute;
-    width: 15px;
-    height: 15px;
-    left: 16px;
-    margin-top: 7px;
-}
-
 .favicon {
     z-index: 2;
     width: 20px;
-    margin: 10px;
-}
-
-.removebtn {
-    /* favicon rollover to remove item */
-    width: 30px;
-    margin-top: -38px;
-    left: 5px;
+    margin: 0 12px;
+    border: 1px solid transparent;
     position: relative;
+}
+
+.favicon:hover {
     content: url(../img/remove.svg);
-    -webkit-transition-duration: 0.05s;
-    opacity: 0;
-    z-index: 3;
-    background-color: whitesmoke;
-    transition-duration: 0.2s;
-}
-
-.removebtn:hover {
     opacity: 1;
+    cursor: pointer;
+    z-index: 3;
+    position: relative;
+    background-color: #e3e3e3;
 }
 
-.removenote {
-    transition: 0.5s cubic-bezier(0.800, -0.300, 0.500, 1.000); /* custom */
-    transform: translate(100%, 0%);
-    background: #fafafa;
-}
-
-.removenote2 {
-   transition: 0.3s cubic-bezier(0.075, 0.820, 0.165, 1.000); /* easeOutCirc */;
-   height: 0;
-   padding: 0;
-   border: none;
-}
-
-.removebtn:active {
-    background: #eeeeee;
-}
-
-.sitetitle {
-    margin-top: 3px;
-    display: block;
-    left: -10px;
-    position: inherit;
-    padding: 10px 0 0 15px;
-    text-align: left;
+.siteTitle {
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
-    -webkit-transition: all .1s ease-in;
+    transition: all .1s ease-in;
     cursor: pointer;
-    /* background: green; for referencing click area  */
+    margin-left: 5px;
+    flex-grow: 1;
+}
+
+.openLink {
+    content: url(../img/external-link-alt-solid.svg);
+    width: 15px;
+    margin: 0 10px;
+    display: none;
+    cursor: pointer;
+}
+
+@keyframes removeNote {
+    from {
+        margin-left: 0px;
+    }
+    to {
+        margin-left: 100%;
+    }
+}
+
+@keyframes removeNote2 {
+    from {}
+    to {
+        height: 0;
+        padding: 0;
+        border: none;
+    }
+}
+
+.removeNote {
+    animation: removeNote 0.5s 1;
+    background: #fafafa;
+}
+
+.removeNote2 {
+    margin-left: 100%;
+    animation: removeNote2 0.5s 1;
+}
+
+footer {
+    height: 45px;
+    color: #959595;
+    padding-left: 15px;
+    background: #fff;
+    cursor: default;
+    border-top: 1px solid #e3e3e3;
+    display: flex;
+    align-items: center;
 }
