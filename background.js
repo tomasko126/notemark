@@ -5,7 +5,7 @@ class Extension {
     // Add sites to storage
     addSites(tabs) {
         return new Promise((resolve) => {
-            chrome.storage.local.get("sites", (storage) => {
+            chrome.storage.sync.get("sites", (storage) => {
                 let sites = storage["sites"] || [];
     
                 for (let tab of tabs) {
@@ -19,7 +19,7 @@ class Extension {
                 }
     
                 // Save modified |storage| object
-                chrome.storage.local.set({sites}, () => {
+                chrome.storage.sync.set({sites}, () => {
                     resolve();
                 });
             });
@@ -29,7 +29,7 @@ class Extension {
     // Open all saved sites
     openAllSites() {
         return new Promise((resolve, reject) => {
-            chrome.storage.local.get(null, (storage) => {
+            chrome.storage.sync.get(null, (storage) => {
                 let sites = storage["sites"] || [];
 
                 if (sites.length === 0) {
@@ -61,7 +61,7 @@ class Extension {
     // Remove site from storage
     removeSite(url) {
         return new Promise((resolve, reject) => {
-            chrome.storage.local.get("sites", (storage) => {
+            chrome.storage.sync.get("sites", (storage) => {
                 let sites = storage["sites"];
 
                 if (!sites) {
@@ -77,7 +77,7 @@ class Extension {
                     }
                 }
 
-                chrome.storage.local.set({sites}, () => {
+                chrome.storage.sync.set({sites}, () => {
                     resolve();
                 });
             });
@@ -126,7 +126,29 @@ class Extension {
             return true;
         });
     }
+
+    upgradeStorage() {
+        chrome.storage.local.get(null, (oldStorage) => {
+            // Return when we've already upgraded storage
+            if ((oldStorage && oldStorage.settings && oldStorage.settings.upgradedStorage) || Object.keys(oldStorage).length === 0) {
+                console.log("We have already upgraded storage!");
+                return;
+            }
+
+            chrome.storage.sync.get(null, (newStorage) => {
+                // Push already synced sites to the local storage,
+                // and then push all sites from local storage to the sync storage
+                oldStorage.sites.push(...newStorage.sites);
+                oldStorage.settings.upgradedStorage = true;
+
+                chrome.storage.sync.set({ settings: oldStorage.settings, sites: oldStorage.sites }, () => {
+                    console.log("Old items have been moved to sync!");
+                });
+            });
+        });
+    }
 }
 
 const extension = new Extension();
+extension.upgradeStorage();
 extension.listenForMessages();

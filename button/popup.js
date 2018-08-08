@@ -71,19 +71,21 @@ class Sites {
     }
 
     init() {
-        chrome.storage.local.get(null, (storage) => {
+        chrome.storage.sync.get(null, (storage) => {
             const sites = storage.sites;
             const openInNewTab = storage && storage.settings && storage.settings.openInNewTab;
 
             // A new installation, open new tabs in current window
             if (openInNewTab === undefined) {
-                chrome.storage.local.set({ settings: { openInNewTab: true } });
+                chrome.storage.sync.set({ settings: { openInNewTab: true } });
             }
 
             // Add existing notes to deck
-            for (const site of sites) {
-                this._items++;
-                this.createSiteUI(site.title, site.faviconUrl, site.url);
+            if (sites) {
+                for (const site of sites) {
+                    this._items++;
+                    this.createSiteUI(site.title, site.faviconUrl, site.url);
+                }
             }
 
             // Hide how-to site, when user has saved some sites
@@ -151,6 +153,13 @@ class Sites {
 
         // Settings icon click event
         $("#settingsIcon").unbind().click(() => {
+            document.getElementById("settingsIcon").style.animation = "settingsIcon 0.3s 1";
+
+            // Remove animation attribute, so the animation can play x-times
+            $("#settingsIcon").on("animationend webkitAnimationEnd", () => {
+                $("#settingsIcon").css("animation", "");
+            });
+
             if ($("#settingsContainer:hidden").length === 1) {
                 $("#settingsContainer").css("display", "flex");
             } else {
@@ -162,7 +171,7 @@ class Sites {
         $("#checkboxOption").unbind().click(() => {
             const checked = $("#checkboxIcon").hasClass("enabled");
 
-            chrome.storage.local.set({ settings: { openInNewTab: !checked } }, () => {
+            chrome.storage.sync.set({ settings: { openInNewTab: !checked } }, () => {
                 this.updateCheckBox();
             });
         });
@@ -244,7 +253,7 @@ class Sites {
     }
 
     updateCheckBox() {
-        chrome.storage.local.get("settings", (data) => {
+        chrome.storage.sync.get("settings", (data) => {
             const openInNewTab = data.settings.openInNewTab;
 
             if (openInNewTab) {

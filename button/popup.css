@@ -1,6 +1,5 @@
 body {
     margin: 0;
-    -webkit-user-select: none;
     background-color: whitesmoke;
 }
 
@@ -44,11 +43,13 @@ header { /* this is where the ext name, gear and heart icon sit */
     opacity: 1;
 }
 
-#settingsIcon:active {
-    transform: rotate(90deg);
-    transition-duration: 0.4s;
-    filter: grayscale(0%);
-    opacity: 1;
+@keyframes settingsIcon {
+    to {
+        transform: rotate(90deg);
+        transition-duration: 0.4s;
+        filter: grayscale(0%);
+        opacity: 1;
+    }
 }
 
 #addNoteButton {
@@ -169,13 +170,9 @@ header { /* this is where the ext name, gear and heart icon sit */
     position: relative;
     z-index: 1;
     width: 100%;
-}
-
-#howTo > span {
-    cursor: default;
-    text-align: center;
-    left: 0;
-    padding: 13px 0;
+    justify-content: center;
+    align-items: center;
+    display: flex;
 }
 
 #deck {
@@ -250,7 +247,6 @@ header { /* this is where the ext name, gear and heart icon sit */
 }
 
 @keyframes removeNote2 {
-    from {}
     to {
         height: 0;
         padding: 0;
