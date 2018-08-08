@@ -228,7 +228,6 @@ header { /* this is where the ext name, gear and heart icon sit */
     overflow: hidden;
     white-space: nowrap;
     transition: all .1s ease-in;
-    cursor: pointer;
     margin-left: 5px;
     flex-grow: 1;
 }
