@@ -173,6 +173,7 @@ header { /* this is where the ext name, gear and heart icon sit */
     justify-content: center;
     align-items: center;
     display: flex;
+    flex-direction: column;
 }
 
 #deck {
@@ -193,8 +194,11 @@ header { /* this is where the ext name, gear and heart icon sit */
     justify-content: space-between;
 }
 
-.site:hover .openLink {
+.site:hover {
     background: #fafafa;
+}
+
+.site:hover .openLink {
     display: block;
 }
 
