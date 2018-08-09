@@ -1,9 +1,8 @@
-
 // Main BG class
 class Extension {
 
     // Add sites to storage
-    addSites(tabs) {
+    addNotes(tabs) {
         return new Promise((resolve) => {
             chrome.storage.sync.get("sites", (storage) => {
                 let sites = storage["sites"] || [];
@@ -27,20 +26,20 @@ class Extension {
     }
 
     // Open all saved sites
-    openAllSites() {
+    openAllNotes() {
         return new Promise((resolve, reject) => {
             chrome.storage.sync.get(null, (storage) => {
                 let sites = storage["sites"] || [];
 
                 if (sites.length === 0) {
-                    reject("No sites to open!");
+                    reject("No notes to open!");
                     return;
                 }
 
                 if (sites.length > 8) {
                     let confirm = window.confirm("Would you like to open " + sites.length + " notes?");
                     if (!confirm) {
-                        reject("User does not want to open sites.");
+                        reject("User does not want to open notes.");
                         return;
                     }
                 }
@@ -59,13 +58,13 @@ class Extension {
     }
 
     // Remove site from storage
-    removeSite(url) {
+    removeNote(url) {
         return new Promise((resolve, reject) => {
             chrome.storage.sync.get("sites", (storage) => {
                 let sites = storage["sites"];
 
                 if (!sites) {
-                    reject("No sites have been found!");
+                    reject("No notes have been found!");
                     return;
                 }
 
@@ -100,22 +99,22 @@ class Extension {
                     console.log("TAB INFO: ", tab);
                     sendResponse(tab);
                 })
-            } else if (message.action === "addSites") {
-                this.addSites(message.notes).then(() => {
-                    console.log("Sites have been successfully stored!");
+            } else if (message.action === "addNotes") {
+                this.addNotes(message.notes).then(() => {
+                    console.log("Notes have been successfully stored!");
                     sendResponse(true);
                 })
-            } else if (message.action === "openAllSites") {
-                this.openAllSites().then(() => {
-                    console.log("All sites have been successfully opened.");
+            } else if (message.action === "openAllNotes") {
+                this.openAllNotes().then(() => {
+                    console.log("All notes have been successfully opened.");
                     sendResponse(true);
                 }).catch((message) => {
                     console.log(message);
                     sendResponse(false);
                 });
-            } else if (message.action === "removeSite") {
-                this.removeSite(message.url).then(() => {
-                    console.log(`Site ${message.url} has been successfully removed!`);
+            } else if (message.action === "removeNote") {
+                this.removeNote(message.url).then(() => {
+                    console.log(`Note ${message.url} has been successfully removed!`);
                     sendResponse(true);
                 }).catch((message) => {
                     console.log(message);
@@ -142,7 +141,7 @@ class Extension {
                 oldStorage.settings.upgradedStorage = true;
 
                 chrome.storage.sync.set({ settings: oldStorage.settings, sites: oldStorage.sites }, () => {
-                    console.log("Old items have been moved to sync!");
+                    console.log("Old notes have been moved to synced storage!");
                 });
             });
         });

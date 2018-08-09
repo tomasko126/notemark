@@ -1,6 +1,5 @@
 body {
     margin: 0;
-    background-color: whitesmoke;
 }
 
 main {
@@ -22,7 +21,7 @@ header { /* this is where the ext name, gear and heart icon sit */
 #logo {
     content: url(../img/notemarklogotype.svg);
     position: sticky;
-    left: 15px;
+    left: 14px;
 }
 
 #icons {
@@ -163,25 +162,13 @@ header { /* this is where the ext name, gear and heart icon sit */
     left: 16px;
 }
 
-#howTo {
-    height: 40px;
-    border-top: 1px solid #e3e3e3;
-    border-bottom: 1px solid #e3e3e3;
-    position: relative;
-    z-index: 1;
-    width: 100%;
-    justify-content: center;
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-}
-
 #deck {
     width: 100%;
     position: relative;
     overflow: auto;
     overflow-x: hidden;
     max-height: 351px;
+    min-height: 42px;
 }
 
 .site { /* each note area */
@@ -192,6 +179,9 @@ header { /* this is where the ext name, gear and heart icon sit */
     align-content: center;
     align-items: center;
     justify-content: space-between;
+    z-index: 2;
+    background: whitesmoke;
+    position: relative;
 }
 
 .site:hover {
@@ -250,11 +240,28 @@ header { /* this is where the ext name, gear and heart icon sit */
 }
 
 @keyframes removeNote2 {
-    to {
-        height: 0;
-        padding: 0;
-        border: none;
+    0% {
+        height: 40px;
     }
+    50% {
+        height: 20px;
+    }
+    100% {
+        height: 0px;
+    }
+}
+
+@keyframes addNote {
+    from {
+        margin-top: -42px;
+    }
+    to {
+        margin-top: 0px;
+    }
+}
+
+.addNote {
+    animation: addNote 0.5s 1;
 }
 
 .removeNote {
@@ -264,7 +271,26 @@ header { /* this is where the ext name, gear and heart icon sit */
 
 .removeNote2 {
     margin-left: 100%;
-    animation: removeNote2 0.5s 1;
+    animation: removeNote2 0.2s 1;
+}
+
+#howTo {
+    height: 40px;
+    border-top: 1px solid #e3e3e3;
+    border-bottom: 1px solid #e3e3e3;
+    width: 100%;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    z-index: 1;
+    position: absolute;
+    bottom: 0px;
+    opacity: 1;
+}
+
+#howTo > span {
+    padding-left: 15px;
+    color: #959595;
 }
 
 footer {
