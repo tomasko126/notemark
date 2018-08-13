@@ -188,10 +188,6 @@ header { /* this is where the ext name, gear and heart icon sit */
     background: #fafafa;
 }
 
-.site:hover .openLink {
-    display: block;
-}
-
 .site:active {
     background: #eeeeee;
 }
@@ -220,13 +216,6 @@ header { /* this is where the ext name, gear and heart icon sit */
     transition: all .1s ease-in;
     margin-left: 5px;
     flex-grow: 1;
-}
-
-.openLink {
-    content: url(../img/external-link-alt-solid.svg);
-    width: 15px;
-    margin: 0 10px;
-    display: none;
     cursor: pointer;
 }
 

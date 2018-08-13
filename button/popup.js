@@ -80,7 +80,6 @@ class Sites {
             "<div class='site' data-id='" + this.noOfStoredNotes + "'>" +
                 "<img class='favicon' src='" + (faviconUrl || chrome.runtime.getURL("../img/favicon.png")) + "' />" +
                 "<span class='siteTitle' data-href='" + url + "' title='" + title + "'>" + title + "</span>" +
-                "<img class='openLink' />" +
             "</div>"
         );
 
@@ -172,11 +171,11 @@ class Sites {
         });
 
         // Site title click event
-        $(".openLink").unbind().click((event) => {
-            const url = event.target.previousSibling.dataset.href;
-            const checked = $("#checkboxIcon").hasClass("enabled");
+        $(".siteTitle").unbind().click((event) => {
+            const url = event.target.dataset.href;
+            const openInNewTab = $("#checkboxIcon").hasClass("enabled");
 
-            if (checked) {
+            if (openInNewTab) {
                 chrome.tabs.create({ url });
             } else {
                 chrome.tabs.query({ active: true }, (tabs) => {
@@ -186,7 +185,7 @@ class Sites {
 
                     // Extension's popup doesn't automatically close,
                     // so close it manually
-                    window.close();
+                    //window.close();
                 });
             }
         });
