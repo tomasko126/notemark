@@ -100,12 +100,12 @@ class Sites {
             // Begin removal animation
             $(noteToRemove).addClass("removeNote");
 
-            $(noteToRemove).on("animationend webkitAnimationEnd", () => {
+            $(noteToRemove).on("transitionend", () => {
                 // When the removal animation ends, we start another animation
                 // which slides up the content after "removed" note
                 $(noteToRemove).addClass("removeNote2");
 
-                $(noteToRemove).on("animationend webkitAnimationEnd", () => {
+                $(noteToRemove).on("transitionend", () => {
                     $(noteToRemove).remove();
 
                     resolve();                    
@@ -139,7 +139,7 @@ class Sites {
             document.getElementById("settingsIcon").style.animation = "settingsIcon 0.3s 1";
 
             // Remove animation attribute, so the animation can play x-times
-            $("#settingsIcon").on("animationend webkitAnimationEnd", () => {
+            $("#settingsIcon").on("animationend", () => {
                 $("#settingsIcon").css("animation", "");
             });
 

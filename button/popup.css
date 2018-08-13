@@ -230,15 +230,6 @@ header { /* this is where the ext name, gear and heart icon sit */
     cursor: pointer;
 }
 
-@keyframes removeNote {
-    from {
-        margin-left: 0px;
-    }
-    to {
-        margin-left: 100%;
-    }
-}
-
 @keyframes removeNote2 {
     0% {
         height: 40px;
@@ -265,7 +256,8 @@ header { /* this is where the ext name, gear and heart icon sit */
 }
 
 .removeNote {
-    animation: removeNote 0.5s 1;
+    transition: 0.5s cubic-bezier(0.800, -0.300, 0.500, 1.000); /* custom */
+    transform: translate(100%, 0%);
     background: #fafafa;
 }
 
