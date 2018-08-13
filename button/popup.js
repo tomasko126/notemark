@@ -206,10 +206,8 @@ class Sites {
 
             if (openInNewTab) {
                 $("#checkboxIcon").css("background-position", "0px -23px").addClass("enabled").removeClass("disabled");
-                $("#checkboxIcon + span").text("Open Note in the New Tab");
             } else {
                 $("#checkboxIcon").css("background-position", "0px 0px").addClass("disabled").removeClass("enabled");
-                $("#checkboxIcon + span").text("Open Note in the Current Tab");
             }
         });
     }
