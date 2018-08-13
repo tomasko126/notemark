@@ -129,7 +129,7 @@ header { /* this is where the ext name, gear and heart icon sit */
 
 .option > span {
     position: sticky;
-    left: 50px;
+    left: 45px;
 }
 
 #checkboxIcon {
@@ -194,8 +194,8 @@ header { /* this is where the ext name, gear and heart icon sit */
 
 .favicon {
     z-index: 2;
-    width: 20px;
-    margin: 0 12px;
+    width: 24px;
+    margin: 0 8px;
     border: 1px solid transparent;
     position: relative;
 }
@@ -206,7 +206,7 @@ header { /* this is where the ext name, gear and heart icon sit */
     cursor: pointer;
     z-index: 3;
     position: relative;
-    background-color: #e3e3e3;
+    background-color: #ff6169;
 }
 
 .siteTitle {
@@ -214,7 +214,6 @@ header { /* this is where the ext name, gear and heart icon sit */
     overflow: hidden;
     white-space: nowrap;
     transition: all .1s ease-in;
-    margin-left: 5px;
     flex-grow: 1;
     cursor: pointer;
 }
