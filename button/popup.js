@@ -73,12 +73,22 @@ class Sites {
     }
 
     // Create an UI for a note
-    createNoteUI(title, faviconUrl, url, addedByUser = false) {
+    createNoteUI(title, favIconUrl, url, addedByUser = false) {
+
+        let favIcon = "";
+
+        // We might get run out of stored space, when any favicon is stored as data:
+        // Therefore, we need to replace that favicon with our icon
+        if (!favIconUrl || favIconUrl.startsWith("data:")) {
+            favIcon = chrome.runtime.getURL("../img/favicon.png");
+        } else {
+            favIcon = favIconUrl;
+        }
 
         // Prepend the UI after deck
         $("#deck").prepend(
             "<div class='site' data-id='" + this.noOfStoredNotes + "'>" +
-                "<img class='favicon' src='" + (faviconUrl || chrome.runtime.getURL("../img/favicon.png")) + "' />" +
+                "<img class='favicon' src='" + favIcon + "' />" +
                 "<span class='siteTitle' data-href='" + url + "' title='" + title + "'>" + title + "</span>" +
             "</div>"
         );
@@ -104,7 +114,7 @@ class Sites {
                 // which slides up the content after "removed" note
                 $(noteToRemove).addClass("removeNote2");
 
-                $(noteToRemove).on("transitionend", () => {
+                $(noteToRemove).on("animationend", () => {
                     $(noteToRemove).remove();
 
                     resolve();                    
@@ -185,7 +195,7 @@ class Sites {
 
                     // Extension's popup doesn't automatically close,
                     // so close it manually
-                    //window.close();
+                    window.close();
                 });
             }
         });

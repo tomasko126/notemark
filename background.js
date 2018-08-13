@@ -9,7 +9,7 @@ class Extension {
     
                 for (let tab of tabs) {
                     // Get a favicon properly
-                    if (!tab.favIconUrl || tab.favIconUrl.indexOf("chrome://theme") > -1) {
+                    if (!tab.favIconUrl || tab.favIconUrl.indexOf("chrome://theme") > -1 || tab.favIconUrl.startsWith("data:")) {
                         tab.favIconUrl = chrome.runtime.getURL("../img/favicon.png");
                     }
     

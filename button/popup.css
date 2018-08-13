@@ -218,17 +218,6 @@ header { /* this is where the ext name, gear and heart icon sit */
     cursor: pointer;
 }
 
-@keyframes removeNote2 {
-    0% {
-        height: 40px;
-    }
-    50% {
-        height: 20px;
-    }
-    100% {
-        height: 0px;
-    }
-}
 
 @keyframes addNote {
     from {
@@ -247,6 +236,18 @@ header { /* this is where the ext name, gear and heart icon sit */
     transition: 0.5s cubic-bezier(0.800, -0.300, 0.500, 1.000); /* custom */
     transform: translate(100%, 0%);
     background: #fafafa;
+}
+
+@keyframes removeNote2 {
+    0% {
+        height: 40px;
+    }
+    50% {
+        height: 20px;
+    }
+    100% {
+        height: 0px;
+    }
 }
 
 .removeNote2 {
